@@ -1,8 +1,11 @@
 <?php
 
-$hello = 'Hello World!';
+use App\Libs\Homie;
+
+$hello = Homie::locale();
+
 
 ?>
 
 
-Hello <?= $hello ?>
+Hello <?= $hello ?>!
