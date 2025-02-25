@@ -3,7 +3,7 @@
         "psr-4": {
             "App\\": "src/",
             "App\\Libs\\": "src/libs/",
-            "App\\Models\\": "src/models/"
+            "App\\Interface\\": "src/interfaces/"
         }
     },
     "require": {
