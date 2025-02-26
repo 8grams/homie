@@ -2,12 +2,12 @@
 
 namespace App\Libs;
 
-require __DIR__ . '../dependencies/rb-sqlite.php';
+require __DIR__ . '/../dependencies/rb-sqlite.php';
 
 use App\Interfaces\DataStoreInterface;
 use R;
 
-class Database implements DataStoreInterface
+class SQLiteDatabase implements DataStoreInterface
 {
     public function __construct()
     {
@@ -20,9 +20,14 @@ class Database implements DataStoreInterface
         return R::getRedBean();
     }
 
-    public function load()
+    public function getOne($id)
     {
-        
+        return null;
+    }
+
+    public function getAll($options = [])
+    {
+        return [];
     }
 
     public function save(): bool

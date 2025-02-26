@@ -3,6 +3,7 @@
 namespace App\Libs;
 
 use App\Interfaces\HttpClientInterface;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class WordpressHttpClient implements HttpClientInterface
@@ -11,7 +12,7 @@ class WordpressHttpClient implements HttpClientInterface
         private $key,
         private $url,
         private CacheInterface $cache,
-        private HttpClientInterface $client,
+        private HttpClient $client,
     ) {
     }
 

@@ -2,27 +2,12 @@
 
 namespace App\Libs;
 
-use App\Interfaces\DataStoreInterface;
-use App\Interfaces\HttpClientInterface;
+use App\Interfaces\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Contracts\Cache\CacheInterface;
 
-class Controller
+class Controller extends BaseController
 {
-    private CacheInterface $cache;
-    private DataStoreInterface $db;
-    private HttpClientInterface $client;
-    private Request $request;
-
-    public function __construct(Request $request, CacheInterface $cache, DataStoreInterface $db, HttpClientInterface $client)
-    {
-        $this->cache = $cache;
-        $this->db = $db;
-        $this->client = $client;
-        $this->request = $request;
-    }
-
     public function render(Request $request): Response
     {
         extract($request->attributes->all(), EXTR_SKIP);
