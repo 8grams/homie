@@ -26,7 +26,11 @@ $container = new ContainerBuilder();
 $container->register('context', RequestContext::class);
 $container->register('matcher', UrlMatcher::class)->setArguments([$routes, new Reference('context')]);
 $container->register('cache', Cache::class);
-$container->register('db', SQLiteDatabase::class);
+
+$container->register('db', SQLiteDatabase::class)
+    ->setArguments([
+        'connection' => 'sqlite:' . $config['database']['path'], 
+    ]);
 $container->register('httpClient', HttpClient::class);
 $container->register('wpHttpClient', WordpressHttpClient::class)
     ->setArguments([

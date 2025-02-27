@@ -2,11 +2,11 @@
 
 return [
     'blog' => [
-        'key' => getenv('BLOG_API_KEY'),
-        'url' => getenv('BLOG_API_URL'),
+        'key' => $_ENV['BLOG_API_KEY'],
+        'url' => $_ENV['BLOG_API_URL'],
     ],
     'database' => [
-        'path' => getenv('SQLITE_CONNECTION'),
+        'path' => __DIR__.'/../../data/' . $_ENV['SQLITE_DATABASE'],
     ],
     'template' => [
         'path' => __DIR__.'/../pages',

@@ -9,9 +9,7 @@
     "require": {
         "symfony/http-foundation": "^7.2",
         "symfony/routing": "^7.2",
-        "symfony/event-dispatcher": "^7.2",
         "symfony/dependency-injection": "^7.2",
-        "propel/propel": "~2.0@beta",
         "symfony/cache": "^7.2",
         "symfony/mailgun-mailer": "^7.2",
         "symfony/http-kernel": "^7.2",

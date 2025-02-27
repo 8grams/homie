@@ -10,9 +10,9 @@ use RedBeanPHP\OODB;
 
 class SQLiteDatabase implements DataStoreInterface
 {
-    public function __construct()
+    public function __construct($connection)
     {
-        R::setup();
+        R::setup($connection);
         R::useFeatureSet('novice/latest');
     }
 

@@ -7,6 +7,11 @@
 
 $user = "Anton";
 
+// $rb = $this->db->init();
+// $book = $rb->dispense('book');
+// $book->author = "glend";
+// $id = $rb->store( $book );
+
 ?>
 
 <h1>Home</h1>
@@ -17,4 +22,6 @@ Hello world <?= $user ?>!
     <p>New Navbar</p>
 <?php $this->stop() ?>
 
+<div>
 <?php $this->loadComponent('drawer') ?>
+</div>
