@@ -1,8 +1,8 @@
 <?php
 
-$hello = 'world';
+// 
 
 ?>
 
-
-Hello <?= $hello ?>!
+<h1>Home</h1>
+Hello world <?= $user ?>!

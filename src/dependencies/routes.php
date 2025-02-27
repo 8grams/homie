@@ -4,6 +4,11 @@ use Symfony\Component\Routing\Route;
 
 $routes = new RouteCollection();
 
+// admin routes
+$routes->add('admin_pages', new Route('/admin/{path}', [
+    '_controller' => 'App\Libs\AdminController::render',
+], ['path' => '.*']));
+
 // primary routes
 // using locale
 $routes->add('catch_all_with_locale', new Route('/{locale}/{path}', [

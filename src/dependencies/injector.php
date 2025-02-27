@@ -6,12 +6,12 @@ use Symfony\Component\Routing\RequestContext;
 use App\Libs\Cache;
 use App\Libs\SQLiteDatabase;
 use App\Libs\WordpressHttpClient;
-use App\Libs\Controller;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
+use League\Plates\Engine as TemplateEngine;
 
 // load env vars
 $dotenv = new Dotenv();
@@ -35,7 +35,9 @@ $container->register('wpHttpClient', WordpressHttpClient::class)
         'client' => $container->get('httpClient')
     ]);
 
+$container->register('template', TemplateEngine::class)
+    ->setArguments([$config['template']['path']]);
+
 $container->register('controller_resolver', ControllerResolver::class);
 $container->register('argument_resolver', ArgumentResolver::class);
-
 return $container;

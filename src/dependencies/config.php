@@ -8,4 +8,7 @@ return [
     'database' => [
         'path' => getenv('SQLITE_CONNECTION'),
     ],
+    'template' => [
+        'path' => __DIR__.'/../pages/layouts',
+    ],
 ];
