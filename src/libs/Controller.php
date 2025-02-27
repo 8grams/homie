@@ -8,29 +8,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Controller extends BaseController
 {
-    // default preRender and postRender page
-    protected $preRender = [
-        'pages/layouts/navbar.php'
-    ];
-
-    protected $postRender = [
-        'pages/layouts/footer.php'
-    ];
-
     public function render(Request $request): Response
     {
-        extract($request->attributes->all(), EXTR_SKIP);
-        
-        foreach ($this->preRender as $file) {
-            include sprintf(__DIR__.'/../%s', $file);
-        }
+        $view = $this->viewEngine->make($request->attributes->get('path'));
+        $view->setDependencies($this->request, $this->cache, $this->db, $this->client);
 
-        include sprintf(__DIR__.'/../pages/%s.php', $request->attributes->get('path'));
-        
-        foreach ($this->postRender as $file) {
-            include sprintf(__DIR__.'/../%s', $file);
-        }
-        
-        return new Response($this->template->render('container'));
+        // set default layouts, navbar, and footer
+        $view->setDefaultLayouts();
+
+        $response = $view->render();
+        return new Response($response);
     }
 }

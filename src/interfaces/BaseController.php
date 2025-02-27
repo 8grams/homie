@@ -4,9 +4,9 @@ namespace App\Interfaces;
 
 use App\Interfaces\DataStoreInterface;
 use App\Interfaces\HttpClientInterface;
+use App\Libs\ViewEngine;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Cache\CacheInterface;
-use League\Plates\Engine as TemplateEngine;
 
 class BaseController
 {
@@ -14,22 +14,21 @@ class BaseController
     protected CacheInterface $cache;
     protected DataStoreInterface $db;
     protected HttpClientInterface $client;
-    protected TemplateEngine $template;
-    protected $myData = "Data";
+    protected ViewEngine $viewEngine;
 
     public function setDependencies(
         Request $request, 
         CacheInterface $cache, 
         DataStoreInterface $db, 
         HttpClientInterface $client,
-        TemplateEngine $template,
+        ViewEngine $viewEngine,
         )
     {
         $this->request = $request;
         $this->cache = $cache;
         $this->db = $db;
         $this->client = $client;
-        $this->template = $template;
+        $this->viewEngine = $viewEngine;
         
     }
 }
