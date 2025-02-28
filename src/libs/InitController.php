@@ -17,11 +17,14 @@ class InitController extends BaseController
         $rb = $this->db->getPDO();
 
         // get migrations data from migrations table
-        $migrations = $rb->query('SELECT * FROM migrations')->fetchAll();
+        $migrations = $rb->query('SELECT Name FROM migrations')->fetchAll();
+        $migrations = array_map(function($migration) {
+            return $migration['Name'];
+        }, $migrations);
 
         foreach ($this->getMigrations() as $filename => $content) {
             // only run the migration if it's not already in the migrations table
-            if (in_array($filename, $migrations)) {
+            if (in_array(basename($filename), $migrations)) {
                 continue;
             }
 
@@ -38,8 +41,8 @@ class InitController extends BaseController
         $rb = $this->db->getPDO();
 
         // check if migrations table exists
-        $table = $rb->query('SELECT 1 FROM migrations LIMIT 1');
-        if ($table) {
+        $table = $rb->query('SELECT name FROM sqlite_master WHERE type="table" AND name="migrations";');
+        if (count($table->fetch()) > 0) {
             return new Response("Database already initialized");
         }
 
