@@ -2,7 +2,7 @@
 
 namespace App\Libs;
 
-use App\Interfaces\BaseController;
+use App\Libs\Interfaces\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

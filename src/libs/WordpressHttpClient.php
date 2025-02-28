@@ -2,7 +2,7 @@
 
 namespace App\Libs;
 
-use App\Interfaces\HttpClientInterface;
+use App\Libs\Interfaces\HttpClientInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\Cache\CacheInterface;
 

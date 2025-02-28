@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Libs\Interfaces;
 
-use App\Interfaces\DataStoreInterface;
-use App\Interfaces\HttpClientInterface;
+use App\Libs\Interfaces\DataStoreInterface;
+use App\Libs\Interfaces\HttpClientInterface;
 use App\Libs\ViewEngine;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Cache\CacheInterface;

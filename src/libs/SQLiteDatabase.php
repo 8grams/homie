@@ -4,7 +4,7 @@ namespace App\Libs;
 
 require __DIR__ . '/../dependencies/rb-sqlite.php';
 
-use App\Interfaces\DataStoreInterface;
+use App\Libs\Interfaces\DataStoreInterface;
 use R;
 use RedBeanPHP\OODB;
 
