@@ -109,7 +109,7 @@ Again, like other regular page files, this component also has direct access to H
 
 ## Handle Request
 
-Soom
+Soon
 
 ## Migration
 
@@ -117,4 +117,4 @@ Soon
 
 ## Admin Dashboard
 
-Soom
+Soon
