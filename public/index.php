@@ -27,7 +27,8 @@ try {
         $container->get('cache'), 
         $container->get('db'), 
         $container->get('wpHttpClient'),
-        $container->get('template')
+        $container->get('template'),
+        $config
     );
         
     $response = call_user_func_array($controller, $arguments);

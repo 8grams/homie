@@ -107,6 +107,10 @@ $name = "Glend";
 
 Again, like other regular page files, this component also has direct access to Homie’s utilities, such as the database, cache, and HTTP client.
 
+## Handle Request
+
+Soom
+
 ## Migration
 
 Soon

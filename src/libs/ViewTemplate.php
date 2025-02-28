@@ -15,19 +15,23 @@ class ViewTemplate extends Template
     protected CacheInterface $cache;
     protected DataStoreInterface $db; 
     protected HttpClientInterface $client;
+    protected $config;
     protected $locale;
 
     public function setDependencies(
-        Request $request, CacheInterface $cache, 
+        Request $request, 
+        CacheInterface $cache, 
         DataStoreInterface $db, 
         HttpClientInterface $client,
-        $locale)
+        $config = []
+        )
     {
         $this->request = $request;
         $this->cache = $cache;
         $this->db = $db;
         $this->client = $client;
-        $this->locale = $locale;
+        $this->config = $config;
+        $this->locale = $this->request->attributes->get('locale', 'en');
     }
 
     public function __construct(ViewEngine $engine, $name)
@@ -56,4 +60,32 @@ class ViewTemplate extends Template
         include __DIR__ . "/../pages/layouts/footer.php";
         $this->stop();
     }
+
+    public function getQueryParams($name = "")
+    {
+        if ($name) {
+            return $this->request->query->get($name);
+        }
+
+        return $this->request->query->all();
+    }
+
+    public function getJsonPayload($name = "")
+    {
+        if ($name) {
+            return $this->request->getPayload()->get($name);
+        }
+
+        return $this->request->getPayload()->all();
+    }
+
+    public function getFormData($name = "")
+    {
+        if ($name) {
+            return $this->request->request->get($name);
+        }
+
+        return $this->request->request->all();
+    }
+
 }

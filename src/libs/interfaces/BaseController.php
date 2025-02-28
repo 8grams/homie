@@ -17,6 +17,7 @@ class BaseController
     protected DataStoreInterface $db;
     protected HttpClientInterface $client;
     protected ViewEngine $viewEngine;
+    protected $config;
 
     public function setDependencies(
         Request $request, 
@@ -24,6 +25,7 @@ class BaseController
         DataStoreInterface $db, 
         HttpClientInterface $client,
         ViewEngine $viewEngine,
+        $config = []
         )
     {
         $this->request = $request;
@@ -31,11 +33,6 @@ class BaseController
         $this->db = $db;
         $this->client = $client;
         $this->viewEngine = $viewEngine;
-    }
-    
-    public function render(Request $request): Response
-    {
-        $this->locale = $request->attributes->get('locale', 'en');
-        return new Response('Hello World');
+        $this->config = $config;
     }
 }

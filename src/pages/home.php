@@ -7,6 +7,8 @@
 
 $user = "Anton";
 
+var_dump($this->config);die();
+
 // $rb = $this->db->init();
 // $book = $rb->dispense('book');
 // $book->author = "glend";
