@@ -29,6 +29,5 @@ class BaseController
         $this->db = $db;
         $this->client = $client;
         $this->viewEngine = $viewEngine;
-        
     }
 }

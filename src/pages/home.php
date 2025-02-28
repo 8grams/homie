@@ -12,6 +12,8 @@ $user = "Anton";
 // $book->author = "glend";
 // $id = $rb->store( $book );
 
+// db, cache, curl/http client
+
 ?>
 
 <h1>Home</h1>

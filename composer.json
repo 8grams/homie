@@ -3,6 +3,7 @@
         "psr-4": {
             "App\\": "src/",
             "App\\Libs\\": "src/libs/",
+            "App\\Libs\\Auth\\": "src/libs/auth",
             "App\\Interfaces\\": "src/interfaces/"
         }
     },
@@ -15,6 +16,7 @@
         "symfony/http-kernel": "^7.2",
         "symfony/http-client": "^7.2",
         "symfony/dotenv": "^7.2",
-        "league/plates": "^3.6"
+        "league/plates": "^3.6",
+        "symfony/security-core": "^7.2"
     }
 }

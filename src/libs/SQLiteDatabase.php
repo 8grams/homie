@@ -20,4 +20,9 @@ class SQLiteDatabase implements DataStoreInterface
     {
         return R::getRedBean();
     }
+
+    public function getPDO(): \PDO
+    {
+        return R::getPDO();
+    }
 }

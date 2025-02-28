@@ -4,6 +4,11 @@ use Symfony\Component\Routing\Route;
 
 $routes = new RouteCollection();
 
+// installation
+$routes->add('migration', new Route('/migrations', [
+    '_controller' => 'App\Libs\InitController::migrate',
+]));
+
 // admin routes
 $routes->add('admin_pages', new Route('/admin/{path}', [
     '_controller' => 'App\Libs\AdminController::render',
