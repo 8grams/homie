@@ -115,6 +115,10 @@ Soon
 
 Soon
 
+## Environment Variables
+
+Soon
+
 ## Admin Dashboard
 
 Soon
