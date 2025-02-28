@@ -15,13 +15,19 @@ class ViewTemplate extends Template
     protected CacheInterface $cache;
     protected DataStoreInterface $db; 
     protected HttpClientInterface $client;
+    protected $locale;
 
-    public function setDependencies(Request $request, CacheInterface $cache, DataStoreInterface $db, HttpClientInterface $client)
+    public function setDependencies(
+        Request $request, CacheInterface $cache, 
+        DataStoreInterface $db, 
+        HttpClientInterface $client,
+        $locale)
     {
         $this->request = $request;
         $this->cache = $cache;
         $this->db = $db;
         $this->client = $client;
+        $this->locale = $locale;
     }
 
     public function __construct(ViewEngine $engine, $name)

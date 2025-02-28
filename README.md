@@ -21,12 +21,19 @@ Homie is built on top of prominent open-source software to function effectively:
 `pages` directory is where we, as homepage web developers, works most of time. Homie directly maps basic URLs to the `pages` directory. For example, if you want to have URL like this
 
 ```
-https://example.com/home.php
+https://example.com/home
 ```
 
 then, you should create a PHP file named `home.php` inside `pages` directory.
 
 You can start coding using OG native PHP where you can mix PHP code with HTML. But for better maintainability, we recommend writing PHP code first before any HTML code. 
+
+It also handles localization quite well. All of these URLs map to `home.php`.
+
+```
+https://example.com/id/home
+https://example.com/en/home
+```
 
 ```
 <?php
