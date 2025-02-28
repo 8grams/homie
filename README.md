@@ -66,6 +66,14 @@ $id = $rb->store( $book );
 <p>Book created with ID <?=$id ?> </p>
 ```
 
+### Initiate
+
+To initiate Homie, execute `/init` path once. This path will initialize database and configure some settings
+
+```
+~$ curl -v https://example.com/init
+```
+
 ## Basic Layout
 
 By default, Homie provides 3 basic layouts, all located in the `pages/layouts` directory: `main`, `navbar`, and `footer`. `main`, As the name suggests, this is the main layout where all pages are attached. It is also where you can define global JavaScript and CSS scripts.
@@ -109,15 +117,98 @@ Again, like other regular page files, this component also has direct access to H
 
 ## Handle Request
 
-Soon
+### Query parameters
+
+```
+https://example.com/home?name=glend&city=Surabaya
+```
+
+```
+<?php
+
+// all params
+$params = $this->getQueryParams();
+
+// specific param
+$name = $this->getQueryParams("name");
+
+?>
+```
+
+### Query parameters
+
+```
+https://example.com/home?name=glend&city=Surabaya
+```
+
+```
+<?php
+
+// all params
+$params = $this->getQueryParams();
+
+// specific param
+$name = $this->getQueryParams("name");
+
+?>
+```
+
+### Form Data
+```
+curl -X POST https://example.com/home \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "name=glend&city=Surabaya"
+```
+
+```
+<?php
+
+// all data
+$params = $this->getFormData();
+
+// specific data
+$name = $this->getFormData("city");
+
+?>
+```
+
+### JSON Payload
+
+```
+curl -X POST https://example.com/home \
+-H "Content-Type: application/json" \
+-d '{"name": "glend", "city": "Surabaya"}'
+```
+
+```
+<?php
+
+// all data
+$params = $this->getJsonPayload();
+
+// specific data
+$name = $this->getJsonPayload("name");
+
+?>
+```
 
 ## Migration
 
-Soon
+All migrations are located on `migrations` directory. To create new migration, add a file with format `[order number]_[migration name].sql`
+
+```
+~$ touch migrations/004_create_user_table.sql
+```
+
+And execute `/migrate` path
+
+```
+~$ curl -v https://example.com/migrate
+```
 
 ## Environment Variables
 
-Soon
+Define environment variables whether through `.env` file located in the root project folder, or direct inject using `EXPORT` command.
 
 ## Admin Dashboard
 
