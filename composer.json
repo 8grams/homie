@@ -1,4 +1,9 @@
 {
+    "name": "homie/homie",
+    "type": "project",
+    "description": "Dead simple Symfony-based framework for creating homepage",
+    "keywords": ["homepage", "homie"],
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "App\\": "src/",

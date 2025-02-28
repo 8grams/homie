@@ -74,6 +74,21 @@ To initiate Homie, execute `/init` path once. This path will initialize database
 ~$ curl -v https://example.com/init
 ```
 
+### Local Development
+
+Install Symfony cli
+
+```
+curl -sS https://get.symfony.com/cli/installer | bash
+```
+
+Start Symfony Dev Server
+
+```
+symfony server:start
+>>>>>>> 732861b (update readme)
+```
+
 ## Basic Layout
 
 By default, Homie provides 3 basic layouts, all located in the `pages/layouts` directory: `main`, `navbar`, and `footer`. `main`, As the name suggests, this is the main layout where all pages are attached. It is also where you can define global JavaScript and CSS scripts.
