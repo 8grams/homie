@@ -28,6 +28,7 @@ try {
         $container->get('db'), 
         $container->get('wpHttpClient'),
         $container->get('template'),
+        $container->get('authenticator'),
         $config
     );
         

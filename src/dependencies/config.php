@@ -11,6 +11,9 @@ return [
     'template' => [
         'path' => __DIR__.'/../pages',
     ],
+    'admin_template' => [
+        'path' => __DIR__.'/../admin',
+    ],
     'admin' => [
         'username' => $_ENV['ADMIN_USERNAME'],
         'password' => $_ENV['ADMIN_PASSWORD'],

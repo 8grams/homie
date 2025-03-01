@@ -2,11 +2,11 @@
 
 namespace App\Libs\Interfaces;
 
+use App\Libs\Auth\Authenticator;
 use App\Libs\Interfaces\DataStoreInterface;
 use App\Libs\Interfaces\HttpClientInterface;
 use App\Libs\ViewEngine;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class BaseController
@@ -17,6 +17,7 @@ class BaseController
     protected DataStoreInterface $db;
     protected HttpClientInterface $client;
     protected ViewEngine $viewEngine;
+    protected Authenticator $authenticator;
     protected $config;
 
     public function setDependencies(
@@ -25,6 +26,7 @@ class BaseController
         DataStoreInterface $db, 
         HttpClientInterface $client,
         ViewEngine $viewEngine,
+        Authenticator $authenticator,
         $config = []
         )
     {
@@ -33,6 +35,7 @@ class BaseController
         $this->db = $db;
         $this->client = $client;
         $this->viewEngine = $viewEngine;
+        $this->authenticator = $authenticator;
         $this->config = $config;
     }
 }

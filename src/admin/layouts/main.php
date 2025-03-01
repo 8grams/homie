@@ -1,1 +1,10 @@
-<!--  -->
+<html>
+  <head>
+    <title>Tests</title>
+  </head>
+  <body>
+    <?=$this->section('navbar')?>
+    <?=$this->section('content')?>
+    <?=$this->section('footer')?>
+  </body>
+</html>

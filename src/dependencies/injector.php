@@ -3,15 +3,17 @@
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
-use App\Libs\Cache;
-use App\Libs\SQLiteDatabase;
-use App\Libs\WordpressHttpClient;
-use App\Libs\ViewEngine as ViewEngine;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
+use App\Libs\Cache;
+use App\Libs\SQLiteDatabase;
+use App\Libs\WordpressHttpClient;
+use App\Libs\ViewEngine as ViewEngine;
+use App\Libs\Auth\UserProvider;
+use App\Libs\Auth\Authenticator;
 
 
 // load env vars
@@ -45,4 +47,15 @@ $container->register('template', ViewEngine::class)
 
 $container->register('controller_resolver', ControllerResolver::class);
 $container->register('argument_resolver', ArgumentResolver::class);
+
+$container->register('user_provider', UserProvider::class)
+    ->setArguments([
+        $config['admin']['username'],
+        $config['admin']['password']
+    ]);
+$container->register('authenticator', Authenticator::class)
+    ->setArguments([
+        $container->get('user_provider')
+    ]);
+
 return $container;

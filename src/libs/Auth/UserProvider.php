@@ -8,11 +8,16 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
 class UserProvider implements UserProviderInterface
 {
-    private array $users = [
-        'admin' => ['password' => 'Password01', 'roles' => ['ROLE_ADMIN']]
-    ];
+    private array $users = [];
 
-    public function loadUserByIdentifier(string $username): UserInterface
+    public function __construct($username, $password)
+    {
+        $this->users = [
+            $username => ['password' => $password, 'roles' => ['ROLE_ADMIN']]
+        ];
+    }
+
+    public function loadUserByIdentifier(string $username): AbstractUser
     {
         if (!isset($this->users[$username])) {
             throw new UserNotFoundException("User not found.");

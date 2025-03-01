@@ -2,6 +2,7 @@
 
 namespace App\Libs;
 
+use App\Libs\Auth\Authenticator;
 use League\Plates\Template\Template;
 use App\Libs\Interfaces\DataStoreInterface;
 use App\Libs\Interfaces\HttpClientInterface;
@@ -16,6 +17,7 @@ class ViewTemplate extends Template
     protected CacheInterface $cache;
     protected DataStoreInterface $db; 
     protected HttpClientInterface $client;
+    protected Authenticator $authenticator;
     protected $config;
     protected $locale;
 
@@ -35,6 +37,11 @@ class ViewTemplate extends Template
         $this->locale = $this->request->attributes->get('locale', 'en');
     }
 
+    public function setAdminDependencies(Authenticator $authenticator)
+    {
+        $this->authenticator = $authenticator;
+    }
+
     public function __construct(ViewEngine $engine, $name)
     {
         parent::__construct($engine, $name);
@@ -49,9 +56,18 @@ class ViewTemplate extends Template
         echo $this->section($name);
     }
 
+    public function loadAdminComponent($name)
+    {
+        $this->start($name);
+        include sprintf(__DIR__ . "/../admin/components/%s.php", $name);
+        $this->stop();
+
+        echo $this->section($name);
+    }
+
     public function setAdminDefaultLayouts()
     {
-        $this->layout('admin/layouts/main');
+        $this->layout('layouts/main');
 
         $this->start('navbar');
         include __DIR__ . "/../admin/layouts/navbar.php";
