@@ -225,6 +225,33 @@ And execute `/migrate` path
 
 Define environment variables whether through `.env` file located in the root project folder, or direct inject using `EXPORT` command.
 
+## Localization
+
+Homie supports localization out of the box by providing the trans function, which we can access from the pages with `en` as default language. For example:
+
+```
+<?php
+
+?>
+
+<p><?= $this->trans('home', 'Rumah') ?></p>
+```
+
+Insert data into the translation table with the schema name, locale, and value. For example, the SQL should be:
+
+```
+INSERT INTO translation (label, value, locale) VALUES ("home", "Home", "en")
+```
+
+### Accessing pages with localization
+
+Attach the language you want to use in the URL as the first path segment. For example:
+
+```
+https://example.com/id/home
+https://example.com/en/home
+```
+
 ## Admin Dashboard
 
 Soon
