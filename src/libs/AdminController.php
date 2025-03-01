@@ -10,9 +10,19 @@ class AdminController extends BaseController
 {
     public function render(Request $request): Response
     {
-        extract($request->attributes->all(), EXTR_SKIP);
-        ob_start();
-        include sprintf(__DIR__.'/../admin/%s.php', $request->attributes->get('path'));
-        return new Response(ob_get_clean());
+        $view = $this->viewEngine->make($request->attributes->get('path'));
+        $view->setDependencies(
+            $this->request, 
+            $this->cache, 
+            $this->db, 
+            $this->client,
+            $this->config
+        );
+
+        // set default layouts, navbar, and footer
+        $view->setAdminDefaultLayouts();
+
+        $response = $view->render();
+        return new Response($response);
     }
 }

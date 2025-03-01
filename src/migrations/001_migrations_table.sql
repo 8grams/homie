@@ -1,5 +1,5 @@
 CREATE TABLE migrations (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    Name VARCHAR(255) UNIQUE,
-    CreatedTime INT
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) UNIQUE,
+    created_time INT
 );

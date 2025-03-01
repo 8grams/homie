@@ -9,17 +9,30 @@ class InitController extends BaseController
 {
     public function init()
     {
+        try {
         return $this->initDatabase();
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+        }
     }
 
     public function migrate()
     {
+        try {
+        return $this->migrateDatabase();
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+        }
+    }
+
+    public function migrateDatabase()
+    {
         $rb = $this->db->getPDO();
 
         // get migrations data from migrations table
-        $migrations = $rb->query('SELECT Name FROM migrations')->fetchAll();
+        $migrations = $rb->query('SELECT name FROM migrations')->fetchAll();
         $migrations = array_map(function($migration) {
-            return $migration['Name'];
+            return $migration['name'];
         }, $migrations);
 
         foreach ($this->getMigrations() as $filename => $content) {
@@ -49,7 +62,7 @@ class InitController extends BaseController
         foreach ($this->getMigrations() as $filename => $content) {
             $filename = basename($filename);
             $rb->exec($content);
-            $rb->exec('INSERT INTO migrations (Name, CreatedTime) VALUES ("'.$filename.'", "'.date('Y-m-d H:i:s').'")');
+            $rb->exec('INSERT INTO migrations (name, created_time) VALUES ("'.$filename.'", "'.date('Y-m-d H:i:s').'")');
         }
         return new Response("Database initialization success");
     }

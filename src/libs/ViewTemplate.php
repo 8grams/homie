@@ -6,6 +6,7 @@ use League\Plates\Template\Template;
 use App\Libs\Interfaces\DataStoreInterface;
 use App\Libs\Interfaces\HttpClientInterface;
 use App\Libs\ViewEngine;
+use R;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -48,6 +49,19 @@ class ViewTemplate extends Template
         echo $this->section($name);
     }
 
+    public function setAdminDefaultLayouts()
+    {
+        $this->layout('admin/layouts/main');
+
+        $this->start('navbar');
+        include __DIR__ . "/../admin/layouts/navbar.php";
+        $this->stop();
+
+        $this->start('footer');
+        include __DIR__ . "/../admin/layouts/footer.php";
+        $this->stop();
+    }
+
     public function setDefaultLayouts()
     {
         $this->layout('layouts/main');
@@ -86,6 +100,16 @@ class ViewTemplate extends Template
         }
 
         return $this->request->request->all();
+    }
+
+    public function trans($label, $default)
+    {
+        $trans = $this->db->init()->find('translation', [], 'label = ? AND locale = ?', [$label, $this->locale]);
+        if (count($trans) > 0) {
+            $tran = array_pop($trans);
+            return $tran->value;
+        }
+        return $default;
     }
 
 }

@@ -7,7 +7,7 @@
 
 $user = "Anton";
 
-var_dump($this->config);die();
+// var_dump($this->config);die();
 
 // $rb = $this->db->init();
 // $book = $rb->dispense('book');
@@ -28,4 +28,6 @@ Hello world <?= $user ?>!
 
 <div>
 <?php $this->loadComponent('drawer') ?>
+
+<?= $this->trans('home', 'Rumah') ?>
 </div>
