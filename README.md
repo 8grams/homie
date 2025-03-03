@@ -76,6 +76,10 @@ To initiate Homie, execute `/init` path once. This path will initialize database
 
 ### Local Development
 
+Install composer
+
+Run composer
+
 Install Symfony cli
 
 ```
@@ -86,7 +90,6 @@ Start Symfony Dev Server
 
 ```
 symfony server:start
->>>>>>> 732861b (update readme)
 ```
 
 ## Basic Layout
@@ -131,24 +134,6 @@ $name = "Glend";
 Again, like other regular page files, this component also has direct access to Homie’s utilities, such as the database, cache, and HTTP client.
 
 ## Handle Request
-
-### Query parameters
-
-```
-https://example.com/home?name=glend&city=Surabaya
-```
-
-```
-<?php
-
-// all params
-$params = $this->getQueryParams();
-
-// specific param
-$name = $this->getQueryParams("name");
-
-?>
-```
 
 ### Query parameters
 
