@@ -18,11 +18,7 @@ class InitController extends BaseController
 
     public function migrate()
     {
-        try {
         return $this->migrateDatabase();
-        } catch (\Exception $e) {
-            var_dump($e->getMessage());
-        }
     }
 
     public function migrateDatabase()

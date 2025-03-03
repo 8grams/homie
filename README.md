@@ -78,7 +78,13 @@ To initiate Homie, execute `/init` path once. This path will initialize database
 
 Install composer
 
+Ref: https://getcomposer.org/download/
+
 Run composer
+
+```
+composer install -vvv
+```
 
 Install Symfony cli
 
