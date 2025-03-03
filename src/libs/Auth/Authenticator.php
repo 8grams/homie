@@ -3,9 +3,7 @@
 namespace App\Libs\Auth;
 
 use App\Libs\Interfaces\AuthenticatorInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -42,18 +40,22 @@ class Authenticator implements AuthenticatorInterface
         return isset($_SESSION['user']);
     }
 
-    public function onAuthenticationSuccess(Request $request, UsernamePasswordToken $token): Response
+    public function onAuthenticationSuccess(Request $request, UsernamePasswordToken $token)
     {
-        session_start();
         $_SESSION['user'] = serialize($token->getUser());
-        
-        // redirect to home
-        return new RedirectResponse("/admin/home");
+        session_write_close();
+        session_commit();
     }
 
-    public function onAuthenticationFailed(Request $request, AuthenticationException $e): Response
+    public function onAuthenticationFailed(Request $request, AuthenticationException $e)
     {
-        // redirect to login
-        return new RedirectResponse("/admin/login");
+        $this->unAuthenticated();
+    }
+
+    public function unAuthenticated()
+    {
+        $_SESSION['user'] = null;
+        session_write_close();
+        session_commit();
     }
 }

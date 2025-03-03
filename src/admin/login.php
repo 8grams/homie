@@ -6,10 +6,11 @@ if ($this->request->getMethod() === 'POST') {
     $token = $this->authenticator->authenticate($this->request);
 
     if ($token) {
-        return $this->authenticator->onAuthenticationSuccess($this->request, $token);
+        $this->authenticator->onAuthenticationSuccess($this->request, $token);    
+    } else {
+        $this->authenticator->onAuthenticationFailed($this->request, new AuthenticationException("Invalid credentials."));
     }
-
-    return $this->authenticator->onAuthenticationFailed($this->request, new AuthenticationException("Invalid credentials."));
+    header("Refresh:0");
 }
 
 ?>

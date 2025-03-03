@@ -11,6 +11,6 @@ interface AuthenticatorInterface
 {
     public function authenticate(Request $request): ?UsernamePasswordToken;
     public function isAuthenticated(): bool;
-    public function onAuthenticationSuccess(Request $request, UsernamePasswordToken $token): Response;
-    public function onAuthenticationFailed(Request $request, AuthenticationException $e): Response;
+    public function onAuthenticationSuccess(Request $request, UsernamePasswordToken $token);
+    public function onAuthenticationFailed(Request $request, AuthenticationException $e);
 }

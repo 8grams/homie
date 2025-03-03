@@ -8,6 +8,7 @@ use App\Libs\Interfaces\DataStoreInterface;
 use App\Libs\Interfaces\HttpClientInterface;
 use App\Libs\ViewEngine;
 use R;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -128,4 +129,8 @@ class ViewTemplate extends Template
         return $default;
     }
 
+    public function redirect($url)
+    {
+        return new RedirectResponse($url);
+    }   
 }

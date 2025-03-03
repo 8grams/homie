@@ -6,6 +6,7 @@ use App\Libs\Auth\Authenticator;
 use App\Libs\Interfaces\DataStoreInterface;
 use App\Libs\Interfaces\HttpClientInterface;
 use App\Libs\ViewEngine;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -37,5 +38,10 @@ class BaseController
         $this->viewEngine = $viewEngine;
         $this->authenticator = $authenticator;
         $this->config = $config;
+    }
+
+    public function redirect($url)
+    {
+        return new RedirectResponse($url);
     }
 }

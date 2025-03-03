@@ -9,12 +9,7 @@ class InitController extends BaseController
 {
     public function init()
     {
-        try {
-            return $this->initDatabase();
-        } catch (\Exception $e) {
-            var_dump($e->getMessage()); 
-        }
-        
+        return $this->initDatabase();
     }
 
     public function migrate()
