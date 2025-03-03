@@ -68,6 +68,12 @@ $id = $rb->store( $book );
 
 ### Initiate
 
+Make PHP Module for SQLite3 is already installed. For example, in Debian you install it with
+
+```
+~$ sudo apt install php8.3-sqlite3
+```
+
 To initiate Homie, execute `/init` path once. This path will initialize database and configure some settings
 
 ```
@@ -96,6 +102,18 @@ Start Symfony Dev Server
 
 ```
 symfony server:start
+```
+
+Run init, by accessing `init`` URL from browser
+
+```
+https://example.com/init
+```
+
+Start coding, for getting started you can access `/home`
+
+```
+https://example.com/home
 ```
 
 ## Basic Layout

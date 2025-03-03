@@ -9,7 +9,12 @@ class InitController extends BaseController
 {
     public function init()
     {
-        return $this->initDatabase();
+        try {
+            return $this->initDatabase();
+        } catch (\Exception $e) {
+            var_dump($e->getMessage()); 
+        }
+        
     }
 
     public function migrate()
@@ -47,16 +52,21 @@ class InitController extends BaseController
 
         // check if migrations table exists
         $table = $rb->query('SELECT name FROM sqlite_master WHERE type="table" AND name="migrations";');
-        if (count($table->fetch()) > 0) {
-            return new Response("Database already initialized");
+        $result = $table->fetch();
+        if ($result) {
+            if (count($result) > 0) {
+                return new Response("Database already initialized");
+            }
         }
+        
 
         foreach ($this->getMigrations() as $filename => $content) {
             $filename = basename($filename);
             $rb->exec($content);
             $rb->exec('INSERT INTO migrations (name, created_time) VALUES ("'.$filename.'", "'.date('Y-m-d H:i:s').'")');
         }
-        return new Response("Database initialization success");
+
+        return new Response("Initialization success");
     }
 
     // get all migrations files from migrations folder

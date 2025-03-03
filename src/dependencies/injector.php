@@ -17,8 +17,17 @@ use App\Libs\Auth\Authenticator;
 
 
 // load env vars
+
+// copy .env.example to .env
+if (!file_exists(__DIR__.'/../../.env') && file_exists(__DIR__.'/../../.env.example')) {
+    copy(__DIR__.'/../../.env.example', __DIR__.'/../../.env');
+}
+
 $dotenv = new Dotenv();
-$dotenv->loadEnv(__DIR__.'/../../.env', overrideExistingVars: true);
+$envPath = __DIR__.'/../../.env';
+if (file_exists($envPath)) {
+    $dotenv->loadEnv(__DIR__.'/../../.env', overrideExistingVars: true);
+}
 
 // load config
 $config = require __DIR__.'/config.php';

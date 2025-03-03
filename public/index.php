@@ -5,11 +5,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Dotenv\Dotenv;
-
-// load dotenv
-$dotenv = new Dotenv();
-$dotenv->loadEnv(__DIR__.'/../.env', overrideExistingVars: true);
 
 $request = Request::createFromGlobals();
 $routes = include __DIR__ . '/../src/dependencies/routes.php';
