@@ -104,7 +104,7 @@ Start Symfony Dev Server
 symfony server:start
 ```
 
-Run init, by accessing `init`` URL from browser
+Run init, by accessing `init` URL from browser
 
 ```
 https://example.com/init
