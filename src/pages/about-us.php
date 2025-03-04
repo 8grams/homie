@@ -1,4 +1,7 @@
-<section class="relative bg-cover bg-center bg-no-repeat p-0 md:p-12 h-[50vh] md:h-[65vh] w-full">
+<?php $this->start('components/tag') ?>
+    <title>About Us</title>
+<?php $this->stop() ?>
+<section class="relative bg-cover bg-center bg-no-repeat p-0 md:p-12 h-[60vh] md:h-[90vh] w-full">
     <div class="absolute inset-0 bg-[url('assets/bg-wrapper.jpeg')] bg-cover bg-center bg-no-repeat opacity-50"></div>
     <div class="relative flex items-center justify-center h-full w-full px-4">
         <div class="md:text-center text-inherit max-w-2xl w-full">
@@ -30,6 +33,7 @@
         </blockquote>
     </div>
 </section>
+<?php $this->insert('components/our-services'); ?>
 <section class="md:py-12 md:px-12 py-6 px-6">
     <h3 class="font-semibold text-[#FF8A15] mb-2 md:text-center mb-3">MEET OUR TEAM</h3>
     <h2 class="text-[#002644] md:text-4xl text-2xl font-semibold md:text-center mb-10">
@@ -55,35 +59,4 @@
         </div>
     </div>
 </section>
-<section class="md:py-12 md:px-12 py-6 px-0 bg-[#002644]">
-    <div class="flex md:flex-row flex-col justify-between space-y-6">
-        <div class="md:w-1/2 w-full md:text-left text-center">
-            <h3 class="font-semibold text-[#FF8A15] mb-2 mb-3">TESTIMONIALS</h3>
-            <h2 class="text-white md:text-4xl text-2xl font-semibold">What Our Clients Say</h2>
-        </div>
-        <div class="md:w-1/2 w-full px-6">
-            <div class="overflow-x-auto md:overflow-visible">
-                <div class="flex flex-row md:flex-col space-x-6 md:space-x-0 md:space-y-6 min-w-full md:min-w-0">
-                    <div class="w-[90vw] md:w-full py-7 px-5 bg-white relative flex-shrink-0">
-                        <img src="assets/qoute.png" alt="qoutes" class="absolute top-2 left-2">
-                        <div class="relative">
-                            <h3 class="font-medium text-xl mb-3">Working with Ars Syno Sinergi was a game-changer for our project. Their expertise helped us secure crucial approvals and streamline execution.</h3>
-                            <h5 class="font-medium mb-1">Senior Official</h5>
-                            <h5 class="text-md">Ministry of Transportation</h5>
-                        </div>
-                    </div>
-                    <div class="w-[90vw] md:w-full py-7 px-5 bg-white relative flex-shrink-0">
-                        <img src="assets/qoute.png" alt="qoutes" class="absolute top-2 left-2">
-                        <div class="relative">
-                            <h3 class="font-medium text-xl mb-3">From feasibility studies to investment guidance, Ars Syno Sinergi provided us with unmatched strategic insights that shaped our business decisions.</h3>
-                            <h5 class="font-medium mb-1">CEO</h5>
-                            <h5 class="text-md">Private Equity Firm</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-</section>
+<?php $this->insert('components/client-say'); ?>

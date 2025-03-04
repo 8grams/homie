@@ -1,6 +1,7 @@
 <footer>
-    <div class="bg-cover bg-center bg-no-repeat p-0 md:p-12 w-full h-[60vh]" style="background-image: url('assets/bg-wrapper.jpeg')">
-        <div class="flex items-center flex-col justify-center h-full w-full px-4">
+    <div class="bg-cover bg-center bg-no-repeat p-0 md:p-12 w-full h-[60vh] relative">
+        <div class="absolute inset-0 bg-[url('assets/bg-wrapper.jpeg')] bg-cover bg-center bg-no-repeat opacity-50"></div>
+        <div class="relative flex items-center flex-col justify-center h-full w-full px-4">
             <div class="md:text-center text-inherit max-w-xl w-full">
                 <h3 class="font-semibold text-[#FF8A15] mb-3">LET'S BUILD SOMETHING GREAT</h3>
                 <h2 class="text-[#006AB2] font-normal text-2xl md:text-[50px] mb-5">Need expert consulting to
@@ -22,12 +23,12 @@
                 ARS SYNO SINERGI
             </a>
             <ul class="flex md:flex-row flex-col items-center justify-center gap-5">
-                <li class="text-white" aria-label="Home">HOME</li>
-                <li class="text-white" aria-label="About Us">ABOUT US</li>
-                <li class="text-white" aria-label="Services">SERVICES</li>
-                <li class="text-white" aria-label="Our Works">OUR WORKS</li>
-                <li class="text-white" aria-label="Blogs">BLOGS</li>
-                <li class="text-white" aria-label="Contact">CONTACT</li>
+                <li class="text-white" aria-label="Home"><a href="/home">HOME</a></li>
+                <li class="text-white" aria-label="About Us"><a href="/about-us">ABOUT US</a></li>
+                <li class="text-white" aria-label="Services"><a href="/services">SERVICES</a></li>
+                <li class="text-white" aria-label="Our Works"><a href="/our-works">OUR WORKS</a></li>
+                <li class="text-white" aria-label="Blogs"><a href="/blogs">BLOGS</a></li>
+                <li class="text-white" aria-label="Contact"><a href="/contact-us">CONTACT</a></li>
             </ul>
             <div class="flex flex-row items-center justify-center gap-5">
                 <a href="" class="cursor-pointer">

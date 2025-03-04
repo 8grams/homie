@@ -1,3 +1,6 @@
+<?php $this->start('components/tag') ?>
+<title>Contact Us</title>
+<?php $this->stop() ?>
 <section class="bg-cover bg-center bg-no-repeat p-0 md:p-12 h-[40vh] md:h-[65vh] w-full" style="background-image: url('assets/bg-wrapper.jpeg')">
     <div class="flex items-center justify-center h-full w-full px-4">
         <div class="md:text-center text-inherit max-w-xl w-full">
