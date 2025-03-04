@@ -129,6 +129,16 @@ class ViewTemplate extends Template
         return $default;
     }
 
+    public function asset($key, $default)
+    {
+        $assets = $this->db->init()->find('asset', [], 'key = ?', [$key]);
+        if (count($assets) > 0) {
+            $asset = array_pop($assets);
+            return $asset->src;
+        }
+        return $default;
+    }
+
     public function redirect($url)
     {
         return new RedirectResponse($url);

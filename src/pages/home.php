@@ -31,3 +31,5 @@ Hello world <?= $user ?>!
 
 <?= $this->trans('home', 'Rumah') ?>
 </div>
+
+<div data-trans="home"><?= $this->trans('home', 'Rumah') ?></div>
