@@ -2,7 +2,7 @@
     <div class="flex items-center justify-center h-full w-full px-4">
         <div class="md:text-center text-inherit max-w-xl w-full">
             <h3 class="font-semibold text-[#FF8A15] mb-3">LET'S TALK</h3>
-            <h2 class="text-[#006AB2] font-bold text-2xl md:text-[50px]">
+            <h2 class="text-[#006AB2] font-semibold text-2xl md:text-[50px]">
                We're here to help
             </h2>
         </div>

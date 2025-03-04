@@ -1,7 +1,7 @@
 <section class="bg-cover bg-center bg-no-repeat p-0 md:p-12 h-[60vh] md:h-screen w-full" style="background-image: url('assets/bg-wrapper.jpeg')">
     <div class="flex items-center justify-center h-full w-full px-4">
         <div class="md:text-center text-inherit max-w-xl w-full">
-            <h2 class="text-[#006AB2] font-bold text-2xl md:text-[50px]">
+            <h2 class="text-[#006AB2] font-semibold text-2xl md:text-[50px]">
                 Turning Challenges Into Opportunities with Expert Consulting
             </h2>
             <p class="mt-2 md:mt-4 text-base md:text-xl text-[#474747]">

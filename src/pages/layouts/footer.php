@@ -45,20 +45,7 @@
                 <li class="text-white" aria-label="Home">PRIVACY POLICY</li>
                 <li class="text-white" aria-label="About Us">TERMS OF SERVICES</li>
                 <li class="text-white relative">
-                    <div class="inline-block relative">
-                        <button class="text-white flex items-center gap-1 dropdown-button cursor-pointer">
-                            <span class="selected-language">ENGLISH</span>
-                            <svg class="w-4 h-4 transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div class="language-dropdown absolute bottom-full -left-12 right-2 mt-2 w-32 bg-white text-black rounded-md shadow-lg hidden z-50">
-                            <ul class="py-1">
-                                <li class="px-4 py-2 cursor-pointer hover:bg-gray-100 text-gray-800" data-language="English">English</li>
-                                <li class="px-4 py-2 cursor-pointer hover:bg-gray-100 text-gray-800" data-language="Indonesia">Indonesia</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <?php $this->insert('components/languages'); ?>
                 </li>
             </ul>
         </div>
