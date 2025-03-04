@@ -1,6 +1,5 @@
 <?php $this->start('components/tag') ?>
     <title>Home</title>
-    <link rel="preload" as="image" href="assets/bg-wrapper.jpeg" imagesrcset="assets/bg-wrapper.jpeg" imagesizes="100vw" fetchpriority="high">
 <?php $this->stop() ?>
 <section class="relative bg-cover bg-center bg-no-repeat p-0 md:p-12 h-[60vh] md:h-[90vh] w-full">
     <div class="absolute inset-0 bg-[url('assets/bg-wrapper.jpeg')] bg-cover bg-center bg-no-repeat opacity-50"></div>
