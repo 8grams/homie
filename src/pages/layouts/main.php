@@ -15,7 +15,9 @@
   </head>
   <body>
     <?=$this->section('navbar')?>
-    <?=$this->section('content')?>
+    <main>
+        <?=$this->section('content')?>
+    </main>
     <?=$this->section('footer')?>
   </body>
 </html>
