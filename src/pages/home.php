@@ -32,4 +32,12 @@ Hello world <?= $user ?>!
 <?= $this->trans('home', 'Rumah') ?>
 </div>
 
+<img src="/banner.jpg" data-asset="contoh-asset-multiple">
+<img src="/banner.jpg" data-asset="contoh-asset-multiple">
+<img src="/banner.jpg" data-asset="contoh-asset-multiple">
+
+<div data-trans="contoh-trans-multiple">Hello world!</div>
+<div data-trans="contoh-trans-multiple">Hello world!</div>
+<div data-trans="contoh-trans-multiple">Hello world!</div>
+
 <div data-trans="home"><?= $this->trans('home', 'Rumah') ?></div>

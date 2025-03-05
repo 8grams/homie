@@ -16,7 +16,7 @@ if ($this->request->getMethod() === 'POST') {
 ?>
 
 <form method="post" action="/admin/login">
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Login</button>
+    <input class="input" type="text" name="username" placeholder="Username" required>
+    <input class="input" type="password" name="password" placeholder="Password" required>
+    <button class="btn btn-primary" type="submit">Login</button>
 </form>
