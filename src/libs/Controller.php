@@ -10,6 +10,17 @@ class Controller extends BaseController
 {
     public function render(Request $request): Response
     {
+        try {
+            return $this->renderPage($request);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            return new Response($e->getMessage(), 500);
+        }
+        
+    }
+
+    public function renderPage(Request $request): Response
+    {
         $path = $request->attributes->get('path');
         if (!$path || empty($path)) {
             $path = 'index';

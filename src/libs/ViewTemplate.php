@@ -21,6 +21,7 @@ class ViewTemplate extends Template
     protected Authenticator $authenticator;
     protected $config;
     protected $locale;
+    protected $slug;
 
     public function setDependencies(
         Request $request, 
@@ -142,5 +143,17 @@ class ViewTemplate extends Template
     public function redirect($url)
     {
         return new RedirectResponse($url);
-    }   
+    }
+
+    public function render(array $data = array())
+    {
+        $this->slug = basename($this->name->getName());
+        if (!file_exists($this->name->getPath())) {
+            $this->name->setName(dirname($this->name->getName()) . "/slug");
+            if (!file_exists($this->name->getPath())) {
+                throw new \Exception("Template file not found");
+            }   
+        }
+        return parent::render($data);
+    }
 }
