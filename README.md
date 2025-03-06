@@ -246,10 +246,10 @@ Homie supports localization out of the box by providing the trans function, whic
 <p><?= $this->trans('home', 'Rumah') ?></p>
 ```
 
-Insert data into the translation table with the schema name, locale, and value. For example, the SQL should be:
+Insert data into the translations table with the schema name, locale, and value. For example, the SQL should be:
 
 ```
-INSERT INTO translation (label, value, locale) VALUES ("home", "Home", "en")
+INSERT INTO translations (label, value, locale) VALUES ("home", "Home", "en")
 ```
 
 ### Accessing pages with localization

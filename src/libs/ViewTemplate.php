@@ -121,7 +121,7 @@ class ViewTemplate extends Template
 
     public function trans($label, $default)
     {
-        $trans = $this->db->init()->find('translation', [], 'label = ? AND locale = ?', [$label, $this->locale]);
+        $trans = $this->db->init()->find('translations', [], 'label = ? AND locale = ?', [$label, $this->locale]);
         if (count($trans) > 0) {
             $tran = array_pop($trans);
             return $this->e($tran->value);
@@ -131,7 +131,7 @@ class ViewTemplate extends Template
 
     public function asset($key, $default)
     {
-        $assets = $this->db->init()->find('asset', [], 'key = ?', [$key]);
+        $assets = $this->db->init()->find('assets', [], 'key = ?', [$key]);
         if (count($assets) > 0) {
             $asset = array_pop($assets);
             return $asset->src;
