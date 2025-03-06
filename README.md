@@ -261,6 +261,14 @@ https://example.com/id/home
 https://example.com/en/home
 ```
 
+## Dynamic Pages
+
+Sometimes, we need a way to handle dynamic URLs or slugs. The best example of this is a blog. Let's say you have a blog, and to access a blog post, you want a URL like `https://example.com/blog/blog-title`, where `blog-title` is often a slug version of the blog's title.
+
+To handle this, Homie uses a special file named `slug.php`. Homie checks the URL, and if the path cannot be mapped to a file in a folder, it will check whether `slug.php` exists. If `slug.php` is present, Homie will use that file to handle the request.
+
+In `slug.php`, you can access the slug using `$this->slug`.
+
 ## Admin Dashboard
 
 Soon

@@ -151,7 +151,11 @@ class ViewTemplate extends Template
         if (!file_exists($this->name->getPath())) {
             $this->name->setName(dirname($this->name->getName()) . "/slug");
             if (!file_exists($this->name->getPath())) {
-                throw new \Exception("Template file not found");
+                // check index.php
+                $this->name->setName(dirname($this->name->getName()) . "/index");
+                if (!file_exists($this->name->getPath())) {
+                    throw new \Exception("Template file not found");
+                }
             }   
         }
         return parent::render($data);

@@ -13,10 +13,8 @@ class Controller extends BaseController
         try {
             return $this->renderPage($request);
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
             return new Response($e->getMessage(), 500);
         }
-        
     }
 
     public function renderPage(Request $request): Response
