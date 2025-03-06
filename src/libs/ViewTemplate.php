@@ -124,9 +124,9 @@ class ViewTemplate extends Template
         $trans = $this->db->init()->find('translation', [], 'label = ? AND locale = ?', [$label, $this->locale]);
         if (count($trans) > 0) {
             $tran = array_pop($trans);
-            return $tran->value;
+            return $this->e($tran->value);
         }
-        return $default;
+        return $this->e($default);
     }
 
     public function asset($key, $default)

@@ -29,7 +29,7 @@ Hello world <?= $user ?>!
 <div>
 <?php $this->loadComponent('drawer') ?>
 
-<?= $this->trans('home', 'Rumah') ?>
+<?= $this->trans('home', 'Rumah<b>x') ?>
 </div>
 
 <img src="/banner.jpg" data-asset="contoh-asset-multiple">
