@@ -13,7 +13,12 @@ class AdminController extends BaseController
     {
         session_start();
 
-        $view = $this->viewEngine->setDirectory($this->config['admin_template']['path'])->make($request->attributes->get('path'));
+        $path = $request->attributes->get('path');
+        if (!$path || empty($path)) {
+            $path = 'index';
+        }
+
+        $view = $this->viewEngine->setDirectory($this->config['admin_template']['path'])->make($path);
         $view->setDependencies(
             $this->request, 
             $this->cache, 

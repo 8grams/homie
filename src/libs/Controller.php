@@ -10,7 +10,12 @@ class Controller extends BaseController
 {
     public function render(Request $request): Response
     {
-        $view = $this->viewEngine->make($request->attributes->get('path'));
+        $path = $request->attributes->get('path');
+        if (!$path || empty($path)) {
+            $path = 'index';
+        }
+
+        $view = $this->viewEngine->make($path);
         $view->setDependencies(
             $this->request, 
             $this->cache, 
