@@ -246,7 +246,7 @@ Homie supports localization out of the box by providing the trans function, whic
 <p><?= $this->trans('home', 'Rumah') ?></p>
 ```
 
-The later arguments is optional and return empty string if Homie cannot handle it. 
+The later arguments is optional and return empty string if Homie cannot handle it. To set default language, use `DEFAULT_LANG` values from `.env`. 
 
 There are two ways to work with translations. The first is using lang JSON files which is located on `src/lang`. The second is, insert data into the translations table with the schema name, locale, and value. For example, the SQL should be:
 
