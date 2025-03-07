@@ -22,6 +22,7 @@ class ViewTemplate extends Template
     protected $config;
     protected $locale;
     protected $slug;
+    protected $langs = [];
 
     public function setDependencies(
         Request $request, 
@@ -36,7 +37,22 @@ class ViewTemplate extends Template
         $this->db = $db;
         $this->client = $client;
         $this->config = $config;
-        $this->locale = $this->request->attributes->get('locale', 'en');
+        $this->locale = $this->request->attributes->get('locale', $this->config['lang']['default']);
+
+        // set langs by loading from lang files
+        $this->langs = $this->loadLangs();
+
+    }
+
+    private function loadLangs()
+    {
+        $jsonFilePath = $this->config['lang']['path'] . '/' . $this->locale . '.json';
+        if (file_exists($jsonFilePath)) {
+            $jsonContent = file_get_contents($jsonFilePath);
+            return json_decode($jsonContent, true);
+        }
+
+        return [];
     }
 
     public function setAdminDependencies(Authenticator $authenticator)
@@ -120,13 +136,22 @@ class ViewTemplate extends Template
         return $this->request->request->all();
     }
 
-    public function trans($label, $default)
+    public function trans($label, $default=null)
     {
         $trans = $this->db->init()->find('translations', [], 'label = ? AND locale = ?', [$label, $this->locale]);
         if (count($trans) > 0) {
             $tran = array_pop($trans);
             return $this->e($tran->value);
         }
+
+        // check on langs
+        if (is_null($default)) {
+            $default = "";
+            if (array_key_exists($label, $this->langs)) {
+                $default = $this->langs[$label];
+            }
+        }
+        
         return $this->e($default);
     }
 
@@ -137,6 +162,7 @@ class ViewTemplate extends Template
             $asset = array_pop($assets);
             return $asset->src;
         }
+        
         return $default;
     }
 

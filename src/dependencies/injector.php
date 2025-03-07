@@ -5,7 +5,6 @@ use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use App\Libs\Cache;
@@ -23,14 +22,6 @@ if (!file_exists(__DIR__.'/../../.env') && file_exists(__DIR__.'/../../.env.exam
     copy(__DIR__.'/../../.env.example', __DIR__.'/../../.env');
 }
 
-$dotenv = new Dotenv();
-$envPath = __DIR__.'/../../.env';
-if (file_exists($envPath)) {
-    $dotenv->loadEnv(__DIR__.'/../../.env', overrideExistingVars: true);
-}
-
-// load config
-$config = require __DIR__.'/config.php';
 
 $container = new ContainerBuilder();
 

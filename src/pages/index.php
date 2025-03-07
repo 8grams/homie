@@ -40,4 +40,4 @@ Hello world <?= $user ?>!
 <div data-trans="contoh-trans-multiple">Hello world!</div>
 <div data-trans="contoh-trans-multiple">Hello world!</div>
 
-<div data-trans="home"><?= $this->trans('home', 'Rumah') ?></div>
+<div data-trans="home"><?= $this->trans('greet') ?></div>

@@ -22,7 +22,7 @@ $routes->add('admin_pages', new Route('/admin/{path}', [
 // using locale
 $routes->add('catch_all_with_locale', new Route('/{locale}/{path}', [
     '_controller' => 'App\Libs\Controller::render',
-    'locale' => 'id',
+    'locale' => $config['lang']['default'],
 ], ['path' => '.*', 'locale' => '[a-z]{2}']));
 
 // not using locale

@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 $request = Request::createFromGlobals();
+$init = include __DIR__ . '/../src/dependencies/init.php';
 $routes = include __DIR__ . '/../src/dependencies/routes.php';
 $container = include __DIR__ . '/../src/dependencies/injector.php';
 

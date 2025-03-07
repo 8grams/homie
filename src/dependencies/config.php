@@ -17,5 +17,9 @@ return [
     'admin' => [
         'username' => $_ENV['ADMIN_USERNAME'],
         'password' => $_ENV['ADMIN_PASSWORD'],
+    ],
+    'lang' => [
+        'default' => $_ENV['DEFAULT_LANG'] ?? 'id',
+        'path' => __DIR__.'/../lang',
     ]
 ];
