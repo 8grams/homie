@@ -10,11 +10,7 @@ class Controller extends BaseController
 {
     public function render(Request $request): Response
     {
-        try {
-            return $this->renderPage($request);
-        } catch (\Exception $e) {
-            return new Response($e->getMessage(), 500);
-        }
+        return $this->renderPage($request);
     }
 
     public function renderPage(Request $request): Response

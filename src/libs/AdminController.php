@@ -55,8 +55,8 @@ class AdminController extends BaseController
             }
 
             if ($path == 'adminer') {
-                $response = require __DIR__ . '/../dependencies/adminer.php';
-                return new Response($response);
+                include_once __DIR__ . '/../adminer/init.php';
+                return new Response();
             }
 
             $response = $view->render();
