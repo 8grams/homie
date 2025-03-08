@@ -53,6 +53,12 @@ class AdminController extends BaseController
             if ($path === 'login') {
                 return new RedirectResponse('home');
             }
+
+            if ($path == 'adminer') {
+                $response = require __DIR__ . '/../dependencies/adminer.php';
+                return new Response($response);
+            }
+
             $response = $view->render();
             return new Response($response);
         }

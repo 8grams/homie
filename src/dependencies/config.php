@@ -7,6 +7,7 @@ return [
     ],
     'database' => [
         'path' => __DIR__.'/../../data/' . $_ENV['SQLITE_DATABASE'],
+        'password' => $_ENV['SQLITE_PASSWORD'],
     ],
     'template' => [
         'path' => __DIR__.'/../pages',
