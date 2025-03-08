@@ -1,6 +1,5 @@
 vendor/
 .env
-
 .idea/
-
 .DS_Store
+wp/
