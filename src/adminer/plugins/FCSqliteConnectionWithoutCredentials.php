@@ -23,11 +23,10 @@ class FCSqliteConnectionWithoutCredentials {
      */
     function loginForm() {
         $adminer = adminer();
-        echo '<div class="error">'.lang('Warning: don\'t use it in a production environment!').'</div>';
         echo "<table cellspacing='0' class='layout'>\n";
         echo '<input type="hidden" name="auth[driver]" value="sqlite">';
         echo $adminer->loginFormField('db', '<tr><th>' . lang('Database') . '<td>',
-          '<input name="auth[db]" value="' . h($_GET["db"]) . '" autocapitalize="off">' . "\n");
+          '<input name="auth[db]" value="../data/homie.db" autocapitalize="off">' . "\n");
         echo "</table>\n";
         echo "<p><input type='submit' value='" . lang('Login') . "'>\n";
         return true;
