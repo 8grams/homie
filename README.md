@@ -15,6 +15,7 @@ Homie is built on top of prominent open-source software to function effectively:
 2. [Symfony Components](https://symfony.com/). Homie utilizes various Symfony Components such as http-foundation, routing, http-kernel, and more
 3. [Redbean](https://redbeanphp.com/) for database connection and ORM
 4. [Plates](https://platesphp.com/) as template engine
+5. [Adminer](https://adminer.org/) as Database Browser
 
 ## Usage
 
@@ -273,4 +274,8 @@ In `slug.php`, you can access the slug using `$this->slug`.
 
 ## Admin Dashboard
 
-Soon
+The admin panel can be accessed through `/_admin`. The login username and password are defined in the `.env` file by setting the `ADMIN_USERNAME` and `ADMIN_PASSWORD` values.
+
+### Adminer
+
+Adminer is already integrated into Homie Admin and can be accessed at `/_admin/adminer`.
