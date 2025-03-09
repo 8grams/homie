@@ -22,7 +22,6 @@ if (!file_exists(__DIR__.'/../../.env') && file_exists(__DIR__.'/../../.env.exam
     copy(__DIR__.'/../../.env.example', __DIR__.'/../../.env');
 }
 
-
 $container = new ContainerBuilder();
 
 $container->register('context', RequestContext::class);
