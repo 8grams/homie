@@ -10,7 +10,7 @@ function generate_key($length = 64) {
     return substr(str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:,.<>?/`~', $length)), 0, $length);
 }
 
-if ($_ENV['ENABLE_BLOG']) {
+if ($_ENV['ENABLE_BLOG'] == 'true') {
     echo "Initiate Wordpress\n";
 
     shell_exec('[ ! -d wp ] && composer create-project 8grams/bedrock wp --no-interaction --remove-vcs || echo "wp already exists, skipping..."');
