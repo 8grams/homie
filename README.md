@@ -272,6 +272,12 @@ To handle this, Homie uses a special file named `slug.php`. Homie checks the URL
 
 In `slug.php`, you can access the slug using `$this->slug`.
 
+## Wordpress Integration
+
+WordPress is incorporated into Homie out of the box and will be installed in the `wp` folder. The installed WordPress already uses SQLite as its default database for persistence and caching and also supports multiple languages.  
+
+To enable WordPress in Homie, simply set `ENABLE_WORDPRESS` in the `.env` file.
+
 ## Admin Dashboard
 
 The admin panel can be accessed through `/_admin`. The login username and password are defined in the `.env` file by setting the `ADMIN_USERNAME` and `ADMIN_PASSWORD` values.
