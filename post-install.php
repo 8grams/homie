@@ -56,5 +56,5 @@ if (file_put_contents($filePath, $envContent) !== false) {
 echo "Successfully initiate wordpress!\n";
 
 echo "Initiate SQLite Database!\n";
-copy(__DIR__ . '/wp/web/app/plugins/sqlite-database-integration/db.copy', '/wp/web/app/plugins/sqlite-database-integration/db.php');
+copy(__DIR__ . '/wp/web/app/plugins/sqlite-database-integration/db.copy', __DIR__ . '/wp/web/app/db.php');
 echo "Successfully initiate SQLite Database!\n";

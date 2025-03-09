@@ -28,11 +28,12 @@
     "require-dev": {
         "heston/heston": "dev-master"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
         "post-install-cmd": [
             "[ ! -d wp ] && composer create-project 8grams/bedrock wp --no-interaction --remove-vcs || echo 'wp already exists, skipping...'",
             "php post-install.php"
-
         ]
     }
 }
