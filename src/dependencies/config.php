@@ -25,4 +25,7 @@ return [
     'cache' => [
         'ttl' => $_ENV['CACHE_TTL'] ?? 3600,
     ],
+    'app' => [
+        'debug' => $_ENV['DEBUG'] == 'true',
+    ]
 ];

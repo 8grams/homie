@@ -7,8 +7,6 @@
 
 $user = "Anton";
 
-die($this->cache->delete('tai'));
-
 // var_dump($this->config);die();
 
 // $rb = $this->db->init();

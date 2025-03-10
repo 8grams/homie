@@ -14,7 +14,7 @@ $routes->add('migrate', new Route('/migrate', [
 ]));
 
 // admin routes
-$routes->add('admin_pages', new Route('/_admin/{path}', [
+$routes->add('admin_pages', new Route('/admin/{path}', [
     '_controller' => 'App\Libs\AdminController::render',
 ], ['path' => '.*']));
 
