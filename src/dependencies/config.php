@@ -21,5 +21,8 @@ return [
     'lang' => [
         'default' => $_ENV['DEFAULT_LANG'] ?? 'id',
         'path' => __DIR__.'/../lang',
-    ]
+    ],
+    'cache' => [
+        'ttl' => $_ENV['CACHE_TTL'] ?? 3600,
+    ],
 ];

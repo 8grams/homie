@@ -3,8 +3,8 @@
 namespace App\Libs;
 
 use App\Libs\Interfaces\HttpClientInterface;
+use App\Libs\Interfaces\CacheInterface;
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\Cache\CacheInterface;
 
 class WordpressHttpClient implements HttpClientInterface
 {

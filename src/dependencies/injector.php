@@ -32,6 +32,10 @@ $container->register('db', SQLiteDatabase::class)
     ->setArguments([
         'connection' => 'sqlite:' . $config['database']['path'], 
     ]);
+$container->register('cache', Cache::class)
+    ->setArguments([
+        $container->get('db')
+    ]);
 $container->register('httpClient', HttpClient::class);
 $container->register('wpHttpClient', WordpressHttpClient::class)
     ->setArguments([

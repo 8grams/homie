@@ -2,15 +2,14 @@
 
 namespace App\Libs;
 
-use App\Libs\Auth\Authenticator;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use League\Plates\Template\Template;
 use App\Libs\Interfaces\DataStoreInterface;
 use App\Libs\Interfaces\HttpClientInterface;
+use App\Libs\Interfaces\CacheInterface;
+use App\Libs\Auth\Authenticator;
 use App\Libs\ViewEngine;
-use R;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Contracts\Cache\CacheInterface;
 
 class ViewTemplate extends Template 
 {

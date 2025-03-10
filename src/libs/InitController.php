@@ -54,7 +54,6 @@ class InitController extends BaseController
             }
         }
         
-
         foreach ($this->getMigrations() as $filename => $content) {
             $filename = basename($filename);
             $rb->exec($content);
