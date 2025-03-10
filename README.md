@@ -20,6 +20,18 @@ Homie is built on top of prominent open-source software to function effectively:
 
 ## Usage
 
+### Prerequisites
+
+- PHP >= 8
+- Modules: php-mbstring, php-xml, php-sqlite, php-curl
+
+### Install
+
+```
+composer require 8grams/homie
+```
+
+### Working with pages
 `pages` directory is where we, as homepage web developers, works most of time. Homie directly maps basic URLs to the `pages` directory. For example, if you want to have URL like this
 
 ```
@@ -73,7 +85,7 @@ $id = $rb->store( $book );
 Make PHP Module for SQLite3 is already installed. For example, in Debian you install it with
 
 ```
-~$ sudo apt install php8.3-sqlite3
+~$ sudo apt install php8.3-sqlite3 php8.3-curl php8.3-mbstring php8.3-xml
 ```
 
 To initiate Homie, execute `/init` path once. This path will initialize database and configure some settings
