@@ -135,6 +135,12 @@ class ViewTemplate extends Template
         return $this->request->request->all();
     }
 
+    // https://symfony.com/doc/current/session.html
+    public function getSession()
+    {
+        return $this->request->getSession();
+    }
+
     public function trans($label, $default=null)
     {
         $trans = $this->db->init()->find('translations', [], 'label = ? AND locale = ?', [$label, $this->locale]);
