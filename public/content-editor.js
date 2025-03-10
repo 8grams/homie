@@ -1,4 +1,4 @@
-import Alpine from "https://esm.sh/alpinejs@3.14.8";
+import Alpine from "https://esm.sh/alpinejs@3.14.8/es2022/alpinejs.mjs";
 
 class ContentEditor {
   constructor() {
@@ -117,5 +117,4 @@ const unwrap = (wrapper) => {
 };
 
 Alpine.data("contentEditor", () => new ContentEditor());
-
 Alpine.start();
