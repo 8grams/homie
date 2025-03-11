@@ -1,8 +1,8 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/src/dependencies/rb-sqlite.php';
 
 use Symfony\Component\Dotenv\Dotenv;
-use R;
 
 $dotenv = new Dotenv();
 $dotenv->loadEnv(__DIR__.'/.env', overrideExistingVars: true);
@@ -14,14 +14,18 @@ function generateKey($length = 64) {
 function initDatabase()
 {
     echo "Initiate Database\n";
+    R::setup("sqlite:". __DIR__.'/data/' . $_ENV['SQLITE_DATABASE']);
+    R::useFeatureSet('novice/latest');
+
     $rb = R::getPDO();
 
     // check if migrations table exists
     $table = $rb->query('SELECT name FROM sqlite_master WHERE type="table" AND name="migrations";');
     $result = $table->fetch();
+
     if ($result) {
         if (count($result) > 0) {
-            migrateDatabase();
+            migrateDatabase($rb);
             return;
         }
     }
@@ -35,10 +39,8 @@ function initDatabase()
     echo "Initialization success";
 }
 
-function migrateDatabase()
+function migrateDatabase($rb)
 {
-    $rb = R::getPDO();
-
     // get migrations data from migrations table
     $migrations = $rb->query('SELECT name FROM migrations')->fetchAll();
     $migrations = array_map(function($migration) {
