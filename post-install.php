@@ -2,13 +2,76 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\Dotenv\Dotenv;
+use R;
 
 $dotenv = new Dotenv();
 $dotenv->loadEnv(__DIR__.'/.env', overrideExistingVars: true);
 
-function generate_key($length = 64) {
+function generateKey($length = 64) {
     return substr(str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:,.<>?/`~', $length)), 0, $length);
 }
+
+function initDatabase()
+{
+    echo "Initiate Database\n";
+    $rb = R::getPDO();
+
+    // check if migrations table exists
+    $table = $rb->query('SELECT name FROM sqlite_master WHERE type="table" AND name="migrations";');
+    $result = $table->fetch();
+    if ($result) {
+        if (count($result) > 0) {
+            migrateDatabase();
+            return;
+        }
+    }
+    
+    foreach (getMigrations() as $filename => $content) {
+        $filename = basename($filename);
+        $rb->exec($content);
+        $rb->exec('INSERT INTO migrations (name, created_time) VALUES ("'.$filename.'", "'.date('Y-m-d H:i:s').'")');
+    }
+
+    echo "Initialization success";
+}
+
+function migrateDatabase()
+{
+    $rb = R::getPDO();
+
+    // get migrations data from migrations table
+    $migrations = $rb->query('SELECT name FROM migrations')->fetchAll();
+    $migrations = array_map(function($migration) {
+        return $migration['name'];
+    }, $migrations);
+
+    foreach (getMigrations() as $filename => $content) {
+        // only run the migration if it's not already in the migrations table
+        if (in_array(basename($filename), $migrations)) {
+            continue;
+        }
+
+        $filename = basename($filename);
+        $rb->exec($content);
+        $rb->exec('INSERT INTO migrations (Name) VALUES ("'.$filename.'")');
+    }
+
+    echo "Migration success";
+}
+
+function getMigrations() 
+{
+    $migrations = glob(__DIR__ . '/src/migrations/*.sql');
+    natsort($migrations);
+    $migrationData = [];
+    foreach ($migrations as $migration) {
+        $migrationData[$migration] = file_get_contents($migration);
+    }
+
+    return $migrationData;
+}
+
+initDatabase();
 
 if ($_ENV['ENABLE_BLOG'] == 'true') {
     echo "Initiate Wordpress\n";
@@ -20,14 +83,14 @@ if ($_ENV['ENABLE_BLOG'] == 'true') {
         'WP_ENV' => 'production',
         'WP_HOME' => $_ENV['BLOG_DOMAIN'],
         'WP_SITEURL' => $_ENV['BLOG_SITE_URL'],
-        'AUTH_KEY' => generate_key(),
-        'SECURE_AUTH_KEY' => generate_key(),
-        'LOGGED_IN_KEY' => generate_key(),
-        'NONCE_KEY' => generate_key(),
-        'AUTH_SALT' => generate_key(),
-        'SECURE_AUTH_SALT' => generate_key(),
-        'LOGGED_IN_SALT' => generate_key(),
-        'NONCE_SALT' => generate_key(),
+        'AUTH_KEY' => generateKey(),
+        'SECURE_AUTH_KEY' => generateKey(),
+        'LOGGED_IN_KEY' => generateKey(),
+        'NONCE_KEY' => generateKey(),
+        'AUTH_SALT' => generateKey(),
+        'SECURE_AUTH_SALT' => generateKey(),
+        'LOGGED_IN_SALT' => generateKey(),
+        'NONCE_SALT' => generateKey(),
     ];
 
     // Generate .env file content
