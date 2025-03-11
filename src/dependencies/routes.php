@@ -4,6 +4,15 @@ use Symfony\Component\Routing\Route;
 
 $routes = new RouteCollection();
 
+// migrate via web, in case cpanel is only the option and cannot run composer install
+$routes->add('init', new Route('/init', [
+    '_controller' => 'App\Libs\InitController::init',
+]));
+
+$routes->add('migrate', new Route('/migrate', [
+    '_controller' => 'App\Libs\InitController::migrate',
+]));
+
 // admin routes
 $routes->add('admin_pages', new Route('/admin/{path}', [
     '_controller' => 'App\Libs\AdminController::render',
