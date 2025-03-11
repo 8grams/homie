@@ -287,11 +287,11 @@ In `slug.php`, you can access the slug using `$this->slug`.
 
 ## Wordpress Integration
 
-WordPress is incorporated into Homie out of the box and will be installed in the `/wp` folder. The installed WordPress already uses SQLite as its default database for persistence and caching and also supports multiple languages.
+WordPress is incorporated into Homie out of the box and will be installed in the `/wp` folder. The installed WordPress already uses SQLite as its default database for persistence, and alos caching and multi languages plugins.
 
 The WordPress that will be installed comes from [8grams's Bedrock](https://github.com/8grams/bedrock), a custom Bedrock WordPress forked from `roots/bedrock`. It enables Homie to install WordPress along with its plugins through Composer.
 
-To enable WordPress in Homie, simply set `ENABLE_WORDPRESS` in the `.env` file.
+To enable WordPress in Homie, simply set `ENABLE_BLOG` in the `.env` file.
 
 ## Admin Dashboard
 
