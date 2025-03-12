@@ -1,5 +1,6 @@
 <?php
 
+/** @var \App\Libs\ViewTemplate $this */
 // accessing helper
 // var_dump($this->data["cache"]);
 
@@ -22,22 +23,22 @@ $user = "Anton";
 Hello world <?= $user ?>!
 
 <?php $this->start('navbar') ?>
-    <h1>Override Navbar</h1>
-    <p>New Navbar</p>
+<h1>Override Navbar</h1>
+<p>New Navbar</p>
 <?php $this->stop() ?>
 
 <div>
-<?php $this->loadComponent('drawer') ?>
+    <?php $this->loadComponent('drawer') ?>
 
-<?= $this->trans('home', 'Rumah<b>x') ?>
+    <?= $this->trans('home', 'Rumah<b>x') ?>
 </div>
 
 <img src="/banner.jpg" data-asset="contoh-asset-multiple">
 <img src="/banner.jpg" data-asset="contoh-asset-multiple">
 <img src="/banner.jpg" data-asset="contoh-asset-multiple">
 
-<div data-trans="contoh-trans-multiple">Hello world!</div>
-<div data-trans="contoh-trans-multiple">Hello world!</div>
-<div data-trans="contoh-trans-multiple">Hello world!</div>
+<div data-trans="contoh-trans-multiple"><?= $this->trans('contoh-trans-multiple', 'Trans multiple') ?></div>
+<div data-trans="contoh-trans-multiple"><?= $this->trans('contoh-trans-multiple', 'Trans multiple') ?></div>
+<div data-trans="contoh-trans-multiple"><?= $this->trans('contoh-trans-multiple', 'Trans multiple') ?></div>
 
 <div data-trans="home"><?= $this->trans('home', 'Rumah') ?></div>
