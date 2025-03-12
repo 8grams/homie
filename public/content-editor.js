@@ -4,7 +4,14 @@ class ContentEditor {
   constructor() {
     this.entries = [];
     this.wrappers = null;
-    this.lines = [];
+    this.langs = ["en", "id"];
+    this.selectedLang = new URL(location).searchParams.get("lang") ?? "en";
+  }
+
+  init() {
+    Alpine.effect(() => {
+      history.replaceState(null, "", "?lang=" + this.selectedLang);
+    });
   }
 
   load() {
@@ -79,23 +86,6 @@ class ContentEditor {
     this.entry.els.forEach((el) => {
       el.src = url;
     });
-  }
-
-  save() {
-    this.lines = JSON.stringify(
-      this.entries.map(({ type, key, value }) => {
-        return { type, key, value };
-      }),
-      null,
-      2
-    )
-      .split(/\n/)
-      .map((text, index) => {
-        return {
-          number: index + 1,
-          text,
-        };
-      });
   }
 }
 
