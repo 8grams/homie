@@ -3,6 +3,7 @@
 namespace App\Libs;
 
 use App\Libs\Interfaces\BaseController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,6 +19,10 @@ class Controller extends BaseController
         $path = $request->attributes->get('path');
         if (!$path || empty($path)) {
             $path = 'index';
+        }
+
+        if ($path === 'admin') {
+            return new RedirectResponse('admin/home');
         }
 
         $view = $this->viewEngine->make($path);

@@ -23,8 +23,8 @@ class Wordpress implements BlogInterface
     ) {
         $this->config = $config;
         $this->client = $client->withOptions([
-            'base_uri' => $config['url'],
-            'auth_basic' => [$config['username'], $this->config['password']],
+            'base_uri' => $config['blog']['url'],
+            'auth_basic' => [$config['blog']['username'], $this->config['blog']['password']],
         ]);
 
         $this->cache = $cache;

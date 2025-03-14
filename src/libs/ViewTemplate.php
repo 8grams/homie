@@ -205,6 +205,7 @@ class ViewTemplate extends Template
                 }
             }
         }
+
         return parent::render($data);
     }
 }
