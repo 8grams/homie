@@ -2,8 +2,10 @@
 
 return [
     'blog' => [
-        'key' => $_ENV['BLOG_API_KEY'],
+        'username' => $_ENV['BLOG_API_USERNAME'],
+        'password' => $_ENV['BLOG_API_PASSWORD'],
         'url' => $_ENV['BLOG_API_URL'],
+        'enable_cache' => $_ENV['BLOG_API_ENABLE_CACHE'] == 'true',
     ],
     'database' => [
         'path' => __DIR__.'/../../data/' . $_ENV['SQLITE_DATABASE'],

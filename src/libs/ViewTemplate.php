@@ -6,9 +6,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use League\Plates\Template\Template;
 use App\Libs\Interfaces\DataStoreInterface;
-use App\Libs\Interfaces\HttpClientInterface;
 use App\Libs\Interfaces\CacheInterface;
 use App\Libs\Auth\Authenticator;
+use App\Libs\Interfaces\BlogInterface;
 use App\Libs\ViewEngine;
 
 class ViewTemplate extends Template 
@@ -16,7 +16,7 @@ class ViewTemplate extends Template
     protected Request $request; 
     protected CacheInterface $cache;
     protected DataStoreInterface $db; 
-    protected HttpClientInterface $client;
+    protected BlogInterface $blog;
     protected Authenticator $authenticator;
     protected $config;
     protected $locale;
@@ -27,14 +27,14 @@ class ViewTemplate extends Template
         Request $request, 
         CacheInterface $cache, 
         DataStoreInterface $db, 
-        HttpClientInterface $client,
+        BlogInterface $blog,
         $config = []
         )
     {
         $this->request = $request;
         $this->cache = $cache;
         $this->db = $db;
-        $this->client = $client;
+        $this->blog = $blog;
         $this->config = $config;
         $this->locale = $this->request->attributes->get('locale', $this->config['lang']['default']);
 
@@ -178,8 +178,24 @@ class ViewTemplate extends Template
 
     public function render(array $data = array())
     {
+        $file = basename($this->name->getFile());
+        // check if this empty file
+        if ($file == ".php")  {
+            $this->name->setName($this->name->getName() . "/index");
+            return parent::render($data);
+        }
+
         $this->slug = basename($this->name->getName());
         if (!file_exists($this->name->getPath())) {
+            $currentName = clone $this->name;
+            if (!str_ends_with($this->name->getName(), "/")) {
+                $this->name->setName($this->name->getName() . "/index");
+                if (file_exists($this->name->getPath())) {
+                    return parent::render($data);
+                }   
+            }
+
+            $this->name = $currentName;
             $this->name->setName(dirname($this->name->getName()) . "/slug");
             if (!file_exists($this->name->getPath())) {
                 // check index.php
@@ -187,7 +203,7 @@ class ViewTemplate extends Template
                 if (!file_exists($this->name->getPath())) {
                     throw new \Exception("Template file not found");
                 }
-            }   
+            }
         }
         return parent::render($data);
     }

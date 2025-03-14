@@ -6,7 +6,6 @@
 // override 
 
 $user = "Anton";
-
 // var_dump($this->config);die();
 
 // $rb = $this->db->init();

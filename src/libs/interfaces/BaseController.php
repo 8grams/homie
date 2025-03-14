@@ -5,7 +5,7 @@ namespace App\Libs\Interfaces;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Libs\Interfaces\DataStoreInterface;
-use App\Libs\Interfaces\HttpClientInterface;
+use App\Libs\Interfaces\BlogInterface;
 use App\Libs\Interfaces\CacheInterface;
 use App\Libs\Auth\Authenticator;
 use App\Libs\ViewEngine;
@@ -16,7 +16,7 @@ class BaseController
     protected Request $request;
     protected CacheInterface $cache;
     protected DataStoreInterface $db;
-    protected HttpClientInterface $client;
+    protected BlogInterface $blog;
     protected ViewEngine $viewEngine;
     protected Authenticator $authenticator;
     protected $config;
@@ -25,7 +25,7 @@ class BaseController
         Request $request, 
         CacheInterface $cache, 
         DataStoreInterface $db, 
-        HttpClientInterface $client,
+        BlogInterface $blog,
         ViewEngine $viewEngine,
         Authenticator $authenticator,
         $config = []
@@ -34,7 +34,7 @@ class BaseController
         $this->request = $request;
         $this->cache = $cache;
         $this->db = $db;
-        $this->client = $client;
+        $this->blog = $blog;
         $this->viewEngine = $viewEngine;
         $this->authenticator = $authenticator;
         $this->config = $config;

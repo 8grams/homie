@@ -25,7 +25,7 @@ class Controller extends BaseController
             $this->request, 
             $this->cache, 
             $this->db, 
-            $this->client,
+            $this->blog,
             $this->config
         );
 
