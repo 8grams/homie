@@ -28,7 +28,7 @@ Homie is built on top of prominent open-source software to function effectively:
 ### Install
 
 ```
-composer require 8grams/homie
+composer create-project 8grams/homie
 ```
 
 ### Working with pages
@@ -291,7 +291,11 @@ WordPress is incorporated into Homie out of the box and will be installed in the
 
 The WordPress that will be installed comes from [8grams's Bedrock](https://github.com/8grams/bedrock), a custom Bedrock WordPress forked from `roots/bedrock`. It enables Homie to install WordPress along with its plugins through Composer.
 
-To enable WordPress in Homie, simply set `ENABLE_BLOG` in the `.env` file.
+To enable WordPress in Homie, simply set `ENABLE_BLOG` in the `.env` file, and run
+
+```
+composer install
+```
 
 ## Admin Dashboard
 
