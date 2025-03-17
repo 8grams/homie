@@ -1,6 +1,4 @@
-<?php
-
-$navbar = 'Hello, World!';
-
-?>
-<h1>Navbar</h1>
+<header>
+    <h1>Homie</h1>
+    <p class="tagline">Symfony-based PHP Framework for creating homepage</p>
+</header>

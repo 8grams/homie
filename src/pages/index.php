@@ -1,42 +1,37 @@
-<?php
+<main>
+    <section class="readme">
+        <h2>Welcome to Homie</h2>
+        <p>Homie is a PHP framework designed for developers who want to build homepage quickly and efficiently. Built on top of proven technologies and pre-configured with essential tools, Homie helps you focus on building your homepage rather than dealing with complex frameworks and tools.</p>
+    </section>
 
-// accessing helper
-// var_dump($this->data["cache"]);
+    <section class="highlights">
+        <h2>Key Highlights</h2>
+        <div class="highlight-grid">
+            <div class="highlight">
+                <h3>Symfony Based</h3>
+                <p>Built on the robust <a href="https://symfony.com/components">Symfony Component</a>, providing a solid foundation with proven components and best practices.</p>
+            </div>
+            <div class="highlight">
+                <h3>SQLite Support</h3>
+                <p>Comes with SQLite support out of the box from <a href="redbeanphp.com">RedbeanPHP</a>, perfect for rapid development and lightweight applications.</p>
+            </div>
+            <div class="highlight">
+                <h3>Plates Template Engine</h3>
+                <p>Uses <a href="platesphp.com">Plates</a> as the default template engine, offering a simple and powerful way to create dynamic views.</p>
+            </div>
+            <div class="highlight">
+                <h3><a href="https://github.com/8grams/bedrock">WordPress</a> & <a href="https://www.adminer.org/">Adminer</a> Included</h3>
+                <p>Incorporates WordPress and Adminer by default, providing content management and database administration tools.</p>
+            </div>
+        </div>
+    </section>
 
-// override 
-
-$user = "Anton";
-// var_dump($this->config);die();
-
-// $rb = $this->db->init();
-// $book = $rb->dispense('book');
-// $book->author = "glend";
-// $id = $rb->store( $book );
-
-// db, cache, curl/http client
-
-?>
-
-<h1>Home</h1>
-Hello world <?= $user ?>!
-
-<?php $this->start('navbar') ?>
-    <h1>Override Navbar</h1>
-    <p>New Navbar</p>
-<?php $this->stop() ?>
-
-<div>
-<?php $this->loadComponent('drawer') ?>
-
-<?= $this->trans('home', 'Rumah<b>x') ?>
-</div>
-
-<img src="/banner.jpg" data-asset="contoh-asset-multiple">
-<img src="/banner.jpg" data-asset="contoh-asset-multiple">
-<img src="/banner.jpg" data-asset="contoh-asset-multiple">
-
-<div data-trans="contoh-trans-multiple">Hello world!</div>
-<div data-trans="contoh-trans-multiple">Hello world!</div>
-<div data-trans="contoh-trans-multiple">Hello world!</div>
-
-<div data-trans="home"><?= $this->trans('greet') ?></div>
+    <section class="cta">
+        <a href="https://github.com/8grams/homie" class="btn">
+            <svg class="github-mark" viewBox="0 0 16 16" fill="currentColor">
+                <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            View on GitHub
+        </a>
+    </section>
+</main>

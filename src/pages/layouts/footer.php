@@ -1,1 +1,8 @@
-<h1>Footer</h1>
+<?php
+
+$year = date('Y');
+?>
+
+<footer>
+    <p>© <?= $year ?> Homie. Open source under MIT License.</p>
+</footer>
