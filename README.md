@@ -1,4 +1,9 @@
-# homie
+<p align="center">
+    <img alt="Ravage" src="https://raw.githubusercontent.com/8grams/homie/refs/heads/develop/assets/logo.png" height="200">
+</p>
+
+
+# Homie
 
 Homie is a simple Symfony-based PHP framework designed specifically for creating homepages.
 

@@ -1,11 +1,11 @@
 <main>
     <section class="readme">
         <h2>Welcome to Homie</h2>
-        <p>Homie is a PHP framework designed for developers who want to build homepage quickly and efficiently. Built on top of proven technologies and pre-configured with essential tools, Homie helps you focus on building your homepage rather than dealing with complex frameworks and tools.</p>
+        <p>Homepage should have minimal features, but common PHP frameworks are quite complex because they are designed to tackle complex problems when creating web applications. Homie is different, it is designed for building simple homepages that can be installed anywhere, even on a cheap shared hosting provider.</p>
     </section>
 
     <section class="highlights">
-        <h2>Key Highlights</h2>
+        <h2>Features</h2>
         <div class="highlight-grid">
             <div class="highlight">
                 <h3>Symfony Based</h3>
@@ -20,8 +20,8 @@
                 <p>Uses <a href="platesphp.com">Plates</a> as the default template engine, offering a simple and powerful way to create dynamic views.</p>
             </div>
             <div class="highlight">
-                <h3><a href="https://github.com/8grams/bedrock">WordPress</a> & <a href="https://www.adminer.org/">Adminer</a> Included</h3>
-                <p>Incorporates WordPress and Adminer by default, providing content management and database administration tools.</p>
+                <h3>WordPress & Adminer Included</h3>
+                <p>Incorporates <a href="https://github.com/8grams/bedrock">WordPress and <a href="https://www.adminer.org/">Adminer</a> by default, providing content management and database administration tools.</p>
             </div>
         </div>
     </section>
