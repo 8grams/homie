@@ -2,10 +2,10 @@
 
 namespace App\Libs\Interfaces;
 
+use App\Libs\Models\Blog\Post;
+
 interface BlogInterface
 {
-    public function getHighlight(array $options = []): array;
     public function getPosts(array $options = []): array;
-    public function getPostBySlug(string $slug): array;
-    public function getPostById(int $id): array;
+    public function getPostById(int $id): Post;
 }

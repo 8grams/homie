@@ -10,6 +10,7 @@
             "App\\Libs\\": "src/libs/",
             "App\\Libs\\Auth\\": "src/libs/auth",
             "App\\Libs\\Models\\": "src/libs/models",
+            "App\\Libs\\Models\\Blog\\": "src/libs/models/blog",
             "App\\Libs\\Interfaces\\": "src/libs/interfaces/",
             "Adminer\\": "src/adminer/"
         }

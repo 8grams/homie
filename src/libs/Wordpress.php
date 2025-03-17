@@ -4,6 +4,10 @@ namespace App\Libs;
 
 use App\Libs\Interfaces\BlogInterface;
 use App\Libs\Interfaces\CacheInterface;
+use App\Libs\Models\Blog\Author;
+use App\Libs\Models\Blog\Category;
+use App\Libs\Models\Blog\Tag;
+use App\Libs\Models\Blog\Post;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Wordpress implements BlogInterface
@@ -28,6 +32,7 @@ class Wordpress implements BlogInterface
         ]);
 
         $this->cache = $cache;
+        $this->cacheAge = $this->config['cache']['ttl'];
         $this->cacheEnabled = $this->config['blog']['enable_cache'];
         $this->defaultLang = $this->config['lang']['default'];
         $this->options = [
@@ -39,24 +44,9 @@ class Wordpress implements BlogInterface
         ];
     }
     
-    public function getPosts(array $options = []): array
+    private function retrievePosts(array $options = []): array
     {
-        return [];
-    }
-
-    public function getPostBySlug(string $slug): array
-    {
-        return [];
-    }
-
-    public function getPostById(int $id): array
-    {
-        return [];
-    }
-
-    public function getHighlight(array $options = []): array
-    {
-        $highlights = [];
+        $posts = [];
         $useOptions = array_merge($this->options, $options);
 
         if ($this->cacheEnabled) {
@@ -67,10 +57,62 @@ class Wordpress implements BlogInterface
 
         // construct blog post
         foreach ($response->toArray() as $post) {
+            $posts[] = $this->constructPost($post);
+        }
+        
+        return $posts;
+    }
 
+    private function retrieveSinglePost(int $id): Post
+    {
+        $response = $this->client->request('GET', 'posts/' . $id, ['query' => ['_embed' => true]]);
+        $post = $response->toArray();
+        return $this->constructPost($post);
+    }
+
+    private function constructPost($post)
+    {
+        $author = new Author(
+            $post['_embedded']['author'][0]['id'],
+            $post['_embedded']['author'][0]['name'],
+            $post['_embedded']['author'][0]['avatar_urls']['96']
+        );
+
+        $categories = [];
+        $blogc = $post['_embedded']['wp:term'][0];
+        foreach ($blogc as $category) {
+            $categories[] = new Category($category['id'], $category['name'], $category['slug']);
         }
 
-        return $highlights;
+        $tags = [];
+        $blogt = $post['_embedded']['wp:term'][1];
+        foreach ($blogt as $tag) {
+            $tags[] = new Tag($tag['id'], $tag['name'], $tag['slug']);
+        }
+
+        return new Post(
+            $post['id'],
+            $post['title']['rendered'],
+            $categories,
+            $tags,
+            $post['excerpt']['rendered'],
+            $post['content']['rendered'],
+            $author,
+            date("d M Y", strtotime($post['date'])),
+            $post['link'],
+            isset($post['_embedded']['wp:featuredmedia']) ? $post['_embedded']['wp:featuredmedia'][0]['source_url'] : "https://raw.githubusercontent.com/8grams/homie/refs/heads/develop/assets/logo.png",
+            $post['slug']
+        );
+    }
+
+    public function getPosts(array $options = []): array
+    {
+        return $this->retrievePosts($options);
+    }
+
+    public function getPostById(int $id): Post
+    {
+        return $this->retrieveSinglePost($id);
     }
 
     private function getCacheKey($url, $options)

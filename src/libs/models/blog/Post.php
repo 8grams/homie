@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Libs\Models;
+namespace App\Libs\Models\Blog;
 
-class BlogCard
+use App\Libs\Models\Blog\Author;
+
+class Post
 {
+    private $id;
     private $title;
-    private $category;
+    private $categories;
+    private $tags = [];
+    private $excerpt;
     private $content;
     private $author;
     private $date;
@@ -15,8 +20,11 @@ class BlogCard
     private $relatedPosts = [];
 
     public function __construct(
+        $id,
         $title,
-        $category,
+        $categories,
+        $tags,
+        $excerpt,
         $content,
         $author,
         $date,
@@ -25,8 +33,11 @@ class BlogCard
         $slug,
         $relatedPosts = []
     ) {
+        $this->id = $id;
         $this->title = $title;
-        $this->category = $category;
+        $this->categories = $categories;
+        $this->tags = $tags;
+        $this->excerpt = $excerpt;
         $this->content = $content;
         $this->author = $author;
         $this->date = $date;
@@ -36,14 +47,29 @@ class BlogCard
         $this->relatedPosts = $relatedPosts;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getCategory(): string
+    public function getCategories(): array
     {
-        return $this->category;
+        return $this->categories;
+    }
+
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    public function getExcerpt(): string
+    {
+        return $this->excerpt;
     }
 
     public function getContent(): string
@@ -51,7 +77,7 @@ class BlogCard
         return $this->content;
     }
 
-    public function getAuthor(): string
+    public function getAuthor(): Author
     {
         return $this->author;
     }
