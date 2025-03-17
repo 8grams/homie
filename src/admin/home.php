@@ -5,6 +5,8 @@ if ($this->request->getMethod() == 'POST') {
   $payload = $this->request->getPayload();
   $lang = $payload->get('lang');
   $trans = $payload->all('trans');
+  /** @var \Symfony\Component\HttpFoundation\File\UploadedFile[] */
+  $asset = $this->request->files->all('asset');
   $pdo = $this->db->getPDO();
   $statement = $pdo->prepare("
     INSERT INTO translations (locale, label, value)
@@ -21,7 +23,31 @@ if ($this->request->getMethod() == 'POST') {
       'value' => $value,
     ]);
   }
-  //TODO Upsert asset: Uploadnya gimana?
+  $getAsset = $pdo->prepare("SELECT * FROM assets WHERE key = ?");
+  $setAsset = $pdo->prepare("
+    INSERT INTO assets (key, src)
+    VALUES (:key, :src)
+    ON CONFLICT (key) DO UPDATE
+    SET src = :src
+    WHERE key = :key
+  ");
+  foreach ($asset as $key => $file) {
+    if (!$file) {
+      continue;
+    }
+    $ext = $file->getClientOriginalExtension();
+    $src = '/data/assets/' . $key . '.' . $ext;
+    $getAsset->execute([$key]);
+    $row = $getAsset->fetch();
+    if ($row) {
+      @unlink('..' . $row['src']);
+    }
+    $file->move('../data/assets', $key . '.' . $ext);
+    $setAsset->execute([
+      'key' => $key,
+      'src' => $src,
+    ]);
+  }
   $pdo->commit();
   header('Location: ' . $this->request->getUri());
   exit;
