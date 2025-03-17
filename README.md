@@ -89,13 +89,13 @@ $this->cache->set("book", $id);
 Make PHP Module for SQLite3 is already installed. For example, in Debian you install it with
 
 ```
-~$ sudo apt install php8.3-sqlite3 php8.3-curl php8.3-mbstring php8.3-xml
+sudo apt install php8.3-sqlite3 php8.3-curl php8.3-mbstring php8.3-xml
 ```
 
 To initiate Homie, execute `/init` path once. This path will initialize database and configure some settings
 
 ```
-~$ curl -v https://example.com/init
+curl -v https://example.com/init
 ```
 
 ### Local Development
@@ -239,13 +239,13 @@ $name = $this->getJsonPayload("name");
 All migrations are located on `migrations` directory. To create new migration, add a file with format `[order number]_[migration name].sql`
 
 ```
-~$ touch migrations/004_create_user_table.sql
+touch migrations/004_create_user_table.sql
 ```
 
 And execute `/migrate` path
 
 ```
-~$ curl -v https://example.com/migrate
+curl -v https://example.com/migrate
 ```
 
 ## Environment Variables
