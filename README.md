@@ -76,9 +76,8 @@ $book = $rb->dispense('book');
 $book->author = "glend";
 $id = $rb->store( $book );
 
-// get cache instance
-// $cache = $this->cache;
-// $cache->set("book", $id);
+// set cache instance
+$this->cache->set("book", $id);
 
 ?>
 
