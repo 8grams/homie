@@ -1,5 +1,5 @@
 <?php
-    $highlights = $this->blog->getPosts(['per_page' => 3]);
+    $highlights = $this->blog->getPosts();
 ?>
 
 <?php $this->start('components/tag') ?>

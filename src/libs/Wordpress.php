@@ -115,6 +115,27 @@ class Wordpress implements BlogInterface
         return $this->retrieveSinglePost($id);
     }
 
+    public function getPostsByCategory(int $categoryId, array $options = []): array
+    {
+        $options['categories'] = [$categoryId];
+        $useOptions = array_merge($this->options, $options);
+        return $this->retrievePosts($useOptions);
+    }
+
+    public function getPostsByTag(int $tagId, array $options = []): array
+    {
+        $options['tags'] = [$tagId];
+        $useOptions = array_merge($this->options, $options);
+        return $this->retrievePosts($useOptions);
+    }
+
+    public function getPostsByAuthor(int $authorId, array $options = []): array
+    {
+        $options['author'] = [$authorId];
+        $useOptions = array_merge($this->options, $options);
+        return $this->retrievePosts($useOptions);
+    }
+
     private function getCacheKey($url, $options)
     {
         return sha1($url . serialize($options));
