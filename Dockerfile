@@ -1,6 +1,7 @@
 FROM php:8.3.6-apache-bookworm
 
 RUN apt-get update && apt-get install -y libzip-dev libsqlite3-dev git curl
+RUN docker-php-ext-install zip
 COPY --from=composer:2.8.5 /usr/bin/composer /usr/bin/composer
 
 COPY . .
