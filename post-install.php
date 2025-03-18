@@ -5,7 +5,10 @@ require __DIR__ . '/src/dependencies/rb-sqlite.php';
 use Symfony\Component\Dotenv\Dotenv;
 
 $dotenv = new Dotenv();
-$dotenv->loadEnv(__DIR__.'/.env', overrideExistingVars: true);
+$envPath = __DIR__.'/.env';
+if (file_exists($envPath)) {
+    $dotenv->loadEnv($envPath, overrideExistingVars: true);
+}
 
 function generateKey($length = 64) {
     return substr(str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:,.<>?/`~', $length)), 0, $length);
