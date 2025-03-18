@@ -51,7 +51,7 @@ class AdminController extends BaseController
         } else { // handle authenticated user
             // if user try to access login page, redirect to home page
             if ($path === 'login') {
-                return new RedirectResponse('home');
+                return new RedirectResponse('index');
             }
 
             if ($path == 'adminer') {

@@ -13,11 +13,11 @@
             </div>
             <div class="highlight">
                 <h3>SQLite Support</h3>
-                <p>Comes with SQLite support out of the box from <a href="redbeanphp.com">RedbeanPHP</a>, perfect for rapid development and lightweight applications.</p>
+                <p>Comes with SQLite support out of the box from <a href="https://redbeanphp.com">RedbeanPHP</a>, perfect for rapid development and lightweight applications.</p>
             </div>
             <div class="highlight">
                 <h3>Plates Template Engine</h3>
-                <p>Uses <a href="platesphp.com">Plates</a> as the default template engine, offering a simple and powerful way to create dynamic views.</p>
+                <p>Uses <a href="https://platesphp.com">Plates</a> as the default template engine, offering a simple and powerful way to create dynamic views.</p>
             </div>
             <div class="highlight">
                 <h3>WordPress & Adminer Included</h3>

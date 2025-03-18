@@ -2,7 +2,7 @@
 <html class="h-full">
 
 <head>
-  <title>Tests</title>
+  <title>Admin Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">

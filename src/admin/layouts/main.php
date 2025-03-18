@@ -2,7 +2,8 @@
 <html class="h-full">
 
 <head>
-  <title>Tests</title>
+  <title>Homie Admin Dashboard</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +17,7 @@
 <body class="bg-gray-50 dark:bg-gray-800 h-full">
   <?= $this->section('navbar') ?>
   <div class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900 h-full">
-    <?= $this->insert('layouts/sidebar') ?>
+    <?= $this->section('sidebar') ?>
     <div id="main-content" class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900 h-full">
       <main class="h-full">
         <?= $this->section('content') ?>

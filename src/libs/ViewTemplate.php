@@ -90,11 +90,15 @@ class ViewTemplate extends Template
         include __DIR__ . "/../admin/layouts/navbar.php";
         $this->stop();
 
+        $this->start('sidebar');
+        include __DIR__ . "/../admin/layouts/sidebar.php";
+        $this->stop();
+
         $this->start('footer');
         include __DIR__ . "/../admin/layouts/footer.php";
         $this->stop();
     }
-
+    
     public function setDefaultLayouts()
     {
         $this->layout('layouts/main');

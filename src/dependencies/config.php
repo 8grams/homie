@@ -2,9 +2,11 @@
 
 return [
     'blog' => [
+        'enabled' => $_ENV['ENABLE_BLOG'] == 'true',
         'username' => $_ENV['BLOG_API_USERNAME'],
         'password' => $_ENV['BLOG_API_PASSWORD'],
         'url' => $_ENV['BLOG_API_URL'],
+        'site_url' => $_ENV['BLOG_SITE_URL'],
         'enable_cache' => $_ENV['BLOG_API_ENABLE_CACHE'] == 'true',
     ],
     'database' => [
