@@ -1,7 +1,12 @@
 <main>
+    <section class="header">
+    <p align="center">
+        <img data-asset="homie_logo" alt="Homie" src=<?= $this->asset('homie_logo', 'https://raw.githubusercontent.com/8grams/homie/refs/heads/develop/assets/logo.png')?> height="150">
+    </p>
+    </section>
     <section class="readme">
-        <h2>Welcome to Homie</h2>
-        <p>Homepage should have minimal features, but common PHP frameworks are quite complex because they are designed to tackle complex problems when creating web applications. Homie is different, it is designed for building simple homepages that can be installed anywhere, even on a cheap shared hosting provider.</p>
+        <h2 data-trans='welcome'><?= $this->trans('welcome', 'Welcome to Homie') ?></h2>
+        <p data-trans="welcome_description"><?= $this->trans('welcome_description', 'Homepage should have minimal features, but common PHP frameworks are quite complex because they are designed to tackle complex problems when creating web applications. Homie is different, it is designed for building simple homepages that can be installed anywhere, even on a cheap shared hosting provider.') ?></p>
     </section>
 
     <section class="highlights">

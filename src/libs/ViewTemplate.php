@@ -193,10 +193,11 @@ class ViewTemplate extends Template
         if (!file_exists($this->name->getPath())) {
             $currentName = clone $this->name;
             if (!str_ends_with($this->name->getName(), "/")) {
+                $rpath = clone $this->name;
                 $this->name->setName($this->name->getName() . "/index");
                 if (file_exists($this->name->getPath())) {
                     return parent::render($data);
-                }   
+                }
             }
 
             $this->name = $currentName;
@@ -206,10 +207,13 @@ class ViewTemplate extends Template
                 $this->name->setName(dirname($this->name->getName()) . "/index");
                 if (!file_exists($this->name->getPath())) {
                     throw new \Exception("Template file not found");
+                } else {
+                    if (isset($rpath)) {
+                        return new RedirectResponse($rpath->getName() . '/');
+                    }
                 }
             }
         }
-
         return parent::render($data);
     }
 }

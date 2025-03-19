@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Ravage" src="https://raw.githubusercontent.com/8grams/homie/refs/heads/develop/assets/logo.png" height="200">
+    <img alt="Homie" src="https://raw.githubusercontent.com/8grams/homie/refs/heads/develop/assets/logo.png" height="200">
 </p>
 
 
@@ -301,9 +301,27 @@ To enable WordPress in Homie, simply set `ENABLE_BLOG` in the `.env` file, and r
 composer install
 ```
 
+## Content Customization
+
+Copywriting and images can be customized using the special functions `$this->trans` and `$this->asset`. Take a look at `pages/index.php` for a glimpse of this feature.
+
+```
+<section class="header">
+    <p align="center">
+        <img data-asset="homie_logo" alt="Homie" src=<?= $this->asset('homie_logo', 'https://raw.githubusercontent.com/8grams/homie/refs/heads/develop/assets/logo.png')?> height="150">
+    </p>
+</section>
+<section class="readme">
+    <h2 data-trans='welcome'><?= $this->trans('welcome', 'Welcome to Homie') ?></h2>
+    <p data-trans="welcome_description"><?= $this->trans('welcome_description', 'Homepage should have minimal features, but common PHP frameworks are quite complex because they are designed to tackle complex problems when creating web applications. Homie is different, it is designed for building simple homepages that can be installed anywhere, even on a cheap shared hosting provider.') ?></p>
+</section>
+```
+
+To customize the content, open the Admin Dashboard. You'll notice that all content wrapped with the `data-trans` and `data-asset` attributes can be easily customized.
+
 ## Admin Dashboard
 
-The admin panel can be accessed through `/_admin`. The login username and password are defined in the `.env` file by setting the `ADMIN_USERNAME` and `ADMIN_PASSWORD` values.
+The admin panel can be accessed through `/admin`. The login username and password are defined in the `.env` file by setting the `ADMIN_USERNAME` and `ADMIN_PASSWORD` values.
 
 ### Adminer
 

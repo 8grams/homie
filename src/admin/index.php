@@ -54,7 +54,7 @@ if ($this->request->getMethod() == 'POST') {
 }
 ?>
 <div class="grow flex flex-col lg:flex-row h-full" x-data="contentEditor">
-  <iframe class="grow bg-white dark:bg-gray-800" x-ref="iframe" :src="`/${selectedLang}`" @load="load"></iframe>
+  <iframe class="grow bg-white dark:bg-gray-800" x-ref="iframe" :src="`/${selectedLang}/`" @load="load"></iframe>
   <form class="w-80 p-4 flex flex-col gap-4 overflow-y-auto bg-white dark:bg-gray-800" method="post" enctype="multipart/form-data">
     <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 self-end">
       <template x-for="lang in langs">
@@ -78,7 +78,7 @@ if ($this->request->getMethod() == 'POST') {
             <textarea
               :name="`trans[${entry.key}]`"
               type="text"
-              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-5"
               :value="entry.value"
               @focus="focus"
               @blur="blur"
