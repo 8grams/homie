@@ -11,4 +11,6 @@ interface BlogInterface
     public function getPostsByCategory(int $categoryId, array $options = []): array;
     public function getPostsByTag(int $tagId, array $options = []): array;
     public function getPostsByAuthor(int $authorId, array $options = []): array;
+    public function getCategories(): array;
+    public function getTags(): array;
 }
