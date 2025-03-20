@@ -83,6 +83,25 @@
             vertical-align: middle;
             margin-right: 0.5rem;
         }
+        .blog-image {
+            max-height: 300px;
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+        .blog-title {
+            color: black !important;
+            font-size: 20px;
+            margin-top: 20px !important;
+            margin-bottom: 0 !important;
+        }
+        .blog .blog-desc {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 <body>

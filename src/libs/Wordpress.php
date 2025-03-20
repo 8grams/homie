@@ -140,4 +140,25 @@ class Wordpress implements BlogInterface
     {
         return sha1($url . serialize($options));
     }
+
+    public function getCategories(): array
+    {
+        $categories = [];
+        $response = $this->client->request('GET', 'categories');
+        foreach ($response->toArray() as $category) {
+            $categories[] = new Category($category['id'], $category['name'], $category['slug']);
+        }
+        return $categories;
+    }
+
+    public function getTags(): array
+    {
+        $tags = [];
+        $response = $this->client->request('GET', 'tags');
+        foreach ($response->toArray() as $tag) {
+            $tags[] = new Tag($tag['id'], $tag['name'], $tag['slug']);
+        }
+        return $tags;
+    }
 }
+
