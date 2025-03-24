@@ -1,6 +1,7 @@
 <?php
 
 use App\Libs\Sitemap\Crawler\Profile;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 
 return [
@@ -39,9 +40,11 @@ return [
     'sitemap' => [
         'guzzle_options' => [
             RequestOptions::COOKIES => true,
-            RequestOptions::CONNECT_TIMEOUT => 10,
-            RequestOptions::TIMEOUT => 10,
+            RequestOptions::CONNECT_TIMEOUT => 120,
+            RequestOptions::READ_TIMEOUT => 120,
+            RequestOptions::TIMEOUT => 120,
             RequestOptions::ALLOW_REDIRECTS => false,
+            RequestOptions::VERIFY => false,
         ],
         'execute_javascript' => false,
         'chrome_binary_path' => null,

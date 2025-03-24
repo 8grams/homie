@@ -60,7 +60,7 @@ $container->register('authenticator', Authenticator::class)
         $container->get('user_provider')
     ]);
 
-if ($_SERVER['RUN_ON_CLI'] == 'true') {
+if (isset($_SERVER['RUN_ON_CLI']) && $_SERVER['RUN_ON_CLI'] == 'true') {
     $container->register('crawler', Crawler::class)
         ->setFactory([Crawler::class, 'create']);
 

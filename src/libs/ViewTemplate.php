@@ -112,6 +112,11 @@ class ViewTemplate extends Template
         $this->stop();
     }
 
+    public function setSitemapLayouts()
+    {
+        $this->layout('sitemap/layout');
+    }
+
     public function getQueryParams($name = "")
     {
         if ($name) {

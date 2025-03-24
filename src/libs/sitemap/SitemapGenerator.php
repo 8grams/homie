@@ -12,6 +12,7 @@ use Spatie\Crawler\Crawler;
 use Spatie\Crawler\CrawlProfiles\CrawlProfile;
 use App\Libs\Sitemap\Crawler\Observer;
 use App\Libs\Sitemap\Tags\Url;
+use App\Libs\ViewEngine;
 use Spatie\Crawler\CrawlObservers\CrawlObserver;
 
 class SitemapGenerator
@@ -64,6 +65,7 @@ class SitemapGenerator
         if ($this->urlToBeCrawled->getPath() === '') {
             $this->urlToBeCrawled = $this->urlToBeCrawled->withPath('/');
         }
+
         return $this;
     }
 
@@ -104,24 +106,23 @@ class SitemapGenerator
         return $this->sitemaps->first();
     }
 
-    public function writeToFile(string $path): static
+    public function writeToFile(string $path, ViewEngine $viewEngine): static
     {
         $sitemap = $this->getSitemap();
-
         if ($this->maximumTagsPerSitemap) {
             $sitemap = SitemapIndex::create();
             $format = str_replace('.xml', '_%d.xml', $path);
 
             // Parses each sub-sitemaps, writes and push them into the sitemap index
-            $this->sitemaps->each(function (Sitemap $item, int $key) use ($sitemap, $format) {
+            $this->sitemaps->each(function (Sitemap $item, int $key) use ($sitemap, $format, $viewEngine) {
                 $path = sprintf($format, $key);
 
-                $item->writeToFile(sprintf($format, $key));
+                $item->writeToFile(sprintf($format, $key), $viewEngine);
                 $sitemap->add(last(explode('public', $path)));
             });
         }
 
-        $sitemap->writeToFile($path);
+        $sitemap->writeToFile($path, $viewEngine);
         return $this;
     }
 

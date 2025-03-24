@@ -4,6 +4,7 @@ namespace App\Libs\Sitemap;
 
 use App\Libs\Sitemap\Tags\Tag;
 use App\Libs\Sitemap\Tags\Url;
+use App\Libs\ViewEngine;
 
 class Sitemap
 {
@@ -43,7 +44,7 @@ class Sitemap
 
     public function getUrl(string $url): ?Url
     {
-        return collect($this->tags)->first(function (Tag $tag) use ($url) {
+        return \collect($this->tags)->first(function (Tag $tag) use ($url) {
             return $tag->getType() === 'url' && $tag->url === $url;
         });
     }
@@ -53,16 +54,18 @@ class Sitemap
         return (bool) $this->getUrl($url);
     }
 
-    public function render(): string
+    public function render(ViewEngine $viewEngine): string
     {
-        $tags = collect($this->tags)->unique('url')->filter();
+        $tags = \collect($this->tags)->unique('url')->filter();
 
-        return $tags->__toString();
+        $view = $viewEngine->make('sitemap/sitemap', ['tags' => $tags]);
+        $view->setSitemapLayouts();
+        return $view->render();
     }
 
-    public function writeToFile(string $path): static
+    public function writeToFile(string $path, ViewEngine $viewEngine): static
     {
-        file_put_contents($path, $this->render());
+        file_put_contents($path, $this->render($viewEngine));
         return $this;
     }
 }

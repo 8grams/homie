@@ -4,6 +4,7 @@ namespace App\Libs\Sitemap;
 
 use App\Libs\Sitemap\Tags\Sitemap;
 use App\Libs\Sitemap\Tags\Tag;
+use App\Libs\ViewEngine;
 
 class SitemapIndex
 {
@@ -38,19 +39,17 @@ class SitemapIndex
         return (bool) $this->getSitemap($url);
     }
 
-    public function render(): string
+    public function render(ViewEngine $viewEngine): string
     {
         $tags = $this->tags;
-
-        return view('sitemap::sitemapIndex/index')
-            ->with(compact('tags'))
-            ->render();
+        $view = $viewEngine->make('sitemap/sitemapIndex/index', ['tags' => $tags]); 
+        $view->setSitemapLayouts();
+        return $view->render();
     }
 
-    public function writeToFile(string $path): static
+    public function writeToFile(string $path, ViewEngine $viewEngine): static
     {
-        file_put_contents($path, $this->render());
-
+        file_put_contents($path, $this->render($viewEngine));
         return $this;
     }
 }
