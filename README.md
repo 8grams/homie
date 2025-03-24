@@ -22,6 +22,7 @@ Homie is built on top of prominent open-source software to function effectively:
 4. [Plates](https://platesphp.com/) as template engine
 5. [Adminer](https://adminer.org/) as Database Browser
 6. [Bedrock](https://roots.io/bedrock/) as Wordpress boilerplate
+7. [Laravel Sitemap](https://github.com/spatie/laravel-sitemap) as Sitemap Generator
 
 ## Usage
 
