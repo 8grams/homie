@@ -345,3 +345,20 @@ The admin panel can be accessed through `/admin`. The login username and passwor
 ### Adminer
 
 Adminer is already integrated into Homie Admin and can be accessed at `/_admin/adminer`.
+
+
+## Upgrading
+
+Upgrading is easy. First, create a new Homie project using Composer:
+
+```
+composer create-project 8grams/homie
+```
+
+
+Then, move your files from the pages folder in your old project to the new project.
+
+
+## License
+
+MIT
