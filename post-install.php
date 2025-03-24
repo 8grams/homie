@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/src/dependencies/rb-sqlite.php';
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/src/dependencies/rb-sqlite.php';
 
 use Symfony\Component\Dotenv\Dotenv;
 

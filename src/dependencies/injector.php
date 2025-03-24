@@ -13,29 +13,27 @@ use App\Libs\Wordpress;
 use App\Libs\ViewEngine as ViewEngine;
 use App\Libs\Auth\UserProvider;
 use App\Libs\Auth\Authenticator;
+use App\Libs\Sitemap\SitemapGenerator;
+use Spatie\Crawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
-
-// load env vars
-
-// copy .env.example to .env
-if (!file_exists(__DIR__.'/../../.env') && file_exists(__DIR__.'/../../.env.example')) {
-    copy(__DIR__.'/../../.env.example', __DIR__.'/../../.env');
-}
 
 $container = new ContainerBuilder();
 
 $container->register('context', RequestContext::class);
-$container->register('matcher', UrlMatcher::class)->setArguments([$routes, new Reference('context')]);
+
+if (isset($routes)) $container->register('matcher', UrlMatcher::class)->setArguments([$routes, new Reference('context')]);
 $container->register('cache', Cache::class);
 
 $container->register('db', SQLiteDatabase::class)
     ->setArguments([
         'connection' => 'sqlite:' . $config['database']['path'], 
     ]);
+    
 $container->register('cache', Cache::class)
     ->setArguments([
         $container->get('db')
     ]);
+    
 $container->register('httpClient', HttpClientInterface::class)
     ->setFactory([HttpClient::class, 'create']);
 
@@ -61,5 +59,16 @@ $container->register('authenticator', Authenticator::class)
     ->setArguments([
         $container->get('user_provider')
     ]);
+
+if (isset($_SERVER['RUN_ON_CLI']) && $_SERVER['RUN_ON_CLI'] == 'true') {
+    $container->register('crawler', Crawler::class)
+        ->setFactory([Crawler::class, 'create']);
+
+    $container->register('sitemap_generator', SitemapGenerator::class)
+        ->setArguments([
+            $container->get('crawler'),
+            $config['sitemap']
+        ]);
+}
 
 return $container;

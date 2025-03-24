@@ -9,6 +9,9 @@
             "App\\": "src/",
             "App\\Libs\\": "src/libs/",
             "App\\Libs\\Auth\\": "src/libs/auth",
+            "App\\Libs\\Sitemap\\": "src/libs/sitemap",
+            "App\\Libs\\Sitemap\\Crawler\\": "src/libs/sitemap/crawler",
+            "App\\Libs\\Sitemap\\Tags\\": "src/libs/sitemap/tags",
             "App\\Libs\\Models\\": "src/libs/models",
             "App\\Libs\\Models\\Blog\\": "src/libs/models/blog",
             "App\\Libs\\Interfaces\\": "src/libs/interfaces/",
@@ -26,7 +29,11 @@
         "symfony/dotenv": "^7.2",
         "league/plates": "^3.6",
         "symfony/security-core": "^7.2",
-        "spatie/ignition": "^1.15"
+        "spatie/ignition": "^1.15",
+        "nesbot/carbon": "^3.8",
+        "symfony/dom-crawler": "^7.2",
+        "spatie/crawler": "^8.4",
+        "guzzlehttp/guzzle": "^7.9"
     },
     "require-dev": {
         "heston/heston": "dev-master"
@@ -36,6 +43,9 @@
     "scripts": {
         "post-install-cmd": [
             "php post-install.php"
+        ],
+        "generate-sitemap": [
+            "export RUN_ON_CLI=true && php generate-sitemap.php"
         ]
     }
 }

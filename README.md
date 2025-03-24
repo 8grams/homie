@@ -319,6 +319,24 @@ Copywriting and images can be customized using the special functions `$this->tra
 
 To customize the content, open the Admin Dashboard. You'll notice that all content wrapped with the `data-trans` and `data-asset` attributes can be easily customized.
 
+## Sitemap
+
+A sitemap can be generated using the following command:
+
+```
+composer run generate-sitemap
+```
+
+This will automatically generate a sitemap by crawling your website. To enable this feature, ensure that the correct value is set in the .env file:
+
+```
+APP_URL=https://example.com
+```
+
+`sitemap.xml` will be generated in the `public/sitemap.xml` and can be accessed on `https://example.com/sitemap.xml`
+
+Note: This sitemap feature in the framework is made possible by modifying Spatie's Laravel Sitemap library. Check on https://github.com/spatie/laravel-sitemap 
+
 ## Admin Dashboard
 
 The admin panel can be accessed through `/admin`. The login username and password are defined in the `.env` file by setting the `ADMIN_USERNAME` and `ADMIN_PASSWORD` values.

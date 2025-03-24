@@ -1,6 +1,11 @@
 <?php
 
+use App\Libs\Sitemap\Crawler\Profile;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\RequestOptions;
+
 return [
+    'app_url' => $_ENV['APP_URL'],
     'blog' => [
         'enabled' => $_ENV['ENABLE_BLOG'] == 'true',
         'username' => $_ENV['BLOG_API_USERNAME'],
@@ -31,5 +36,19 @@ return [
     ],
     'app' => [
         'debug' => $_ENV['DEBUG'] == 'true',
+    ],
+    'sitemap' => [
+        'guzzle_options' => [
+            RequestOptions::COOKIES => true,
+            RequestOptions::CONNECT_TIMEOUT => 300,
+            RequestOptions::READ_TIMEOUT => 300,
+            RequestOptions::TIMEOUT => 300,
+            RequestOptions::ALLOW_REDIRECTS => false,
+            RequestOptions::VERIFY => false,
+        ],
+        'execute_javascript' => false,
+        'chrome_binary_path' => null,
+        'crawl_profile' => Profile::class,
     ]
+    
 ];

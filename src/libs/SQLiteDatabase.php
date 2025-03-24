@@ -2,7 +2,7 @@
 
 namespace App\Libs;
 
-require __DIR__ . '/../dependencies/rb-sqlite.php';
+require_once __DIR__ . '/../dependencies/rb-sqlite.php';
 
 use App\Libs\Interfaces\DataStoreInterface;
 use R;
