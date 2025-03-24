@@ -42,7 +42,10 @@
     "prefer-stable": true,
     "scripts": {
         "post-install-cmd": [
-            "export RUN_ON_CLI=true && php post-install.php"
+            "php post-install.php"
+        ],
+        "generate-sitemap": [
+            "export RUN_ON_CLI=true && php generate-sitemap.php"
         ]
     }
 }
