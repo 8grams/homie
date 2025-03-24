@@ -10,6 +10,9 @@
 <?php if (!empty($tag->lastModificationDate)) : ?>
     <lastmod><?= $this->e($tag->lastModificationDate->format(DateTime::ATOM)) ?></lastmod>
 <?php endif; ?>
+<?php if (!empty($tag->changeFrequency)) : ?>
+    <changefreq><?= $this->e($tag->changeFrequency) ?></changefreq>
+<?php endif; ?>
     <?php foreach ($tag->images as $image) : ?>
         <?php echo $this->insert('sitemap/image', ['image' => $image]) ?>
     <?php endforeach; ?>

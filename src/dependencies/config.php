@@ -40,9 +40,9 @@ return [
     'sitemap' => [
         'guzzle_options' => [
             RequestOptions::COOKIES => true,
-            RequestOptions::CONNECT_TIMEOUT => 120,
-            RequestOptions::READ_TIMEOUT => 120,
-            RequestOptions::TIMEOUT => 120,
+            RequestOptions::CONNECT_TIMEOUT => 300,
+            RequestOptions::READ_TIMEOUT => 300,
+            RequestOptions::TIMEOUT => 300,
             RequestOptions::ALLOW_REDIRECTS => false,
             RequestOptions::VERIFY => false,
         ],

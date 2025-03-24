@@ -45,6 +45,7 @@ class Url extends Tag
         $this->url = $url;
 
         $this->changeFrequency = static::CHANGE_FREQUENCY_DAILY;
+        $this->lastModificationDate = Carbon::now();
     }
 
     public function setUrl(string $url = ''): static

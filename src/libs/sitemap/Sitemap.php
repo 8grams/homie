@@ -57,7 +57,6 @@ class Sitemap
     public function render(ViewEngine $viewEngine): string
     {
         $tags = \collect($this->tags)->unique('url')->filter();
-
         $view = $viewEngine->make('sitemap/sitemap', ['tags' => $tags]);
         $view->setSitemapLayouts();
         return $view->render();

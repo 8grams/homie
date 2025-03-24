@@ -19,7 +19,6 @@ class Sitemap extends Tag
     public function __construct(string $url)
     {
         $this->url = $url;
-
         $this->lastModificationDate = Carbon::now();
     }
 
