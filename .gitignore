@@ -3,4 +3,4 @@ vendor/
 .idea/
 .DS_Store
 wp/
-public/sitemap.xml
+public/sitemap*

@@ -49,6 +49,6 @@ return [
         'execute_javascript' => false,
         'chrome_binary_path' => null,
         'crawl_profile' => Profile::class,
+        'max_tags_per_sitemap' => 500,
     ]
-    
 ];

@@ -187,11 +187,12 @@ class ViewTemplate extends Template
 
     public function render(array $data = array())
     {
+        $this->data($data);
         $file = basename($this->name->getFile());
         // check if this empty file
         if ($file == ".php")  {
             $this->name->setName($this->name->getName() . "/index");
-            return parent::render($data);
+            return parent::render($this->data);
         }
 
         $this->slug = basename($this->name->getName());
@@ -201,7 +202,7 @@ class ViewTemplate extends Template
                 $rpath = clone $this->name;
                 $this->name->setName($this->name->getName() . "/index");
                 if (file_exists($this->name->getPath())) {
-                    return parent::render($data);
+                    return parent::render($this->data);
                 }
             }
 
@@ -219,6 +220,6 @@ class ViewTemplate extends Template
                 }
             }
         }
-        return parent::render($data);
+        return parent::render($this->data);
     }
 }

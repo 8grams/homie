@@ -18,5 +18,6 @@ if ($_SERVER['RUN_ON_CLI'] == 'true') {
     
     $sitemapGenerator = $container->get('sitemap_generator');
     $sitemapGenerator->setUrl($config['app_url']);
+    $sitemapGenerator->maxTagsPerSitemap($config['sitemap']['max_tags_per_sitemap']);
     $sitemapGenerator->writeToFile(__DIR__ . '/public/sitemap.xml', $container->get('template'));
 }
