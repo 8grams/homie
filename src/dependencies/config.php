@@ -5,7 +5,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 
 return [
-    'app_url' => $_ENV['APP_URL'],
+    'app_url' => $_ENV['APP_URL'] ?? 'http://localhost:8000',
     'blog' => [
         'enabled' => $_ENV['ENABLE_BLOG'] == 'true',
         'username' => $_ENV['BLOG_API_USERNAME'],
@@ -22,6 +22,9 @@ return [
     ],
     'admin_template' => [
         'path' => __DIR__.'/../admin',
+    ],
+    'email_template' => [
+        'path' => __DIR__.'/../pages/emails',
     ],
     'admin' => [
         'username' => $_ENV['ADMIN_USERNAME'],
@@ -50,5 +53,8 @@ return [
         'chrome_binary_path' => null,
         'crawl_profile' => Profile::class,
         'max_tags_per_sitemap' => 500,
-    ]
+    ],
+    'mailer' => [
+        'dsn' => $_ENV['MAILER_DSN'],
+    ],
 ];

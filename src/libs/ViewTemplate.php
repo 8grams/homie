@@ -10,7 +10,7 @@ use App\Libs\Interfaces\CacheInterface;
 use App\Libs\Auth\Authenticator;
 use App\Libs\Interfaces\BlogInterface;
 use App\Libs\ViewEngine;
-
+use App\Libs\Mailer;
 class ViewTemplate extends Template 
 {
     protected Request $request; 
@@ -18,6 +18,7 @@ class ViewTemplate extends Template
     protected DataStoreInterface $db; 
     protected BlogInterface $blog;
     protected Authenticator $authenticator;
+    protected Mailer $mailer;
     protected $config;
     protected $locale;
     protected $slug;
@@ -28,6 +29,7 @@ class ViewTemplate extends Template
         CacheInterface $cache, 
         DataStoreInterface $db, 
         BlogInterface $blog,
+        Mailer $mailer,
         $config = []
         )
     {
@@ -36,6 +38,7 @@ class ViewTemplate extends Template
         $this->db = $db;
         $this->blog = $blog;
         $this->config = $config;
+        $this->mailer = $mailer;
         $this->locale = $this->request->attributes->get('locale', $this->config['lang']['default']);
 
         // set langs by loading from lang files
@@ -80,6 +83,19 @@ class ViewTemplate extends Template
         $this->stop();
 
         echo $this->section($name);
+    }
+
+    public function setEmailDefaultLayouts()
+    {
+        $this->layout('emails/layouts/main');
+        
+        $this->start('header');
+        include __DIR__ . "/../emails/layouts/header.php";
+        $this->stop();
+
+        $this->start('footer');
+        include __DIR__ . "/../email/layouts/footer.php";
+        $this->stop();
     }
 
     public function setAdminDefaultLayouts()

@@ -346,6 +346,27 @@ The admin panel can be accessed through `/admin`. The login username and passwor
 
 Adminer is already integrated into Homie Admin and can be accessed at `/_admin/adminer`.
 
+## Send Email
+
+Email template should be placed on `pages/emails`. Homie provides 3 basic email layouts, all located in the `pages/emails/layouts` directory: `main`, `header`, and `footer`. 
+
+To send email, we can call `$this->mailer->send($options, $data, $template)` in any pages file like below:
+
+```
+<?php
+
+$this->mailer->send([
+        'to' => 'example@gmail.com',
+        'from' => 'no-reply@example.com',
+        'subject' => 'Welcome to Homie',
+    ], [
+        'userName' => 'John Doe',
+        'homieUrl' => 'https://homie.com',
+    ], 
+    'welcome'
+);
+?>
+```
 
 ## Upgrading
 
@@ -356,7 +377,7 @@ composer create-project 8grams/homie
 ```
 
 
-Then, move your files from the pages folder in your old project to the new project.
+Then, move your files from the pages folder in your old project to the new project. If you have any additional migration files on `src/migrations` folder, they should be moved as well.
 
 
 ## License

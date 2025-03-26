@@ -24,6 +24,7 @@ class AdminController extends BaseController
             $this->cache, 
             $this->db, 
             $this->blog,
+            $this->mailer,
             $this->config
         );
         

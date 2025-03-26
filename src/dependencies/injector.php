@@ -13,9 +13,13 @@ use App\Libs\Wordpress;
 use App\Libs\ViewEngine as ViewEngine;
 use App\Libs\Auth\UserProvider;
 use App\Libs\Auth\Authenticator;
+use App\Libs\Mailer;
 use App\Libs\Sitemap\SitemapGenerator;
 use Spatie\Crawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\Mailer\Mailer as MailerMailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Transport\TransportInterface;
 
 $container = new ContainerBuilder();
 
@@ -33,6 +37,8 @@ $container->register('cache', Cache::class)
     ->setArguments([
         $container->get('db')
     ]);
+
+
     
 $container->register('httpClient', HttpClientInterface::class)
     ->setFactory([HttpClient::class, 'create']);
@@ -70,5 +76,24 @@ if (isset($_SERVER['RUN_ON_CLI']) && $_SERVER['RUN_ON_CLI'] == 'true') {
             $config['sitemap']
         ]);
 }
+
+// Mailer configuration
+$container->register('mailer.transport', TransportInterface::class)
+    ->setFactory([Transport::class, 'fromDsn'])
+    ->setArguments([
+        $config['mailer']['dsn']
+    ]);
+
+$container->register('mailer.send', MailerMailer::class)
+    ->setArguments([
+        $container->get('mailer.transport')
+    ]);
+
+$container->register('mailer', Mailer::class)
+    ->setArguments([
+        $container->get('mailer.send'),
+        $container->get('template'),
+        $config
+    ]);
 
 return $container;

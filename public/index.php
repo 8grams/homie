@@ -25,6 +25,7 @@ try {
         $container->get('wordpress'),
         $container->get('template'),
         $container->get('authenticator'),
+        $container->get('mailer'),
         $config
     );
         

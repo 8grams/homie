@@ -8,6 +8,7 @@ use App\Libs\Interfaces\DataStoreInterface;
 use App\Libs\Interfaces\BlogInterface;
 use App\Libs\Interfaces\CacheInterface;
 use App\Libs\Auth\Authenticator;
+use App\Libs\Mailer;
 use App\Libs\ViewEngine;
 
 class BaseController
@@ -19,8 +20,9 @@ class BaseController
     protected BlogInterface $blog;
     protected ViewEngine $viewEngine;
     protected Authenticator $authenticator;
+    protected Mailer $mailer;
     protected $config;
-
+    
     public function setDependencies(
         Request $request, 
         CacheInterface $cache, 
@@ -28,6 +30,7 @@ class BaseController
         BlogInterface $blog,
         ViewEngine $viewEngine,
         Authenticator $authenticator,
+        Mailer $mailer,
         $config = []
         )
     {
@@ -37,6 +40,7 @@ class BaseController
         $this->blog = $blog;
         $this->viewEngine = $viewEngine;
         $this->authenticator = $authenticator;
+        $this->mailer = $mailer;
         $this->config = $config;
     }
 
