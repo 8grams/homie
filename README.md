@@ -348,9 +348,9 @@ Adminer is already integrated into Homie Admin and can be accessed at `/_admin/a
 
 ## Send Email
 
-Email template should be placed on `pages/emails`. Homie provides 3 basic email layouts, all located in the `pages/emails/layouts` directory: `main`, `header`, and `footer`. 
+Email templates should be placed in the `pages/emails` directory. Homie provides three basic email layouts—`main`, `header`, and `footer`—all located in `pages/emails/layouts`.  
 
-To send email, we can call `$this->mailer->send($options, $data, $template)` in any pages file like below:
+To send an email, you can call `$this->mailer->send($options, $data, $template)` from any page file, as shown below:
 
 ```
 <?php
@@ -368,7 +368,9 @@ $this->mailer->send([
 ?>
 ```
 
-Make sure we correctly set `MAILER_DSN` in .env file.
+Make sure to correctly set `MAILER_DSN` in the `.env` file and have an email template ready. In this example, the template `welcome.php` should be placed in `pages/emails`.  
+
+Homie supports both an HTML version (`welcome.php`) and a plain text version (`welcome.plain.php`) for the email body.
 
 ## Upgrading
 
