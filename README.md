@@ -368,6 +368,8 @@ $this->mailer->send([
 ?>
 ```
 
+Make sure we correctly set `MAILER_DSN` in .env file.
+
 ## Upgrading
 
 Upgrading is easy. First, create a new Homie project using Composer:
