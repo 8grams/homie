@@ -10,16 +10,42 @@ use App\Libs\Models\Blog\Tag;
 use App\Libs\Models\Blog\Post;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+/**
+ * WordPress API integration class for blog functionality
+ * 
+ * This class implements the BlogInterface to provide WordPress-specific
+ * blog operations including post retrieval, categorization, and tagging.
+ */
 class Wordpress implements BlogInterface
 {
+    /** @var array Configuration settings */
     private $config = [];
+
+    /** @var CacheInterface Cache service for storing API responses */
     private CacheInterface $cache;
+
+    /** @var HttpClientInterface HTTP client for API requests */
     private HttpClientInterface $client;
+
+    /** @var bool Whether caching is enabled */
     private $cacheEnabled;
+
+    /** @var int Cache TTL in seconds */
     private $cacheAge;
+
+    /** @var string Default language for content */
     private $defaultLang;
+
+    /** @var array Default API request options */
     private $options;
 
+    /**
+     * Constructor
+     * 
+     * @param array $config Configuration array containing WordPress API settings
+     * @param CacheInterface $cache Cache service for storing API responses
+     * @param HttpClientInterface $client HTTP client for making API requests
+     */
     public function __construct(
         $config,
         CacheInterface $cache,
@@ -44,6 +70,12 @@ class Wordpress implements BlogInterface
         ];
     }
     
+    /**
+     * Retrieve posts from WordPress API with optional filtering
+     * 
+     * @param array $options Additional query options for the API request
+     * @return array Array of Post objects
+     */
     private function retrievePosts(array $options = []): array
     {
         $posts = [];
@@ -63,6 +95,12 @@ class Wordpress implements BlogInterface
         return $posts;
     }
 
+    /**
+     * Retrieve a single post by ID from WordPress API
+     * 
+     * @param int $id Post ID
+     * @return Post Post object
+     */
     private function retrieveSinglePost(int $id): Post
     {
         $response = $this->client->request('GET', 'posts/' . $id, ['query' => ['_embed' => true]]);
@@ -70,6 +108,12 @@ class Wordpress implements BlogInterface
         return $this->constructPost($post);
     }
 
+    /**
+     * Construct a Post object from WordPress API response data
+     * 
+     * @param array $post Raw post data from API
+     * @return Post Constructed Post object
+     */
     private function constructPost($post)
     {
         $author = new Author(
@@ -105,16 +149,35 @@ class Wordpress implements BlogInterface
         );
     }
 
+    /**
+     * Get all posts with optional filtering
+     * 
+     * @param array $options Additional query options
+     * @return array Array of Post objects
+     */
     public function getPosts(array $options = []): array
     {
         return $this->retrievePosts($options);
     }
 
+    /**
+     * Get a single post by ID
+     * 
+     * @param int $id Post ID
+     * @return Post Post object
+     */
     public function getPostById(int $id): Post
     {
         return $this->retrieveSinglePost($id);
     }
 
+    /**
+     * Get posts filtered by category ID
+     * 
+     * @param int $categoryId Category ID
+     * @param array $options Additional query options
+     * @return array Array of Post objects
+     */
     public function getPostsByCategory(int $categoryId, array $options = []): array
     {
         $options['categories'] = [$categoryId];
@@ -122,6 +185,13 @@ class Wordpress implements BlogInterface
         return $this->retrievePosts($useOptions);
     }
 
+    /**
+     * Get posts filtered by tag ID
+     * 
+     * @param int $tagId Tag ID
+     * @param array $options Additional query options
+     * @return array Array of Post objects
+     */
     public function getPostsByTag(int $tagId, array $options = []): array
     {
         $options['tags'] = [$tagId];
@@ -129,6 +199,13 @@ class Wordpress implements BlogInterface
         return $this->retrievePosts($useOptions);
     }
 
+    /**
+     * Get posts filtered by author ID
+     * 
+     * @param int $authorId Author ID
+     * @param array $options Additional query options
+     * @return array Array of Post objects
+     */
     public function getPostsByAuthor(int $authorId, array $options = []): array
     {
         $options['author'] = [$authorId];
@@ -136,11 +213,23 @@ class Wordpress implements BlogInterface
         return $this->retrievePosts($useOptions);
     }
 
+    /**
+     * Generate a cache key for API requests
+     * 
+     * @param string $url API endpoint URL
+     * @param array $options Query options
+     * @return string SHA1 hash of URL and options
+     */
     private function getCacheKey($url, $options)
     {
         return sha1($url . serialize($options));
     }
 
+    /**
+     * Get all categories from WordPress
+     * 
+     * @return array Array of Category objects
+     */
     public function getCategories(): array
     {
         $categories = [];
@@ -151,6 +240,11 @@ class Wordpress implements BlogInterface
         return $categories;
     }
 
+    /**
+     * Get all tags from WordPress
+     * 
+     * @return array Array of Tag objects
+     */
     public function getTags(): array
     {
         $tags = [];

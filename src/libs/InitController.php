@@ -5,18 +5,45 @@ namespace App\Libs;
 use App\Libs\Interfaces\BaseController;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Controller for database initialization and migration
+ * 
+ * This class handles database setup and schema updates through SQL migrations,
+ * extending BaseController for common functionality.
+ */
 class InitController extends BaseController
 {
+    /**
+     * Initialize the database with initial schema
+     * 
+     * @return Response Success or error message
+     */
     public function init()
     {
         return $this->initDatabase();
     }
 
+    /**
+     * Run database migrations
+     * 
+     * @return Response Success or error message
+     */
     public function migrate()
     {
         return $this->migrateDatabase();
     }
 
+    /**
+     * Execute pending database migrations
+     * 
+     * This method:
+     * 1. Gets list of already executed migrations
+     * 2. Finds new migration files
+     * 3. Executes new migrations in order
+     * 4. Records executed migrations
+     * 
+     * @return Response Success message
+     */
     public function migrateDatabase()
     {
         $rb = $this->db->getPDO();
@@ -41,6 +68,17 @@ class InitController extends BaseController
         return new Response("Migration success");
     }
 
+    /**
+     * Initialize the database with initial schema
+     * 
+     * This method:
+     * 1. Checks if migrations table exists
+     * 2. If not, creates migrations table
+     * 3. Executes all initial migrations
+     * 4. Records executed migrations
+     * 
+     * @return Response Success or error message
+     */
     private function initDatabase()
     {
         $rb = $this->db->getPDO();
@@ -63,8 +101,16 @@ class InitController extends BaseController
         return new Response("Initialization success");
     }
 
-    // get all migrations files from migrations folder
-    // sorted by its name, and load its content
+    /**
+     * Get all SQL migration files from the migrations folder
+     * 
+     * This method:
+     * 1. Finds all .sql files in the migrations folder
+     * 2. Sorts them naturally by filename
+     * 3. Loads their contents
+     * 
+     * @return array Array of migration files and their contents
+     */
     private function getMigrations() 
     {
         $migrations = glob(__DIR__ . '/../migrations/*.sql');
