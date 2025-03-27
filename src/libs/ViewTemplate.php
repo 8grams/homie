@@ -11,6 +11,17 @@ use App\Libs\Auth\Authenticator;
 use App\Libs\Interfaces\BlogInterface;
 use App\Libs\ViewEngine;
 use App\Libs\Mailer;
+
+/**
+ * Extended template class that adds additional functionality to Plates
+ * 
+ * This class provides:
+ * - Dependency injection for various services
+ * - Layout management
+ * - Component loading
+ * - Translation support
+ * - Asset management
+ */
 class ViewTemplate extends Template 
 {
     protected Request $request; 
@@ -24,6 +35,16 @@ class ViewTemplate extends Template
     protected $slug;
     protected $langs = [];
 
+    /**
+     * Set all required dependencies for the template
+     * 
+     * @param Request $request The HTTP request object
+     * @param CacheInterface $cache Cache service
+     * @param DataStoreInterface $db Database service
+     * @param BlogInterface $blog Blog service
+     * @param Mailer $mailer Mailer service
+     * @param array $config Configuration array
+     */
     public function setDependencies(
         Request $request, 
         CacheInterface $cache, 
@@ -43,9 +64,13 @@ class ViewTemplate extends Template
 
         // set langs by loading from lang files
         $this->langs = $this->loadLangs();
-
     }
 
+    /**
+     * Load language translations from JSON file
+     * 
+     * @return array Array of translations
+     */
     private function loadLangs()
     {
         $jsonFilePath = $this->config['lang']['path'] . '/' . $this->locale . '.json';
@@ -57,16 +82,32 @@ class ViewTemplate extends Template
         return [];
     }
 
+    /**
+     * Set admin-specific dependencies
+     * 
+     * @param Authenticator $authenticator Authentication service
+     */
     public function setAdminDependencies(Authenticator $authenticator)
     {
         $this->authenticator = $authenticator;
     }
 
+    /**
+     * Constructor
+     * 
+     * @param ViewEngine $engine The template engine
+     * @param string $name Template name
+     */
     public function __construct(ViewEngine $engine, $name)
     {
         parent::__construct($engine, $name);
     }
 
+    /**
+     * Load and render a component from the pages directory
+     * 
+     * @param string $name Component name
+     */
     public function loadComponent($name)
     {
         $this->start($name);
@@ -76,6 +117,11 @@ class ViewTemplate extends Template
         echo $this->section($name);
     }
 
+    /**
+     * Load and render a component from the admin directory
+     * 
+     * @param string $name Component name
+     */
     public function loadAdminComponent($name)
     {
         $this->start($name);
@@ -85,6 +131,9 @@ class ViewTemplate extends Template
         echo $this->section($name);
     }
 
+    /**
+     * Set up default layouts for email templates
+     */
     public function setEmailDefaultLayouts()
     {
         $this->layout('emails/layouts/main');
@@ -98,6 +147,9 @@ class ViewTemplate extends Template
         $this->stop();
     }
 
+    /**
+     * Set up default layouts for admin pages
+     */
     public function setAdminDefaultLayouts()
     {
         $this->layout('layouts/main');
@@ -115,6 +167,9 @@ class ViewTemplate extends Template
         $this->stop();
     }
     
+    /**
+     * Set up default layouts for public pages
+     */
     public function setDefaultLayouts()
     {
         $this->layout('layouts/main');
@@ -128,11 +183,20 @@ class ViewTemplate extends Template
         $this->stop();
     }
 
+    /**
+     * Set up layouts for sitemap pages
+     */
     public function setSitemapLayouts()
     {
-        $this->layout('sitemap/layout');
+        $this->layout('layouts/sitemap');
     }
 
+    /**
+     * Get query parameters from the request
+     * 
+     * @param string $name Optional parameter name to get
+     * @return mixed Query parameter value or all parameters
+     */
     public function getQueryParams($name = "")
     {
         if ($name) {
@@ -142,6 +206,12 @@ class ViewTemplate extends Template
         return $this->request->query->all();
     }
 
+    /**
+     * Get JSON payload from the request
+     * 
+     * @param string $name Optional parameter name to get
+     * @return mixed JSON payload value or all payload
+     */
     public function getJsonPayload($name = "")
     {
         if ($name) {
@@ -151,6 +221,12 @@ class ViewTemplate extends Template
         return $this->request->getPayload()->all();
     }
 
+    /**
+     * Get form data from the request
+     * 
+     * @param string $name Optional parameter name to get
+     * @return mixed Form data value or all form data
+     */
     public function getFormData($name = "")
     {
         if ($name) {
@@ -160,12 +236,23 @@ class ViewTemplate extends Template
         return $this->request->request->all();
     }
 
-    // https://symfony.com/doc/current/session.html
+    /**
+     * Get the session from the request
+     * 
+     * @return \Symfony\Component\HttpFoundation\Session\SessionInterface
+     */
     public function getSession()
     {
         return $this->request->getSession();
     }
 
+    /**
+     * Get translation for a label
+     * 
+     * @param string $label Translation key
+     * @param string|null $default Default value if translation not found
+     * @return string Translated text
+     */
     public function trans($label, $default=null)
     {
         $trans = $this->db->init()->find('translations', [], 'label = ? AND locale = ?', [$label, $this->locale]);
@@ -185,6 +272,13 @@ class ViewTemplate extends Template
         return $this->e($default);
     }
 
+    /**
+     * Get asset URL by key
+     * 
+     * @param string $key Asset key
+     * @param string $default Default URL if asset not found
+     * @return string Asset URL
+     */
     public function asset($key, $default)
     {
         $assets = $this->db->init()->find('assets', [], 'key = ?', [$key]);
@@ -196,19 +290,30 @@ class ViewTemplate extends Template
         return $default;
     }
 
+    /**
+     * Create a redirect response
+     * 
+     * @param string $url URL to redirect to
+     * @return RedirectResponse
+     */
     public function redirect($url)
     {
         return new RedirectResponse($url);
     }
 
+    /**
+     * Render the template with data
+     * 
+     * @param array $data Data to pass to the template
+     * @return string Rendered template
+     */
     public function render(array $data = array())
     {
-        $this->data($data);
         $file = basename($this->name->getFile());
         // check if this empty file
         if ($file == ".php")  {
             $this->name->setName($this->name->getName() . "/index");
-            return parent::render($this->data);
+            return parent::render($data);
         }
 
         $this->slug = basename($this->name->getName());
@@ -218,7 +323,7 @@ class ViewTemplate extends Template
                 $rpath = clone $this->name;
                 $this->name->setName($this->name->getName() . "/index");
                 if (file_exists($this->name->getPath())) {
-                    return parent::render($this->data);
+                    return parent::render($data);
                 }
             }
 
@@ -236,6 +341,6 @@ class ViewTemplate extends Template
                 }
             }
         }
-        return parent::render($this->data);
+        return parent::render($data);
     }
 }

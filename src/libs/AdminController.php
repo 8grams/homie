@@ -7,8 +7,26 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Controller for handling admin panel requests
+ * 
+ * This controller extends BaseController and adds authentication checks
+ * and admin-specific functionality.
+ */
 class AdminController extends BaseController
 {
+    /**
+     * Render the admin page based on the request path
+     * 
+     * This method handles:
+     * - Authentication checks
+     * - Login/logout functionality
+     * - Adminer integration
+     * - Admin page rendering
+     * 
+     * @param Request $request The HTTP request object
+     * @return Response The HTTP response containing the rendered page
+     */
     public function render(Request $request): Response
     {
         session_start();

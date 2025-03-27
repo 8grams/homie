@@ -7,8 +7,18 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Part\DataPart;
 use App\Libs\ViewEngine;
 
+/**
+ * Mailer class for handling email operations
+ */
 class Mailer
 {
+    /**
+     * Constructor for Mailer class
+     * 
+     * @param MailerInterface $mailer Symfony mailer service
+     * @param ViewEngine $viewEngine Template engine for email content
+     * @param array $config Configuration array containing email settings
+     */
     public function __construct(
         private MailerInterface $mailer,
         private ViewEngine $viewEngine,
@@ -16,6 +26,14 @@ class Mailer
     ) {
     }
 
+    /**
+     * Send an email using a template
+     * 
+     * @param array $options Email options including from, to, subject, etc.
+     * @param array $data Data to be passed to the template
+     * @param string $template Template name without extension
+     * @return void
+     */
     public function send(array $options, array $data, $template): void
     {
         $templatePath = $this->config['email_template']['path'] . '/' . $template;
@@ -35,6 +53,12 @@ class Mailer
         $this->sendMail($options);
     }
 
+    /**
+     * Internal method to send the email using Symfony Mailer
+     * 
+     * @param array $options Email options including body, attachments, cc, bcc
+     * @return void
+     */
     private function sendMail(array $options): void
     {
         $email = new Email();

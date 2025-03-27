@@ -8,8 +8,22 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Main controller for handling public page requests
+ * 
+ * This controller extends BaseController and handles:
+ * - Asset file serving
+ * - Page rendering with layouts
+ * - Admin redirects
+ */
 class Controller extends BaseController
 {
+    /**
+     * Main render method that handles both asset requests and page rendering
+     * 
+     * @param Request $request The HTTP request object
+     * @return Response The HTTP response containing either the asset or rendered page
+     */
     public function render(Request $request): Response
     {
         if (strpos($request->getPathInfo(), '/data/assets/') === 0) {
@@ -20,6 +34,17 @@ class Controller extends BaseController
         return $this->renderPage($request);
     }
 
+    /**
+     * Render a page using the template engine
+     * 
+     * This method:
+     * - Handles default path routing
+     * - Sets up view dependencies
+     * - Applies default layouts
+     * 
+     * @param Request $request The HTTP request object
+     * @return Response The HTTP response containing the rendered page
+     */
     public function renderPage(Request $request): Response
     {
         $path = $request->attributes->get('path');
