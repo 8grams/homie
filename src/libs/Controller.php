@@ -47,13 +47,28 @@ class Controller extends BaseController
      */
     public function renderPage(Request $request): Response
     {
+        // get request uri, if there `index.php` remove it, and redirect to the new uri
+        $requestUri = $request->getRequestUri();
+        if (strpos($requestUri, 'index.php') !== false) {
+            $newUri = str_replace('/index.php', '', $requestUri);
+            if (empty($newUri)) $newUri = '/';
+            return new RedirectResponse($newUri);
+        }
+
         $path = $request->attributes->get('path');
+        
+        // redirect /index to /
+        $pathBasename = basename($path);
+        if ($pathBasename === 'index' || $pathBasename === 'index.php') {
+            return new RedirectResponse("/" . dirname($path));
+        }
+
         if (!$path || empty($path)) {
             $path = 'index';
         }
 
         if ($path === 'admin') {
-            return new RedirectResponse('admin/home');
+            return new RedirectResponse('admin/index');
         }
 
         $view = $this->viewEngine->make($path);

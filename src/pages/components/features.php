@@ -16,4 +16,8 @@
         <h3>WordPress & Adminer Included</h3>
         <p>Incorporates <a href="https://github.com/8grams/bedrock">WordPress and <a href="https://www.adminer.org/">Adminer</a> by default, providing content management and database administration tools.</p>
     </div>
+    <div class="highlight">
+        <h3>Support Slug</h3>
+        <p>Supports <a href="/tests/hello-world">slugs</a> for pages, posts, categories, tags, and more.</p>
+    </div>
 </div>

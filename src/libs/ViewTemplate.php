@@ -255,7 +255,9 @@ class ViewTemplate extends Template
      */
     public function trans($label, $default=null)
     {
-        $trans = $this->db->init()->find('translations', [], 'label = ? AND locale = ?', [$label, $this->locale]);
+        // base64 encode of the current url
+        $urlHash = base64_encode(str_replace("/" . $this->locale, "", $this->request->getUri()));
+        $trans = $this->db->init()->find('translations', [], 'label = ? AND locale = ? AND url_hash = ?', [$label, $this->locale, $urlHash]);
         if (count($trans) > 0) {
             $tran = array_pop($trans);
             return $this->e($tran->value);

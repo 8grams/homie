@@ -6,6 +6,7 @@ class ContentEditor {
     this.wrappers = null;
     this.langs = ["en", "id"];
     this.selectedLang = new URL(location).searchParams.get("lang") ?? "en";
+    this.urlHash = '';
   }
 
   init() {
@@ -15,6 +16,11 @@ class ContentEditor {
   }
 
   load() {
+    const loadedUrl = this.$refs.iframe.contentWindow.location.href;
+
+    // replace /lang/ with /
+    this.urlHash = btoa(loadedUrl.replace("/" + this.selectedLang, ""));
+    
     const trans = [
       ...this.$el.contentDocument.querySelectorAll("[data-trans]"),
     ].reduce((entries, el) => {

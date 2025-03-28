@@ -3,17 +3,19 @@
 /** @var \App\Libs\ViewTemplate $this */
 if ($this->request->getMethod() == 'POST') {
   $payload = $this->request->getPayload();
+
   $lang = $payload->get('lang');
+  $urlHash = $payload->get('urlHash');
   $trans = $payload->all('trans');
   /** @var \Symfony\Component\HttpFoundation\File\UploadedFile[] */
   $asset = $this->request->files->all('asset');
   $pdo = $this->db->getPDO();
   $statement = $pdo->prepare("
-    INSERT INTO translations (locale, label, value)
-    VALUES (:locale, :label, :value)
-    ON CONFLICT (locale, label) DO UPDATE
+    INSERT INTO translations (locale, label, value, url_hash)
+    VALUES (:locale, :label, :value, :url_hash)
+    ON CONFLICT (locale, label, url_hash) DO UPDATE
     SET value = :value
-    WHERE locale = :locale AND label = :label
+    WHERE locale = :locale AND label = :label AND url_hash = :url_hash
   ");
   $pdo->beginTransaction();
   foreach ($trans as $key => $value) {
@@ -21,6 +23,7 @@ if ($this->request->getMethod() == 'POST') {
       'locale' => $lang,
       'label' => $key,
       'value' => $value,
+      'url_hash' => $urlHash,
     ]);
   }
   $getAsset = $pdo->prepare("SELECT * FROM assets WHERE key = ?");
@@ -68,6 +71,7 @@ if ($this->request->getMethod() == 'POST') {
       </template>
     </ul>
     <input type="hidden" name="lang" :value="selectedLang">
+    <input type="hidden" name="urlHash" :value="urlHash">
     <ul>
       <template x-for="entry in entries">
         <li>

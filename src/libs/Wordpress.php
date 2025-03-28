@@ -83,6 +83,10 @@ class Wordpress implements BlogInterface
 
         if ($this->cacheEnabled) {
             $cacheKey = $this->getCacheKey('posts', $useOptions);
+            $cachedPosts = $this->cache->get($cacheKey);
+            if ($cachedPosts) {
+                return $cachedPosts;
+            }
         }
 
         $response = $this->client->request('GET', 'posts', ['query' => $useOptions]);
@@ -91,7 +95,11 @@ class Wordpress implements BlogInterface
         foreach ($response->toArray() as $post) {
             $posts[] = $this->constructPost($post);
         }
-        
+
+        if ($this->cacheEnabled) {
+            $this->cache->set($cacheKey, $posts, $this->cacheAge);
+        }
+
         return $posts;
     }
 
@@ -103,8 +111,20 @@ class Wordpress implements BlogInterface
      */
     private function retrieveSinglePost(int $id): Post
     {
+        if ($this->cacheEnabled) {
+            $cacheKey = $this->getCacheKey('post', $id);
+            $cachedPost = $this->cache->get($cacheKey);
+            if ($cachedPost) {
+                return $cachedPost;
+            }
+        }
+
         $response = $this->client->request('GET', 'posts/' . $id, ['query' => ['_embed' => true]]);
         $post = $response->toArray();
+        
+        if ($this->cacheEnabled) {
+            $this->cache->set($cacheKey, $post, $this->cacheAge);
+        }
         return $this->constructPost($post);
     }
 

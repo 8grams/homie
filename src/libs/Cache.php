@@ -30,23 +30,28 @@ class Cache implements CacheInterface
      * Set a value in the cache with optional TTL
      * 
      * @param string $key Cache key
-     * @param mixed $value Value to cache
+     * @param mixed $value Value to cache (can be array, string, or other serializable data)
      * @param int|null $ttl Time to live in seconds
      * @return bool Success status
      */
     public function set(string $key, $value, $ttl = null): bool
     {
         $rb = $this->getRb();
+        
+        // Serialize the value if it's not a string
+        $serializedValue = is_string($value) ? $value : serialize($value);
 
         // check if key exists
         $query = $rb->query('SELECT * FROM cache WHERE key = "'.$key.'"');
         $result = $query->fetch();
         if ($result) {
-            $rb->exec('UPDATE cache SET value = "'.$value.'", created_time = "'.time().'", expired_time = "'.time() + $ttl.'" WHERE key = "'.$key);
+            $rb->exec('UPDATE cache SET value = "'.$serializedValue.'", created_time = "'.time().'", expired_time = "'.time() + $ttl.'" WHERE key = "'.$key);
             return true;
         }
 
-        $rb->exec('INSERT INTO cache (key, value, created_time, expired_time) VALUES ("'.$key.'", "'.$value.'", "'.time().'", "'.time() + $ttl.'")');
+        $rb->exec('INSERT INTO cache (key, value, created_time, expired_time) VALUES ("'.$key.'", "'.$serializedValue.'", "'.time().'", "'.time() + $ttl.'")');
+
+        $this->deleteExpired();
         return true;
     }
 
@@ -66,7 +71,13 @@ class Cache implements CacheInterface
             return null;
         }
         $result = $query->fetch();
-        return $result['value'];
+        
+        // Try to unserialize the value
+        $value = $result['value'];
+        $unserialized = @unserialize($value);
+        
+        // Return unserialized value if successful, otherwise return original string
+        return $unserialized !== false ? $unserialized : $value;
     }
 
     /**
@@ -79,6 +90,18 @@ class Cache implements CacheInterface
     {
         $rb = $this->getRb();
         $rb->exec('DELETE FROM cache WHERE key = "'.$key.'"');
+        return true;
+    }
+
+    /**
+     * Delete expired cache entries
+     * 
+     * @return bool Success status
+     */
+    public function deleteExpired(): bool
+    {
+        $rb = $this->getRb();
+        $rb->exec('DELETE FROM cache WHERE expired_time < "'.time().'"');
         return true;
     }
 
