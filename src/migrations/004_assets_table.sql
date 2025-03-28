@@ -6,4 +6,4 @@ CREATE TABLE assets (
     value BLOB
 );
 
-CREATE UNIQUE INDEX idx_key ON assets(key);
+CREATE UNIQUE INDEX idx_key ON assets(key, url_hash);

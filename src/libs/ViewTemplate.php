@@ -283,7 +283,9 @@ class ViewTemplate extends Template
      */
     public function asset($key, $default)
     {
-        $assets = $this->db->init()->find('assets', [], 'key = ?', [$key]);
+        // base64 encode of the current url
+        $urlHash = base64_encode(str_replace("/" . $this->locale, "", $this->request->getUri()));
+        $assets = $this->db->init()->find('assets', [], 'key = ? AND url_hash = ?', [$key, $urlHash]);
         if (count($assets) > 0) {
             $asset = array_pop($assets);
             return $asset->src;
