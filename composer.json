@@ -46,6 +46,9 @@
         ],
         "generate-sitemap": [
             "export RUN_ON_CLI=true && php generate-sitemap.php"
+        ],
+        "upgrade": [
+            "php upgrade.php"
         ]
     }
 }

@@ -374,14 +374,14 @@ Homie supports both an HTML version (`welcome.php`) and a plain text version (`w
 
 ## Upgrading
 
-Upgrading is easy. First, create a new Homie project using Composer:
+Upgrading is easy. Run:
 
 ```
-composer create-project 8grams/homie
+composer run upgrade
 ```
 
 
-Then, move your files from the pages folder in your old project to the new project. If you have any additional migration files on `src/migrations` folder, they should be moved as well.
+Then, check the final result to ensure that no unwanted files have been modified or added.
 
 
 ## License
