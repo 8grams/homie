@@ -1,0 +1,10 @@
+{
+	frankenphp
+}
+
+${APP_URL} {
+    encode zstd br gzip
+    root * /app/public
+    php_server
+    file_server
+} 
