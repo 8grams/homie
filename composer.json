@@ -33,7 +33,8 @@
         "symfony/dom-crawler": "^7.2",
         "spatie/crawler": "^8.4",
         "guzzlehttp/guzzle": "^7.9",
-        "symfony/mailer": "^7.2"
+        "symfony/mailer": "^7.2",
+        "aws/aws-sdk-php": "^3.0"
     },
     "require-dev": {
         "heston/heston": "dev-master"
@@ -49,6 +50,9 @@
         ],
         "upgrade": [
             "php scripts/upgrade.php"
+        ],
+        "backup": [
+            "php scripts/backup.php"
         ]
     }
 }

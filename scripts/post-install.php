@@ -12,8 +12,11 @@ if (!file_exists($envPath)) {
     exit;    
 }
 
-$dotenv = new Dotenv();
-$dotenv->loadEnv($envPath, overrideExistingVars: true);
+if (!file_exists($rootDir . '.dockerenv')) {
+    $dotenv = new Dotenv();
+    $dotenv->loadEnv($envPath, overrideExistingVars: true);
+}
+
 function generateKey($length = 64) {
     return substr(str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:,.<>?/`~', $length)), 0, $length);
 }

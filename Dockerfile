@@ -2,7 +2,14 @@ FROM dunglas/frankenphp
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y libzip-dev libsqlite3-dev git curl gettext-base
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    libsqlite3-dev \
+    git \
+    curl \
+    gettext-base \
+    cron \
+    zip
 
 # Install PHP extensions
 RUN docker-php-ext-install zip
@@ -23,9 +30,16 @@ COPY ./docker/Caddyfile /etc/caddy/Caddyfile
 # prepare production php.ini
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
-COPY ./start.sh ./start.sh
-RUN chmod +x ./start.sh
+COPY ./docker/start.sh ./start.sh
+COPY ./docker/backup.sh ./backup.sh
+ADD init-cron /etc/cron.d/init-cron
 
+RUN chmod +x ./start.sh && \
+    chmod +x ./backup.sh && \
+    chmod 0644 /etc/cron.d/init-cron && \
+    /usr/bin/crontab /etc/cron.d/init-cron && \
+    touch .dockerenv
+    
 # Expose ports
 EXPOSE 80 443
 

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# run cron
+printenv | sed 's/^\(.*\)\=\(.*\)$/export \1\="\2"/g' > /root/project_env.sh
+source /root/project_env.sh
+cron
+
 # Set default values for environment variables if not set
 export APP_URL=${APP_URL:-":80"}
 

@@ -11,8 +11,10 @@ if (!file_exists($envPath)) {
     exit;    
 }
 
-$dotenv = new Dotenv();
-$dotenv->loadEnv($envPath, overrideExistingVars: true);
+if (!file_exists($rootDir . '.dockerenv')) {
+    $dotenv = new Dotenv();
+    $dotenv->loadEnv($envPath, overrideExistingVars: true);
+}
 
 if ($_SERVER['RUN_ON_CLI'] == 'true') {
     $config = require $rootDir . 'src/dependencies/config.php';

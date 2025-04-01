@@ -3,19 +3,22 @@
 use Symfony\Component\Dotenv\Dotenv;
 use Spatie\Ignition\Ignition;
 
-$dotenv = new Dotenv();
-$envPath = __DIR__.'/../../.env';
-if (file_exists($envPath)) {
-    $dotenv->loadEnv($envPath, overrideExistingVars: true);
+$rootDir = __DIR__.'/../../';
+
+if (!file_exists($rootDir . '.dockerenv')) {
+    if (!file_exists($rootDir . '.env') && file_exists($rootDir . '.env.example')) {
+        copy($rootDir . '.env.example', $rootDir . '.env');
+    }
+    
+    $dotenv = new Dotenv();
+    $envPath = $rootDir . '.env';
+    if (file_exists($envPath)) {
+        $dotenv->loadEnv($envPath, overrideExistingVars: true);
+    }
 }
 
 // load config
-$config = require __DIR__.'/config.php';
-
-// copy .env.example to .env
-if (!file_exists(__DIR__.'/../../.env') && file_exists(__DIR__.'/../../.env.example')) {
-    copy(__DIR__.'/../../.env.example', __DIR__.'/../../.env');
-}
+$config = require $rootDir.'src/dependencies/config.php';
 
 Ignition::make()
     ->setTheme('dark')
