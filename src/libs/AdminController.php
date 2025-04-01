@@ -73,6 +73,12 @@ class AdminController extends BaseController
                 return new RedirectResponse('index');
             }
 
+            if ($path == "backup") {
+                // run script/backup.php
+                require_once __DIR__ . '/../../scripts/backup.php';
+                return new Response('Backup completed successfully');
+            }
+
             if ($path == 'adminer') {
                 include_once __DIR__ . '/../adminer/init.php';
                 return new Response();

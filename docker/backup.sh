@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cd /app && composer run backup
+cd /app && /usr/bin/composer run backup
