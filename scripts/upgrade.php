@@ -12,6 +12,8 @@
  */
 
 // Package configuration
+$rootDir = __DIR__ . '/../';
+
 $packageName = '8grams/homie';
 $tempDirName = 'temp_upgrade';
 $backupDirPrefix = 'backup_';
@@ -38,8 +40,8 @@ $excludeFiles = [
 ];
 
 // Directory paths
-$tempDir = __DIR__ . '/' . $tempDirName;
-$backupDir = __DIR__ . '/' . $backupDirPrefix . date('Y-m-d_H-i-s');
+$tempDir = $rootDir . $tempDirName;
+$backupDir = $rootDir . $backupDirPrefix . date('Y-m-d_H-i-s');
 
 // Get latest version from Packagist
 echo "Fetching latest version from Packagist...\n";
@@ -55,7 +57,7 @@ echo "Creating backup...\n";
 if (!file_exists($backupDir)) {
     mkdir($backupDir, 0755, true);
 }
-copyDirectory(__DIR__, $backupDir, array_merge($preserveDirs, $mergeDirs, $excludeDirs));
+copyDirectory($rootDir, $backupDir, array_merge($preserveDirs, $mergeDirs, $excludeDirs));
 
 // Create temporary directory
 echo "Creating temporary directory...\n";
@@ -75,14 +77,14 @@ if ($returnVar !== 0) {
 
 // Preserve src/pages directory
 echo "Preserving src/pages directory...\n";
-if (file_exists(__DIR__ . '/src/pages')) {
-    copyDirectory(__DIR__ . '/src/pages', $tempDir . '/src/pages');
+if (file_exists($rootDir . 'src/pages')) {
+    copyDirectory($rootDir . 'src/pages', $tempDir . '/src/pages');
 }
 
 // Merge migrations directory
 echo "Merging migrations directory...\n";
-if (file_exists(__DIR__ . '/src/migrations')) {
-    mergeMigrations(__DIR__ . '/src/migrations', $tempDir . '/src/migrations');
+if (file_exists($rootDir . 'src/migrations')) {
+    mergeMigrations($rootDir . 'src/migrations', $tempDir . '/src/migrations');
 }
 
 // Replace files
@@ -94,10 +96,10 @@ if (file_exists($tempPagesDir)) {
     removeDirectory($tempPagesDir);
 }
 
-copyDirectory($tempDir, __DIR__, $excludeDirs);
+copyDirectory($tempDir, $rootDir, $excludeDirs);
 
 // Remove .github folder if it exists
-$githubDir = __DIR__ . '/.github';
+$githubDir = $rootDir . '.github';
 if (file_exists($githubDir)) {
     echo "Removing .github folder...\n";
     removeDirectory($githubDir);
@@ -128,7 +130,7 @@ function copyDirectory($source, $destination, $excludeDirs = [])
             $destFile = $destination . '/' . $file;
 
             // Skip excluded directories and backup directories
-            $relativePath = str_replace(__DIR__ . '/', '', $srcFile);
+            $relativePath = str_replace($rootDir, '', $srcFile);
             if (in_array($relativePath, $excludeDirs) || strpos($relativePath, 'backup_') === 0) {
                 continue;
             }

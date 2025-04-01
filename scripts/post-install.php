@@ -1,10 +1,13 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/src/dependencies/rb-sqlite.php';
+
+$rootDir = __DIR__ . '/../';
+
+require_once $rootDir . 'vendor/autoload.php';
+require_once $rootDir . 'src/dependencies/rb-sqlite.php';
 
 use Symfony\Component\Dotenv\Dotenv;
 
-$envPath = __DIR__.'/.env';
+$envPath = $rootDir . '.env';
 if (!file_exists($envPath)) {
     exit;    
 }
@@ -18,7 +21,7 @@ function generateKey($length = 64) {
 function initDatabase()
 {
     echo "Initiate Database\n";
-    R::setup("sqlite:". __DIR__.'/data/' . $_ENV['SQLITE_DATABASE']);
+    R::setup("sqlite:". $rootDir . 'data/' . $_ENV['SQLITE_DATABASE']);
     R::useFeatureSet('novice/latest');
 
     $rb = R::getPDO();
@@ -67,7 +70,7 @@ function migrateDatabase($rb)
 
 function getMigrations() 
 {
-    $migrations = glob(__DIR__ . '/src/migrations/*.sql');
+    $migrations = glob($rootDir . 'src/migrations/*.sql');
     natsort($migrations);
     $migrationData = [];
     foreach ($migrations as $migration) {
@@ -116,7 +119,7 @@ if ($_ENV['ENABLE_BLOG'] == 'true') {
     EOL;
 
     // Define the file path
-    $filePath = __DIR__ . '/wp/.env';
+    $filePath = $rootDir . 'wp/.env';
 
     // Write content to the file
     if (file_put_contents($filePath, $envContent) !== false) {
@@ -128,6 +131,6 @@ if ($_ENV['ENABLE_BLOG'] == 'true') {
     echo "Successfully initiate wordpress!\n";
 
     echo "Initiate SQLite Database!\n";
-    copy(__DIR__ . '/wp/web/app/plugins/sqlite-database-integration/db.copy', __DIR__ . '/wp/web/app/db.php');
+    copy($rootDir . 'wp/web/app/plugins/sqlite-database-integration/db.copy', $rootDir . 'wp/web/app/db.php');
     echo "Successfully initiate SQLite Database!\n";
 }

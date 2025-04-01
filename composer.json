@@ -42,13 +42,13 @@
     "prefer-stable": true,
     "scripts": {
         "post-install-cmd": [
-            "php post-install.php"
+            "php scripts/post-install.php"
         ],
         "generate-sitemap": [
-            "export RUN_ON_CLI=true && php generate-sitemap.php"
+            "export RUN_ON_CLI=true && php scripts/generate-sitemap.php"
         ],
         "upgrade": [
-            "php upgrade.php"
+            "php scripts/upgrade.php"
         ]
     }
 }
