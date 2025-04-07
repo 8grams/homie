@@ -23,6 +23,7 @@ function generateKey($length = 64) {
 
 function initDatabase()
 {
+    global $rootDir;
     echo "Initiate Database\n";
     R::setup("sqlite:". $rootDir . 'data/' . $_ENV['SQLITE_DATABASE']);
     R::useFeatureSet('novice/latest');
@@ -73,6 +74,7 @@ function migrateDatabase($rb)
 
 function getMigrations() 
 {
+    global $rootDir;
     $migrations = glob($rootDir . 'src/migrations/*.sql');
     natsort($migrations);
     $migrationData = [];
