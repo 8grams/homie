@@ -9,7 +9,13 @@ if (isset($_GET['id'])) {
 }
 ?>
 <div
-  x-init="new Drawer($el, { placement: 'right' }).show()"
+  x-init="const d = new Drawer($el,     {placement: 'right',
+    bodyScrolling: false,
+    backdrop: true,
+    edge: false,
+    edgeOffset: 'bottom-[60px]',
+    backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-30'})
+    setTimeout(() => d.show(), 100)"
   id="drawer-create-blog-default"
   class="fixed top-0 right-0 z-40 w-full h-screen max-w-lg p-4 overflow-y-auto transition-transform bg-white dark:bg-gray-800 translate-x-full"
   tabindex="-1"
@@ -44,7 +50,7 @@ if (isset($_GET['id'])) {
     </svg>
     <span class="sr-only">Close menu</span>
   </button>
-  <form action="#">
+  <form>
     <div class="space-y-4">
       <div>
         <label
@@ -102,7 +108,7 @@ if (isset($_GET['id'])) {
           Content
         </label>
         <textarea x-ref="content" name="content" class="hidden"></textarea>
-        <?php include __DIR__ . '/blogformcontent.php' ?>
+        <?php include __DIR__ . '/blogs_form_content.php' ?>
       </div>
       <div>
         <label
@@ -237,14 +243,29 @@ if (isset($_GET['id'])) {
         >
           Category
         </label>
-        <input
+        <select
+          x-init="
+            new Choices($el, {
+              choices: [{value: 'Apple', label: 'Apple', selected: false, disabled: false}, {value: 'Banana', label: 'Banana', selected: false, disabled: false}],
+              delimiter: ';',
+              addChoices: true,
+              addItems: true,
+              editItems: true,
+              removeItems: true,
+              removeItemButton: true,
+              classNames: {
+                containerInner: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 p-2.5'.split(' '),
+                inputCloned: 'focus:ring-0'
+              }
+            })
+          "
           type="text"
-          name="category_id"
-          id="category_id"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          placeholder="Type blog category"
+          name="tags"
+          id="tags"
+          placeholder="Type blog tags"
+          multiple
           required
-        />
+        ></select>
       </div>
       <div>
         <label

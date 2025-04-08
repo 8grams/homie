@@ -92,4 +92,6 @@
   </div>
 </div>
 
-<?php include __DIR__ . '/blogform.php' ?>
+<?php include __DIR__ . '/blogs_table.php' ?>
+<?php include __DIR__ . '/blogs_footer.php' ?>
+<?php include __DIR__ . '/blogs_form.php' ?>
