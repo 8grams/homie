@@ -32,8 +32,8 @@ try {
     $response = call_user_func_array($controller, $arguments);
 } catch (ResourceNotFoundException $exception) {
     $response = new Response('Not Found', 404);
-} catch (Exception $exception) {
-    $response = new Response('An error occurred: ' . $exception->getMessage(), 500);
+} catch (Throwable $exception) {
+    $response = new Response('<pre>An error occurred: ' . $exception->getMessage() . '\n' . $exception->getTraceAsString() . '</pre>', 500);
 }
 
 $response->send();

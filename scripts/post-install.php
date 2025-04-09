@@ -24,7 +24,7 @@ function generateKey($length = 64) {
 function initDatabase()
 {
     $rootDir = __DIR__ . '/../';
-
+  
     echo "Initiate Database\n";
     R::setup("sqlite:". $rootDir . 'data/' . $_ENV['SQLITE_DATABASE']);
     R::useFeatureSet('novice/latest');

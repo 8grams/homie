@@ -41,7 +41,7 @@ CREATE UNIQUE INDEX idx_slug ON blogs(slug);
 CREATE TABLE tags_blogs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     tag_id INTEGER,
-    blog_id INTEGER 
+    blog_id INTEGER,
     FOREIGN KEY (tag_id) REFERENCES tags(id),
     FOREIGN KEY (blog_id) REFERENCES blogs(id)
 );
