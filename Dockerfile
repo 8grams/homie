@@ -32,7 +32,7 @@ RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
 COPY ./docker/start.sh ./start.sh
 COPY ./docker/backup.sh ./backup.sh
-ADD init-cron /etc/cron.d/init-cron
+COPY ./docker/init-cron /etc/cron.d/init-cron
 
 RUN chmod +x ./start.sh && \
     chmod +x ./backup.sh && \
