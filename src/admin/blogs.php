@@ -1,9 +1,3 @@
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
-/>
-<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-
 <div
   class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700"
 >
@@ -70,7 +64,7 @@
           <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
             <input
               type="text"
-              name="email"
+              name="search"
               id="products-search"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               placeholder="Search for blogs"
@@ -78,20 +72,15 @@
           </div>
         </form>
       </div>
-      <button
+      <a
+        href="/admin/blogs_form"
         class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-        type="button"
-        data-drawer-target="drawer-create-blog-default"
-        data-drawer-show="drawer-create-blog-default"
-        aria-controls="drawer-create-blog-default"
-        data-drawer-placement="right"
       >
         Add new blog
-      </button>
+      </a>
     </div>
   </div>
 </div>
 
 <?php include __DIR__ . '/blogs_table.php' ?>
 <?php include __DIR__ . '/blogs_footer.php' ?>
-<?php include __DIR__ . '/blogs_form.php' ?>

@@ -69,7 +69,7 @@ window.initContent = function (textarea) {
         }),
         // Include the custom Bold extension
         CustomBold,
-        TextStyle,
+        // TextStyle,
         Color,
         FontSizeTextStyle,
         FontFamily,
