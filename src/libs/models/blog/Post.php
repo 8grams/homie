@@ -18,6 +18,11 @@ class Post
     private $image;
     private $slug;
     private $relatedPosts = [];
+    private $metaTitle;
+    private $metaDescription;
+    private $metaKeywords;
+    private $metaImage;
+    private $metaUrl;
 
     public function __construct(
         $id,
@@ -31,7 +36,12 @@ class Post
         $url,
         $image,
         $slug,
-        $relatedPosts = []
+        $relatedPosts = [],
+        $metaTitle = null,
+        $metaDescription = null,
+        $metaKeywords = null,
+        $metaImage = null,
+        $metaUrl = null,
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -45,6 +55,11 @@ class Post
         $this->image = $image;
         $this->slug = $slug;
         $this->relatedPosts = $relatedPosts;
+        $this->metaTitle = $metaTitle;
+        $this->metaDescription = $metaDescription;
+        $this->metaKeywords = $metaKeywords;
+        $this->metaImage = $metaImage;
+        $this->metaUrl = $metaUrl;
     }
 
     public function getId(): int
@@ -110,5 +125,30 @@ class Post
     public function getRelatedPosts(): array
     {
         return $this->relatedPosts;
+    }
+
+    public function getMetaTitle(): ?string
+    {
+        return $this->metaTitle;
+    }
+
+    public function getMetaDescription(): ?string
+    {
+        return $this->metaDescription;
+    }
+
+    public function getMetaKeywords(): ?string
+    {
+        return $this->metaKeywords;
+    }
+
+    public function getMetaImage(): ?string
+    {
+        return $this->metaImage;
+    }
+
+    public function getMetaUrl(): ?string
+    {
+        return $this->metaUrl;
     }
 }

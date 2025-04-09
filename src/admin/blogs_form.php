@@ -115,13 +115,13 @@ if (isset($_GET['id'])) {
 }
 
 if (empty($_GET['id'])) {
-  $title = 'New Blog';
+  $title = 'New Post';
 } else {
-  $title = 'Edit Blog';
+  $title = 'Edit Post';
 }
 ?>
 
-<div class="w-full mb-1 p-4 bg-white block border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+<div class="w-full mb-1 p-4 bg-white block border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
   <div class="mb-4">
     <nav class="flex mb-5" aria-label="Breadcrumb">
       <ol
@@ -156,7 +156,7 @@ if (empty($_GET['id'])) {
             <a
               href="/admin/blogs"
               class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">
-              Blogs
+              Blog
             </a>
           </div>
         </li>
@@ -205,7 +205,7 @@ if (empty($_GET['id'])) {
           name="title"
           id="title"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          placeholder="Type blog title"
+          placeholder="Type title.."
           value="<?= htmlspecialchars($row->title ?? '') ?>" />
       </div>
       <div>
@@ -219,187 +219,8 @@ if (empty($_GET['id'])) {
           name="slug"
           id="slug"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          placeholder="Type blog slug"
+          placeholder="Type slug.."
           value="<?= htmlspecialchars($row->slug ?? '') ?>" />
-      </div>
-      <div>
-        <label
-          for="hero_image"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Hero Image
-        </label>
-        <div
-          data-file="<?= $row->hero_image ?? '' ?>"
-          class="w-full h-64 overflow-hidden cursor-pointer border border-gray-300 text-gray-300 rounded-lg dark:border-gray-600 dark:text-gray-600"
-          x-data="{ file: $el.dataset.file }"
-          @click="$refs.input.click()">
-          <input
-            x-ref="input"
-            @input="file = URL.createObjectURL($el.files[0])"
-            class="hidden"
-            type="file"
-            name="hero_image" />
-          <template x-if="!file">
-            <div class="p-4 h-full flex justify-center items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24">
-                <path
-                  fill="currentColor"
-                  d="m16 21l-4.762-8.73L15 6l8 15zM8 10l6 11H2zM5.5 8a2.5 2.5 0 1 1 0-5a2.5 2.5 0 0 1 0 5" />
-              </svg>
-            </div>
-          </template>
-          <template x-if="file">
-            <img
-              class="w-full h-full object-cover"
-              :src="file" />
-          </template>
-        </div>
-      </div>
-      <div>
-        <label
-          for="content"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Content
-        </label>
-        <textarea x-ref="content" name="content" class="hidden"><?= htmlspecialchars($row->content ?? '') ?></textarea>
-        <?php include __DIR__ . '/blogs_form_content.php' ?>
-      </div>
-      <div>
-        <label
-          for="excerpt"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Excerpt
-        </label>
-        <textarea
-          id="excerpt"
-          name="excerpt"
-          rows="4"
-          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          placeholder="Enter excerpt here"><?= htmlspecialchars($row->excerpt ?? '') ?></textarea>
-      </div>
-      <div>
-        <label
-          for="header_code_injection"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Header Code Injection
-        </label>
-        <textarea
-          id="header_code_injection"
-          name="header_code_injection"
-          rows="4"
-          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          placeholder="Enter header code injection here"><?= htmlspecialchars($row->header_code_injection ?? '') ?></textarea>
-      </div>
-      <div>
-        <label
-          for="footer_code_injection"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Footer Code Injection
-        </label>
-        <textarea
-          id="footer_code_injection"
-          name="footer_code_injection"
-          rows="4"
-          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          placeholder="Enter footer code injection here"><?= htmlspecialchars($row->footer_code_injection ?? '') ?></textarea>
-      </div>
-      <h6 class="font-bold dark:text-white">Metadata</h6>
-      <div>
-        <label
-          for="meta_title"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Title
-        </label>
-        <input
-          type="text"
-          name="meta_title"
-          id="meta_title"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          placeholder="Type blog title"
-          value="<?= htmlspecialchars($row->meta_title ?? '') ?>" />
-      </div>
-      <div>
-        <label
-          for="meta_description"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Description
-        </label>
-        <input
-          type="text"
-          name="meta_description"
-          id="meta_description"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          placeholder="Type blog description"
-          value="<?= htmlspecialchars($row->meta_description ?? '') ?>" />
-      </div>
-      <div>
-        <label
-          for="meta_keywords"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Keywords
-        </label>
-        <input
-          type="text"
-          name="meta_keywords"
-          id="meta_keywords"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          placeholder="Type blog keywords"
-          value="<?= htmlspecialchars($row->meta_keywords ?? '') ?>" />
-      </div>
-      <div>
-        <label
-          for="meta_image"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Image
-        </label>
-        <div
-          data-file="<?= $row->meta_image ?? '' ?>"
-          class="w-full h-64 overflow-hidden cursor-pointer border border-gray-300 text-gray-300 rounded-lg dark:border-gray-600 dark:text-gray-600"
-          x-data="{ file: $el.dataset.file }"
-          @click="$refs.input.click()">
-          <input
-            x-ref="input"
-            @input="file = URL.createObjectURL($el.files[0])"
-            class="hidden"
-            type="file"
-            name="meta_image" />
-          <template x-if="!file">
-            <div class="p-4 h-full flex justify-center items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24">
-                <path
-                  fill="currentColor"
-                  d="m16 21l-4.762-8.73L15 6l8 15zM8 10l6 11H2zM5.5 8a2.5 2.5 0 1 1 0-5a2.5 2.5 0 0 1 0 5" />
-              </svg>
-            </div>
-          </template>
-          <template x-if="file">
-            <img
-              class="w-full h-full object-cover"
-              :src="file" />
-          </template>
-        </div>
-      </div>
-      <div>
-        <label
-          for="meta_url"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          URL
-        </label>
-        <input
-          type="text"
-          name="meta_url"
-          id="meta_url"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          placeholder="Type blog url"
-          value="<?= htmlspecialchars($row->meta_url ?? '') ?>" />
       </div>
       <div x-data>
         <label
@@ -558,6 +379,185 @@ if (empty($_GET['id'])) {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <label
+          for="hero_image"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Hero Image
+        </label>
+        <div
+          data-file="<?= $row->hero_image ?? '' ?>"
+          class="w-full h-64 overflow-hidden cursor-pointer border border-gray-300 text-gray-300 rounded-lg dark:border-gray-600 dark:text-gray-600"
+          x-data="{ file: $el.dataset.file }"
+          @click="$refs.input.click()">
+          <input
+            x-ref="input"
+            @input="file = URL.createObjectURL($el.files[0])"
+            class="hidden"
+            type="file"
+            name="hero_image" />
+          <template x-if="!file">
+            <div class="p-4 h-full flex justify-center items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
+                viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="m16 21l-4.762-8.73L15 6l8 15zM8 10l6 11H2zM5.5 8a2.5 2.5 0 1 1 0-5a2.5 2.5 0 0 1 0 5" />
+              </svg>
+            </div>
+          </template>
+          <template x-if="file">
+            <img
+              class="w-full h-full object-cover"
+              :src="file" />
+          </template>
+        </div>
+      </div>
+      <div>
+        <label
+          for="content"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Content
+        </label>
+        <textarea x-ref="content" name="content" class="hidden"><?= htmlspecialchars($row->content ?? '') ?></textarea>
+        <?php include __DIR__ . '/blogs_form_content.php' ?>
+      </div>
+      <div>
+        <label
+          for="excerpt"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Excerpt
+        </label>
+        <textarea
+          id="excerpt"
+          name="excerpt"
+          rows="4"
+          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          placeholder="Enter excerpt.."><?= htmlspecialchars($row->excerpt ?? '') ?></textarea>
+      </div>
+      <div>
+        <label
+          for="header_code_injection"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Header Code Injection
+        </label>
+        <textarea
+          id="header_code_injection"
+          name="header_code_injection"
+          rows="4"
+          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          placeholder="Enter header code injection.."><?= htmlspecialchars($row->header_code_injection ?? '') ?></textarea>
+      </div>
+      <div>
+        <label
+          for="footer_code_injection"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Footer Code Injection
+        </label>
+        <textarea
+          id="footer_code_injection"
+          name="footer_code_injection"
+          rows="4"
+          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          placeholder="Enter footer code injection.."><?= htmlspecialchars($row->footer_code_injection ?? '') ?></textarea>
+      </div>
+      <h6 class="font-bold dark:text-white">Metadata</h6>
+      <div>
+        <label
+          for="meta_title"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Meta Title
+        </label>
+        <input
+          type="text"
+          name="meta_title"
+          id="meta_title"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          placeholder="Type meta title.."
+          value="<?= htmlspecialchars($row->meta_title ?? '') ?>" />
+      </div>
+      <div>
+        <label
+          for="meta_description"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Meta Description
+        </label>
+        <input
+          type="text"
+          name="meta_description"
+          id="meta_description"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          placeholder="Type meta description.."
+          value="<?= htmlspecialchars($row->meta_description ?? '') ?>" />
+      </div>
+      <div>
+        <label
+          for="meta_keywords"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Meta Keywords
+        </label>
+        <input
+          type="text"
+          name="meta_keywords"
+          id="meta_keywords"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          placeholder="Type meta keywords"
+          value="<?= htmlspecialchars($row->meta_keywords ?? '') ?>" />
+      </div>
+      <div>
+        <label
+          for="meta_image"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Meta Image
+        </label>
+        <div
+          data-file="<?= $row->meta_image ?? '' ?>"
+          class="w-full h-64 overflow-hidden cursor-pointer border border-gray-300 text-gray-300 rounded-lg dark:border-gray-600 dark:text-gray-600"
+          x-data="{ file: $el.dataset.file }"
+          @click="$refs.input.click()">
+          <input
+            x-ref="input"
+            @input="file = URL.createObjectURL($el.files[0])"
+            class="hidden"
+            type="file"
+            name="meta_image" />
+          <template x-if="!file">
+            <div class="p-4 h-full flex justify-center items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
+                viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="m16 21l-4.762-8.73L15 6l8 15zM8 10l6 11H2zM5.5 8a2.5 2.5 0 1 1 0-5a2.5 2.5 0 0 1 0 5" />
+              </svg>
+            </div>
+          </template>
+          <template x-if="file">
+            <img
+              class="w-full h-full object-cover"
+              :src="file" />
+          </template>
+        </div>
+      </div>
+      <div>
+        <label
+          for="meta_url"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Cannonical URL
+        </label>
+        <input
+          type="text"
+          name="meta_url"
+          id="meta_url"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          placeholder="Type cannonical url"
+          value="<?= htmlspecialchars($row->meta_url ?? '') ?>" />
       </div>
       <div class="flex pb-4 space-x-4">
         <button

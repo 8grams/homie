@@ -22,7 +22,7 @@ try {
         $request, 
         $container->get('cache'), 
         $container->get('db'), 
-        $container->get('wordpress'),
+        $container->get('blog'),
         $container->get('template'),
         $container->get('authenticator'),
         $container->get('mailer'),
