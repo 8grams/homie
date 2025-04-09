@@ -4,11 +4,11 @@ namespace App\Libs;
 
 use App\Libs\Interfaces\BlogInterface;
 use App\Libs\Interfaces\CacheInterface;
+use App\Libs\Interfaces\DataStoreInterface;
 use App\Libs\Models\Blog\Author;
 use App\Libs\Models\Blog\Category;
 use App\Libs\Models\Blog\Tag;
 use App\Libs\Models\Blog\Post;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * WordPress API integration class for blog functionality
@@ -24,8 +24,8 @@ class Writer implements BlogInterface
     /** @var CacheInterface Cache service for storing API responses */
     private CacheInterface $cache;
 
-    /** @var HttpClientInterface HTTP client for API requests */
-    private HttpClientInterface $client;
+    /** @var DataStoreInterface Database connection */
+    private DataStoreInterface $db;
 
     /** @var bool Whether caching is enabled */
     private $cacheEnabled;
@@ -44,20 +44,14 @@ class Writer implements BlogInterface
      * 
      * @param array $config Configuration array containing WordPress API settings
      * @param CacheInterface $cache Cache service for storing API responses
-     * @param HttpClientInterface $client HTTP client for making API requests
+     * @param DataStoreInterface $db Database connection
      */
     public function __construct(
         $config,
         CacheInterface $cache,
-        HttpClientInterface $client,
         DataStoreInterface $db
     ) {
         $this->config = $config;
-        $this->client = $client->withOptions([
-            'base_uri' => $config['blog']['url'],
-            'auth_basic' => [$config['blog']['username'], $this->config['blog']['password']],
-        ]);
-
         $this->cache = $cache;
         $this->cacheAge = $this->config['cache']['ttl'];
         $this->cacheEnabled = $this->config['blog']['enable_cache'];
@@ -69,6 +63,8 @@ class Writer implements BlogInterface
             'offset' => 0,
             'lang' => $this->defaultLang,
         ];
+
+        $this->db = $db;
     }
     
     /**
@@ -158,6 +154,7 @@ class Writer implements BlogInterface
      */
     private function constructPost($post)
     {
+        $pdo = $this->db->getPdo();
         // get author
         $author = new Author(
             "1",

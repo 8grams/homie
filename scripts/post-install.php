@@ -23,6 +23,8 @@ function generateKey($length = 64) {
 
 function initDatabase()
 {
+    $rootDir = __DIR__ . '/../';
+
     echo "Initiate Database\n";
     R::setup("sqlite:". $rootDir . 'data/' . $_ENV['SQLITE_DATABASE']);
     R::useFeatureSet('novice/latest');
@@ -73,6 +75,8 @@ function migrateDatabase($rb)
 
 function getMigrations() 
 {
+    $rootDir = __DIR__ . '/../';
+    
     $migrations = glob($rootDir . 'src/migrations/*.sql');
     natsort($migrations);
     $migrationData = [];
@@ -85,7 +89,7 @@ function getMigrations()
 
 initDatabase();
 
-if ($_ENV['ENABLE_BLOG'] == 'true') {
+if ($_ENV['BLOG_ENGINE'] == 'wordpress') {
     echo "Initiate Wordpress\n";
 
     shell_exec('[ ! -d wp ] && composer create-project 8grams/bedrock wp --no-interaction --remove-vcs || echo "wp already exists, skipping..."');

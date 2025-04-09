@@ -8,6 +8,7 @@ return [
     'app_url' => $_ENV['APP_URL'] ?? 'http://localhost:8000',
     'blog' => [
         'enabled' => $_ENV['ENABLE_BLOG'] == 'true',
+        'engine' => $_ENV['BLOG_ENGINE'],
         'username' => $_ENV['BLOG_API_USERNAME'],
         'password' => $_ENV['BLOG_API_PASSWORD'],
         'url' => $_ENV['BLOG_API_URL'],
