@@ -29,6 +29,7 @@ CREATE TABLE blogs (
     meta_image VARCHAR(255),
     meta_url VARCHAR(255),
     category_id INTEGER,
+    language VARCHAR(3),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id)

@@ -15,6 +15,7 @@ use App\Libs\Auth\UserProvider;
 use App\Libs\Auth\Authenticator;
 use App\Libs\Mailer;
 use App\Libs\Sitemap\SitemapGenerator;
+use App\Libs\Writer;
 use Spatie\Crawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Mailer\Mailer as MailerMailer;
@@ -37,18 +38,25 @@ $container->register('cache', Cache::class)
     ->setArguments([
         $container->get('db')
     ]);
-
-
     
 $container->register('httpClient', HttpClientInterface::class)
     ->setFactory([HttpClient::class, 'create']);
 
-$container->register('wordpress', Wordpress::class)
-    ->setArguments([
-        'config' => $config,
-        'cache' => $container->get('cache'),
-        'client' => $container->get('httpClient')
-    ]);
+if ($config['blog']['engine'] == 'wordpress') {
+    $container->register('blog', Wordpress::class)
+        ->setArguments([
+            'config' => $config,
+            'cache' => $container->get('cache'),
+            'client' => $container->get('httpClient')
+        ]);
+} else if ($config['blog']['engine'] == 'writer') {
+    $container->register('blog', Writer::class)
+        ->setArguments([
+            'config' => $config,
+            'cache' => $container->get('cache'),
+            'db' => $container->get('db')
+        ]);
+}
 
 $container->register('template', ViewEngine::class)
     ->setArguments([$config['template']['path']]);

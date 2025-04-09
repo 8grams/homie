@@ -4,11 +4,11 @@ namespace App\Libs;
 
 use App\Libs\Interfaces\BlogInterface;
 use App\Libs\Interfaces\CacheInterface;
+use App\Libs\Interfaces\DataStoreInterface;
 use App\Libs\Models\Blog\Author;
 use App\Libs\Models\Blog\Category;
 use App\Libs\Models\Blog\Tag;
 use App\Libs\Models\Blog\Post;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * WordPress API integration class for blog functionality
@@ -24,8 +24,8 @@ class Writer implements BlogInterface
     /** @var CacheInterface Cache service for storing API responses */
     private CacheInterface $cache;
 
-    /** @var HttpClientInterface HTTP client for API requests */
-    private HttpClientInterface $client;
+    /** @var DataStoreInterface Database connection */
+    private DataStoreInterface $db;
 
     /** @var bool Whether caching is enabled */
     private $cacheEnabled;
@@ -44,20 +44,14 @@ class Writer implements BlogInterface
      * 
      * @param array $config Configuration array containing WordPress API settings
      * @param CacheInterface $cache Cache service for storing API responses
-     * @param HttpClientInterface $client HTTP client for making API requests
+     * @param DataStoreInterface $db Database connection
      */
     public function __construct(
         $config,
         CacheInterface $cache,
-        HttpClientInterface $client,
         DataStoreInterface $db
     ) {
         $this->config = $config;
-        $this->client = $client->withOptions([
-            'base_uri' => $config['blog']['url'],
-            'auth_basic' => [$config['blog']['username'], $this->config['blog']['password']],
-        ]);
-
         $this->cache = $cache;
         $this->cacheAge = $this->config['cache']['ttl'];
         $this->cacheEnabled = $this->config['blog']['enable_cache'];
@@ -69,6 +63,8 @@ class Writer implements BlogInterface
             'offset' => 0,
             'lang' => $this->defaultLang,
         ];
+
+        $this->db = $db;
     }
     
     /**
@@ -90,10 +86,30 @@ class Writer implements BlogInterface
             }
         }
 
-        $response = $this->client->request('GET', 'posts', ['query' => $useOptions]);
+        $pdo = $this->db->getPdo();
+
+        if ($useOptions['categories']) {
+            $response = $pdo->query("SELECT * FROM blogs WHERE language = '{$this->defaultLang}' 
+            AND category_id IN (".implode(",", $useOptions['categories']).") 
+            LIMIT {$useOptions['per_page']} OFFSET {$useOptions['offset']}")->fetchAll();
+        } else if ($useOptions['tags']) {
+            $tags = $pdo->query(
+                "SELECT * FROM tags_blogs WHERE tag_id IN (".implode(",", $useOptions['tags']).")"
+            )->fetchAll();
+            
+            $blogIds = array_map(function($tag) { 
+                return $tag['blog_id']; }, $tags
+            );
+            
+            $response = $pdo->query(
+                "SELECT * FROM blogs WHERE language = '{$this->defaultLang}' AND id IN (".implode(",", $blogIds).") LIMIT {$useOptions['per_page']} OFFSET {$useOptions['offset']}"
+            )->fetchAll();
+        } else {
+            $response = $pdo->query("SELECT * FROM blogs WHERE language = '{$this->defaultLang}' LIMIT {$useOptions['per_page']} OFFSET {$useOptions['offset']}")->fetchAll();
+        }
 
         // construct blog post
-        foreach ($response->toArray() as $post) {
+        foreach ($response as $post) {
             $posts[] = $this->constructPost($post);
         }
 
@@ -120,8 +136,9 @@ class Writer implements BlogInterface
             }
         }
 
-        $response = $this->client->request('GET', 'posts/' . $id, ['query' => ['_embed' => true]]);
-        $post = $response->toArray();
+        $pdo = $this->db->getPdo();
+        $response = $pdo->query("SELECT * FROM blogs WHERE id = {$id}")->fetch();
+        $post = $response->fetch();
         
         if ($this->cacheEnabled) {
             $this->cache->set($cacheKey, $post, $this->cacheAge);
@@ -137,35 +154,33 @@ class Writer implements BlogInterface
      */
     private function constructPost($post)
     {
+        $pdo = $this->db->getPdo();
+        // get author
         $author = new Author(
-            $post['_embedded']['author'][0]['id'],
-            $post['_embedded']['author'][0]['name'],
-            $post['_embedded']['author'][0]['avatar_urls']['96']
+            "1",
+            "Admin",
+            "https://raw.githubusercontent.com/8grams/homie/refs/heads/develop/assets/logo.png",
         );
 
+        // get categories
         $categories = [];
-        $blogc = $post['_embedded']['wp:term'][0];
-        foreach ($blogc as $category) {
-            $categories[] = new Category($category['id'], $category['name'], $category['slug']);
-        }
+        $categories = $pdo->query("SELECT * FROM categories WHERE id = {$post['category_id']}")->fetchAll();
 
+        // get tags
         $tags = [];
-        $blogt = $post['_embedded']['wp:term'][1];
-        foreach ($blogt as $tag) {
-            $tags[] = new Tag($tag['id'], $tag['name'], $tag['slug']);
-        }
+        $tags = $pdo->query("SELECT * FROM tags_blogs WHERE blog_id = {$post['id']}")->fetchAll();
 
         return new Post(
             $post['id'],
-            $post['title']['rendered'],
+            $post['title'],
             $categories,
             $tags,
-            $post['excerpt']['rendered'],
-            $post['content']['rendered'],
+            $post['excerpt'],
+            $post['content'],
             $author,
             date("d M Y", strtotime($post['date'])),
-            $post['link'],
-            isset($post['_embedded']['wp:featuredmedia']) ? $post['_embedded']['wp:featuredmedia'][0]['source_url'] : "https://raw.githubusercontent.com/8grams/homie/refs/heads/develop/assets/logo.png",
+            $post['slug'],
+            $post['hero_image'],
             $post['slug']
         );
     }
@@ -229,7 +244,7 @@ class Writer implements BlogInterface
      */
     public function getPostsByAuthor(int $authorId, array $options = []): array
     {
-        $options['author'] = [$authorId];
+        // $options['author'] = [$authorId];
         $useOptions = array_merge($this->options, $options);
         return $this->retrievePosts($useOptions);
     }
@@ -254,8 +269,10 @@ class Writer implements BlogInterface
     public function getCategories(): array
     {
         $categories = [];
-        $response = $this->client->request('GET', 'categories');
-        foreach ($response->toArray() as $category) {
+
+        $pdo = $this->db->getPdo();
+        $response = $pdo->query("SELECT * FROM categories")->fetchAll();
+        foreach ($response as $category) {
             $categories[] = new Category($category['id'], $category['name'], $category['slug']);
         }
         return $categories;
@@ -269,8 +286,9 @@ class Writer implements BlogInterface
     public function getTags(): array
     {
         $tags = [];
-        $response = $this->client->request('GET', 'tags');
-        foreach ($response->toArray() as $tag) {
+        $pdo = $this->db->getPdo();
+        $response = $pdo->query("SELECT * FROM tags")->fetchAll();
+        foreach ($response as $tag) {
             $tags[] = new Tag($tag['id'], $tag['name'], $tag['slug']);
         }
         return $tags;
