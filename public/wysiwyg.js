@@ -93,7 +93,7 @@ window.initContent = function (textarea) {
       editorProps: {
         attributes: {
           class:
-            "format lg:format-lg dark:format-invert focus:outline-none format-blue max-w-none min-h-64",
+            "format lg:format-lg dark:format-invert dark:text-white focus:outline-none format-blue max-w-none min-h-64",
         },
       },
     });
