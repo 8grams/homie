@@ -249,7 +249,7 @@ if (empty($_GET['id'])) {
           data-options="<?= htmlspecialchars(implode(';', $categories)) ?>"
           data-selected="<?= htmlspecialchars(implode(';', $row->category)) ?>"
           data-max="1"
-          class="bg-gray-50 border border-gray-300 rounded relative p-1 flex gap-1 items-center text-sm"
+          class="bg-gray-50 border border-gray-300 rounded relative p-1 flex gap-1 items-center text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           x-data="{
             name: $el.dataset.name,
             options: $el.dataset.options.split(';'),
@@ -301,12 +301,12 @@ if (empty($_GET['id'])) {
                 }
               " />
             <div
-              class="absolute rounded shadow border border-gray-100 overflow-hidden bg-white cursor-default z-10"
+              class="absolute rounded shadow border border-gray-100 overflow-hidden bg-white cursor-default z-10 dark:bg-gray-700 dark:border-gray-600"
               x-show="show">
               <template x-for="(option, index) in filtered()">
                 <div
-                  class="p-2 hover:bg-sky-100"
-                  x-bind:class="selectedIndex === index ? 'bg-primary-700 hover:bg-sky-600 text-white' : ''"
+                  class="p-2"
+                  x-bind:class="selectedIndex === index ? 'bg-primary-700 text-white' : ''"
                   x-text="option"
                   x-on:mousedown="
                     if (max === -1 || selected.length < max) {
@@ -328,7 +328,7 @@ if (empty($_GET['id'])) {
           data-options="<?= htmlspecialchars(implode(';', $tags)) ?>"
           data-selected="<?= htmlspecialchars(implode(';', $row->tags)) ?>"
           data-max="-1"
-          class="bg-gray-50 border border-gray-300 rounded relative p-1 flex gap-1 items-center text-sm"
+          class="bg-gray-50 border border-gray-300 rounded relative p-1 flex gap-1 items-center text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           x-data="{
             name: $el.dataset.name,
             options: $el.dataset.options.split(';'),
@@ -380,12 +380,12 @@ if (empty($_GET['id'])) {
                 }
               " />
             <div
-              class="absolute rounded shadow border border-gray-100 overflow-hidden bg-white cursor-default z-10"
+              class="absolute rounded shadow border border-gray-100 overflow-hidden bg-white cursor-default z-10 dark:bg-gray-700 dark:border-gray-600"
               x-show="show">
               <template x-for="(option, index) in filtered()">
                 <div
-                  class="p-2 hover:bg-sky-100"
-                  x-bind:class="selectedIndex === index ? 'bg-primary-700 hover:bg-sky-600 text-white' : ''"
+                  class="p-2"
+                  x-bind:class="selectedIndex === index ? 'bg-primary-700 text-white' : ''"
                   x-text="option"
                   x-on:mousedown="
                     if (max === -1 || selected.length < max) {
