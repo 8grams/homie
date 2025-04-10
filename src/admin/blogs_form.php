@@ -192,7 +192,21 @@ if (empty($_GET['id'])) {
       <span class="font-medium"><?= htmlspecialchars($error) ?></span>
     </div>
   <?php endif ?>
-  <form method="post" enctype="multipart/form-data" x-data>
+  <form
+    method="post" 
+    enctype="multipart/form-data" 
+    x-data="{
+      slug: '',
+      // https://www.30secondsofcode.org/js/s/string-to-slug/
+      slugify (str) {
+        return str
+          .toLowerCase()
+          .trim()
+          .replace(/[^\w\s-]/g, '')
+          .replace(/[\s_-]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+      }
+    }">
     <div class="space-y-4">
       <div>
         <label
@@ -206,7 +220,8 @@ if (empty($_GET['id'])) {
           id="title"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           placeholder="Type title.."
-          value="<?= htmlspecialchars($row->title ?? '') ?>" />
+          value="<?= htmlspecialchars($row->title ?? '') ?>"
+          x-on:input="slug = slugify($el.value)" />
       </div>
       <div>
         <label
@@ -220,7 +235,9 @@ if (empty($_GET['id'])) {
           id="slug"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           placeholder="Type slug.."
-          value="<?= htmlspecialchars($row->slug ?? '') ?>" />
+          data-value="<?= htmlspecialchars($row->slug ?? '') ?>"
+          x-init="slug = $el.dataset.value"
+          x-bind:value="slug" />
       </div>
       <div x-data>
         <label
@@ -232,7 +249,7 @@ if (empty($_GET['id'])) {
           data-options="<?= htmlspecialchars(implode(';', $categories)) ?>"
           data-selected="<?= htmlspecialchars(implode(';', $row->category)) ?>"
           data-max="1"
-          class="bg-gray-50 border border-gray-300 rounded relative p-1 flex gap-1 items-center text-sm"
+          class="bg-gray-50 border border-gray-300 rounded relative p-1 flex gap-1 items-center text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           x-data="{
             name: $el.dataset.name,
             options: $el.dataset.options.split(';'),
@@ -284,12 +301,12 @@ if (empty($_GET['id'])) {
                 }
               " />
             <div
-              class="absolute rounded shadow border border-gray-100 overflow-hidden bg-white cursor-default z-10"
+              class="absolute rounded shadow border border-gray-100 overflow-hidden bg-white cursor-default z-10 dark:bg-gray-700 dark:border-gray-600"
               x-show="show">
               <template x-for="(option, index) in filtered()">
                 <div
-                  class="p-2 hover:bg-sky-100"
-                  x-bind:class="selectedIndex === index ? 'bg-primary-700 hover:bg-sky-600 text-white' : ''"
+                  class="p-2"
+                  x-bind:class="selectedIndex === index ? 'bg-primary-700 text-white' : ''"
                   x-text="option"
                   x-on:mousedown="
                     if (max === -1 || selected.length < max) {
@@ -311,7 +328,7 @@ if (empty($_GET['id'])) {
           data-options="<?= htmlspecialchars(implode(';', $tags)) ?>"
           data-selected="<?= htmlspecialchars(implode(';', $row->tags)) ?>"
           data-max="-1"
-          class="bg-gray-50 border border-gray-300 rounded relative p-1 flex gap-1 items-center text-sm"
+          class="bg-gray-50 border border-gray-300 rounded relative p-1 flex gap-1 items-center text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           x-data="{
             name: $el.dataset.name,
             options: $el.dataset.options.split(';'),
@@ -363,12 +380,12 @@ if (empty($_GET['id'])) {
                 }
               " />
             <div
-              class="absolute rounded shadow border border-gray-100 overflow-hidden bg-white cursor-default z-10"
+              class="absolute rounded shadow border border-gray-100 overflow-hidden bg-white cursor-default z-10 dark:bg-gray-700 dark:border-gray-600"
               x-show="show">
               <template x-for="(option, index) in filtered()">
                 <div
-                  class="p-2 hover:bg-sky-100"
-                  x-bind:class="selectedIndex === index ? 'bg-primary-700 hover:bg-sky-600 text-white' : ''"
+                  class="p-2"
+                  x-bind:class="selectedIndex === index ? 'bg-primary-700 text-white' : ''"
                   x-text="option"
                   x-on:mousedown="
                     if (max === -1 || selected.length < max) {
