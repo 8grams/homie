@@ -117,7 +117,7 @@ echo "Backup created in: {$backupDir}\n";
  */
 function copyDirectory($source, $destination, $excludeDirs = [])
 {
-    global $excludeFiles;
+    global $excludeFiles, $backupDirPrefix, $tempDirName;
     $rootDir = __DIR__ . '/../';
     
     if (!is_dir($destination)) {
@@ -132,7 +132,13 @@ function copyDirectory($source, $destination, $excludeDirs = [])
 
             // Skip excluded directories and backup directories
             $relativePath = str_replace($rootDir, '', $srcFile);
-            if (in_array($relativePath, $excludeDirs) || strpos($relativePath, 'backup_') === 0) {
+            
+            if (strpos($file, $backupDirPrefix) === 0 || strpos($file, $tempDirName) === 0) {
+                continue;
+            }
+
+            // Skip if it's in the exclude directories list
+            if (in_array($relativePath, $excludeDirs)) {
                 continue;
             }
 
