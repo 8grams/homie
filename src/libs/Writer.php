@@ -88,11 +88,11 @@ class Writer implements BlogInterface
 
         $pdo = $this->db->getPdo();
 
-        if ($useOptions['categories']) {
+        if (isset($useOptions['categories'])) {
             $response = $pdo->query("SELECT * FROM blogs WHERE language = '{$this->defaultLang}' 
             AND category_id IN (".implode(",", $useOptions['categories']).") 
             LIMIT {$useOptions['per_page']} OFFSET {$useOptions['offset']}")->fetchAll();
-        } else if ($useOptions['tags']) {
+        } else if (isset($useOptions['tags'])) {
             $tags = $pdo->query(
                 "SELECT * FROM tags_blogs WHERE tag_id IN (".implode(",", $useOptions['tags']).")"
             )->fetchAll();
@@ -137,8 +137,7 @@ class Writer implements BlogInterface
         }
 
         $pdo = $this->db->getPdo();
-        $response = $pdo->query("SELECT * FROM blogs WHERE id = {$id}")->fetch();
-        $post = $response->fetch();
+        $post = $pdo->query("SELECT * FROM blogs WHERE id = {$id}")->fetch();
         
         if ($this->cacheEnabled) {
             $this->cache->set($cacheKey, $post, $this->cacheAge);
@@ -164,11 +163,17 @@ class Writer implements BlogInterface
 
         // get categories
         $categories = [];
-        $categories = $pdo->query("SELECT * FROM categories WHERE id = {$post['category_id']}")->fetchAll();
+        $categoriesRecords = $pdo->query("SELECT * FROM categories WHERE id = {$post['category_id']}")->fetchAll();
+        foreach ($categoriesRecords as $category) {
+            $categories[] = new Category($category['id'], $category['category'], $this->createSlug($category['category']));
+        }
 
         // get tags
         $tags = [];
-        $tags = $pdo->query("SELECT * FROM tags_blogs WHERE blog_id = {$post['id']}")->fetchAll();
+        $tagsRecords = $pdo->query("SELECT * FROM tags_blogs JOIN tags ON tags_blogs.tag_id = tags.id WHERE tags_blogs.blog_id = {$post['id']}")->fetchAll();
+        foreach ($tagsRecords as $tag) {
+            $tags[] = new Tag($tag['tag_id'], $tag['tag'], $this->createSlug($tag['tag']));
+        }
 
         return new Post(
             $post['id'],
@@ -178,7 +183,7 @@ class Writer implements BlogInterface
             $post['excerpt'],
             $post['content'],
             $author,
-            date("d M Y", strtotime($post['date'])),
+            date("d M Y", strtotime($post['created_at'])),
             $post['slug'],
             $post['hero_image'],
             $post['slug']
@@ -273,7 +278,7 @@ class Writer implements BlogInterface
         $pdo = $this->db->getPdo();
         $response = $pdo->query("SELECT * FROM categories")->fetchAll();
         foreach ($response as $category) {
-            $categories[] = new Category($category['id'], $category['name'], $category['slug']);
+            $categories[] = new Category($category['id'], $category['category'], $this->createSlug($category['category']));
         }
         return $categories;
     }
@@ -289,9 +294,31 @@ class Writer implements BlogInterface
         $pdo = $this->db->getPdo();
         $response = $pdo->query("SELECT * FROM tags")->fetchAll();
         foreach ($response as $tag) {
-            $tags[] = new Tag($tag['id'], $tag['name'], $tag['slug']);
+            $tags[] = new Tag($tag['id'], $tag['tag'], $this->createSlug($tag['tag']));
         }
         return $tags;
     }
-}
 
+    /**
+     * Generate a slug from a given string
+     *
+     * @param string $string The input string
+     * @return string The generated slug
+     */
+    private function createSlug(string $string): string
+    {
+        // Convert to lowercase
+        $slug = strtolower($string);
+
+        // Remove special characters
+        $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug);
+
+        // Replace spaces and multiple dashes with a single dash
+        $slug = preg_replace('/[\s-]+/', '-', $slug);
+
+        // Trim dashes from the beginning and end
+        $slug = trim($slug, '-');
+
+        return $slug;
+    }
+}

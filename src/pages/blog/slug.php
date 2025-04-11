@@ -15,11 +15,11 @@
     }
 
     if (empty($relatedPosts)) {
-        $tags = $blog->getCategories();
+        $tags = $blog->getTags();
         $tag_ids = array_map(fn($tag) => (int) $tag->getId(), $tags);
         if (!empty($tag_ids)) {
             $tag_id = reset($tag_ids);
-            $relatedPosts = $this->blog->getPostsByCategory($tag_id, ['per_page' => 3]);
+            $relatedPosts = $this->blog->getPostsByTag($tag_id, ['per_page' => 3]);
         }
     }
 

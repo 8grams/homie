@@ -25,21 +25,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
   $id = $_GET['id'] ?? null;
   if (!$id) {
-    $sql = 'INSERT INTO blogs (title, content, slug, excerpt, header_code_injection, footer_code_injection, meta_title, meta_description, meta_keywords, meta_url, category_id, created_at, updated_at) VALUES (:title, :content, :slug, :excerpt, :header_code_injection, :footer_code_injection, :meta_title, :meta_description, :meta_keywords, :meta_url, :category_id, :created_at, :updated_at)';
+    $sql = 'INSERT INTO blogs (title, content, slug, language, excerpt, header_code_injection, footer_code_injection, meta_title, meta_description, meta_keywords, meta_url, category_i, created_at, updated_at) VALUES (:title, :content, :slug, :language, :excerpt, :header_code_injection, :footer_code_injection, :meta_title, :meta_description, :meta_keywords, :meta_url, :category_id, :created_at, :updated_at)';
     $args = array_merge(
       array_diff_key($_POST, ['category' => null, 'tags' => null]),
       [
         'category_id' => $category,
+        'language' => $_POST['language'] ?? 'en',
         'updated_at' => date('c'),
         'created_at' => date('c'),
       ]
     );
   } else {
-    $sql = 'UPDATE blogs SET title = :title, content = :content, slug = :slug, excerpt = :excerpt, header_code_injection = :header_code_injection, footer_code_injection = :footer_code_injection, meta_title = :meta_title, meta_description = :meta_description, meta_keywords = :meta_keywords, meta_url = :meta_url, category_id = :category_id, updated_at = :updated_at WHERE id = :id';
+    $sql = 'UPDATE blogs SET title = :title, content = :content, slug = :slug, language = :language, excerpt = :excerpt, header_code_injection = :header_code_injection, footer_code_injection = :footer_code_injection, meta_title = :meta_title, meta_description = :meta_description, meta_keywords = :meta_keywords, meta_url = :meta_url, category_id = :category_id, updated_at = :updated_at WHERE id = :id';
     $args = array_merge(
       array_diff_key($_POST, ['category' => null, 'tags' => null]),
       [
         'category_id' => $category,
+        'language' => $_POST['language'] ?? 'en',
         'updated_at' => date('c'),
         'id' => $_GET['id'],
       ]
@@ -242,6 +244,19 @@ if (empty($_GET['id'])) {
       <div x-data>
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Language
+        </label>
+        <select name="language" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+          <option value="en" <?= ($row->language ?? 'en') == 'en' ? 'selected' : '' ?>>English</option>
+          <option value="id" <?= ($row->language ?? 'en') == 'id' ? 'selected' : '' ?>>Bahasa</option>
+        </select>
+      </div>
+      
+
+
+      <div x-data>
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
           Category
         </label>
         <div
@@ -318,6 +333,8 @@ if (empty($_GET['id'])) {
           </div>
         </div>
       </div>
+
+
       <div x-data>
         <label
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
