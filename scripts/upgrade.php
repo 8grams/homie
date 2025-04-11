@@ -118,6 +118,7 @@ echo "Backup created in: {$backupDir}\n";
 function copyDirectory($source, $destination, $excludeDirs = [])
 {
     global $excludeFiles;
+    $rootDir = __DIR__ . '/../';
     
     if (!is_dir($destination)) {
         mkdir($destination, 0755, true);
