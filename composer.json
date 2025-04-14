@@ -34,7 +34,7 @@
         "spatie/crawler": "^8.4",
         "guzzlehttp/guzzle": "^7.9",
         "symfony/mailer": "^7.2",
-        "aws/aws-sdk-php": "^3.0"
+        "aws/aws-sdk-php": "^3.342"
     },
     "require-dev": {
         "heston/heston": "dev-master"

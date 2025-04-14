@@ -1,9 +1,12 @@
 <?php
 
+use Symfony\Component\Dotenv\Dotenv;
+use Aws\S3\S3Client as AwsClient;
+
 // Define paths
-$rootDir = __DIR__ . '/../';
+$rootDir = realpath(__DIR__ . '/../') . '/';
 $dataDir = $rootDir . 'data';
-$backupDir = $rootDir . 'backups';
+$backupDir = $rootDir . 'backup_manual';
 $timestamp = date('Ymd_His');
 $backupName = "data_backup_{$timestamp}.zip";
 $backupPath = $backupDir . '/' . $backupName;
@@ -38,17 +41,22 @@ if ($zip->open($backupPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true
     die("Error: Failed to create zip backup.\n");
 }
 
-// Add files to zip
+// Normalize $dataDir to ensure trailing slash
+$dataDir = rtrim($dataDir, '/') . '/';
+
 $files = new RecursiveIteratorIterator(
-    new RecursiveDirectoryIterator($dataDir),
-    RecursiveIteratorIterator::LEAVES_ONLY
+    new RecursiveDirectoryIterator($dataDir, FilesystemIterator::SKIP_DOTS),
+    RecursiveIteratorIterator::SELF_FIRST
 );
 
 foreach ($files as $file) {
-    if (!$file->isDir()) {
-        $filePath = $file->getRealPath();
-        $relativePath = substr($filePath, strlen($dataDir) + 1);
-        $zip->addFile($filePath, $relativePath);
+    $filePath = $file->getPathname();
+    $relativePath = substr($filePath, strlen($dataDir)); // relative to data/
+
+    if ($file->isDir()) {
+        $zip->addEmptyDir('data/' . $relativePath);
+    } else {
+        $zip->addFile($filePath, 'data/' . $relativePath);
     }
 }
 
@@ -58,7 +66,7 @@ $zip->close();
 echo "Uploading backup to S3 bucket " . $_ENV['AWS_BUCKET_NAME'] . "...\n";
 
 try {
-    $s3 = new Aws\S3\S3Client([
+    $s3 = new AwsClient([
         'version' => 'latest',
         'region'  => $_ENV['AWS_REGION'] ?: 'ap-southeast-3',
         'credentials' => [
@@ -66,7 +74,7 @@ try {
             'secret' => $_ENV['AWS_SECRET_ACCESS_KEY'],
         ],
         'endpoint' => $_ENV['AWS_ENDPOINT'] ?: null,
-        'use_path_style_endpoint' => $_ENV['AWS_USE_PATH_STYLE_ENDPOINT'] ?: false,
+        'use_path_style_endpoint' => $_ENV['AWS_USE_PATH_STYLE_ENDPOINT'] == 'true',
     ]);
 
     $result = $s3->putObject([
@@ -86,4 +94,4 @@ echo "Cleaning up local backup file...\n";
 unlink($backupPath);
 
 echo "Backup completed successfully!\n";
-echo "Backup file: {$backupName}\n"; 
+echo "Backup file: {$backupName}\n";
