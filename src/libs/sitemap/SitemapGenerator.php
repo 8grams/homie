@@ -118,7 +118,7 @@ class SitemapGenerator
                 $path = sprintf($format, $key);
 
                 $item->writeToFile(sprintf($format, $key), $viewEngine);
-                $sitemap->add(last(explode('public', $path)));
+                $sitemap->add($this->config['site_url'] . last(explode('public', $path)));
             });
         }
 

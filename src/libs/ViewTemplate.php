@@ -188,7 +188,7 @@ class ViewTemplate extends Template
      */
     public function setSitemapLayouts()
     {
-        $this->layout('layouts/sitemap');
+        $this->layout('sitemap/layout');
     }
 
     /**
@@ -321,6 +321,7 @@ class ViewTemplate extends Template
         }
 
         $this->slug = basename($this->name->getName());
+
         if (!file_exists($this->name->getPath())) {
             $currentName = clone $this->name;
             if (!str_ends_with($this->name->getName(), "/")) {

@@ -42,6 +42,7 @@ return [
         'debug' => $_ENV['DEBUG'] == 'true',
     ],
     'sitemap' => [
+        'site_url' => $_ENV['APP_URL'],
         'guzzle_options' => [
             RequestOptions::COOKIES => true,
             RequestOptions::CONNECT_TIMEOUT => 300,
