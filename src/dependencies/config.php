@@ -22,10 +22,13 @@ return [
         'path' => __DIR__.'/../pages',
     ],
     'admin_template' => [
-        'path' => __DIR__.'/../admin',
+        'path' => __DIR__.'/../internal/admin',
     ],
     'email_template' => [
-        'path' => __DIR__.'/../pages/emails',
+        'path' => __DIR__.'/../internal/emails',
+    ],
+    'sitemap_template' => [
+        'path' => __DIR__.'/../internal/sitemap',
     ],
     'admin' => [
         'username' => $_ENV['ADMIN_USERNAME'],

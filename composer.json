@@ -48,7 +48,7 @@
         "generate-sitemap": [
             "export RUN_ON_CLI=true && php scripts/generate-sitemap.php"
         ],
-        "upgrade": [
+        "upgrade-version": [
             "php scripts/upgrade.php"
         ],
         "backup": [

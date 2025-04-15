@@ -125,7 +125,7 @@ class ViewTemplate extends Template
     public function loadAdminComponent($name)
     {
         $this->start($name);
-        include sprintf(__DIR__ . "/../admin/components/%s.php", $name);
+        include sprintf(__DIR__ . "/../internal/admin/components/%s.php", $name);
         $this->stop();
 
         echo $this->section($name);
@@ -136,14 +136,14 @@ class ViewTemplate extends Template
      */
     public function setEmailDefaultLayouts()
     {
-        $this->layout('emails/layouts/main');
+        $this->layout('layouts/main');
         
         $this->start('header');
-        include __DIR__ . "/../emails/layouts/header.php";
+        include __DIR__ . "/../internal/emails/layouts/header.php";
         $this->stop();
 
         $this->start('footer');
-        include __DIR__ . "/../email/layouts/footer.php";
+        include __DIR__ . "/../internal/email/layouts/footer.php";
         $this->stop();
     }
 
@@ -155,15 +155,15 @@ class ViewTemplate extends Template
         $this->layout('layouts/main');
 
         $this->start('navbar');
-        include __DIR__ . "/../admin/layouts/navbar.php";
+        include __DIR__ . "/../internal/admin/layouts/navbar.php";
         $this->stop();
 
         $this->start('sidebar');
-        include __DIR__ . "/../admin/layouts/sidebar.php";
+        include __DIR__ . "/../internal/admin/layouts/sidebar.php";
         $this->stop();
 
         $this->start('footer');
-        include __DIR__ . "/../admin/layouts/footer.php";
+        include __DIR__ . "/../internal/admin/layouts/footer.php";
         $this->stop();
     }
     
@@ -188,7 +188,7 @@ class ViewTemplate extends Template
      */
     public function setSitemapLayouts()
     {
-        $this->layout('sitemap/layout');
+        $this->layout('layout');
     }
 
     /**
@@ -334,6 +334,7 @@ class ViewTemplate extends Template
 
             $this->name = $currentName;
             $this->name->setName(dirname($this->name->getName()) . "/slug");
+
             if (!file_exists($this->name->getPath())) {
                 // check index.php
                 $this->name->setName(dirname($this->name->getName()) . "/index");

@@ -54,17 +54,19 @@ class Sitemap
         return (bool) $this->getUrl($url);
     }
 
-    public function render(ViewEngine $viewEngine): string
+    public function render(ViewEngine $viewEngine, $config): string
     {
         $tags = \collect($this->tags)->unique('url')->filter();
-        $view = $viewEngine->make('sitemap/sitemap', ['tags' => $tags]);
+        $view = $viewEngine
+            ->setDirectory($config['sitemap_template']['path'])
+            ->make('sitemap', ['tags' => $tags]);
         $view->setSitemapLayouts();
         return $view->render();
     }
 
-    public function writeToFile(string $path, ViewEngine $viewEngine): static
+    public function writeToFile(string $path, ViewEngine $viewEngine, array $config): static
     {
-        file_put_contents($path, $this->render($viewEngine));
+        file_put_contents($path, $this->render($viewEngine, $config));
         return $this;
     }
 }

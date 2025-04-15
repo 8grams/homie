@@ -14,12 +14,12 @@
     <changefreq><?= $this->e($tag->changeFrequency) ?></changefreq>
 <?php endif; ?>
     <?php foreach ($tag->images as $image) : ?>
-        <?php echo $this->insert('sitemap/image', ['image' => $image]) ?>
+        <?php echo $this->insert('image', ['image' => $image]) ?>
     <?php endforeach; ?>
     <?php foreach ($tag->videos as $video) : ?>
-        <?php echo $this->insert('sitemap/video', ['video' => $video]) ?>
+        <?php echo $this->insert('video', ['video' => $video]) ?>
     <?php endforeach; ?>
     <?php foreach ($tag->news as $news) : ?>
-        <?php echo $this->insert('sitemap/news', ['news' => $news]) ?>
+        <?php echo $this->insert('news', ['news' => $news]) ?>
     <?php endforeach; ?>
 </url>

@@ -106,7 +106,7 @@ class SitemapGenerator
         return $this->sitemaps->first();
     }
 
-    public function writeToFile(string $path, ViewEngine $viewEngine): static
+    public function writeToFile(string $path, ViewEngine $viewEngine, array $config): static
     {
         $sitemap = $this->getSitemap();
         if ($this->maximumTagsPerSitemap) {
@@ -114,15 +114,15 @@ class SitemapGenerator
             $format = str_replace('.xml', '_%d.xml', $path);
 
             // Parses each sub-sitemaps, writes and push them into the sitemap index
-            $this->sitemaps->each(function (Sitemap $item, int $key) use ($sitemap, $format, $viewEngine) {
+            $this->sitemaps->each(function (Sitemap $item, int $key) use ($sitemap, $format, $viewEngine, $config) {
                 $path = sprintf($format, $key);
 
-                $item->writeToFile(sprintf($format, $key), $viewEngine);
+                $item->writeToFile(sprintf($format, $key), $viewEngine, $config);
                 $sitemap->add($this->config['site_url'] . last(explode('public', $path)));
             });
         }
 
-        $sitemap->writeToFile($path, $viewEngine);
+        $sitemap->writeToFile($path, $viewEngine, $config);
         return $this;
     }
 
