@@ -285,13 +285,26 @@ class ViewTemplate extends Template
     {
         // base64 encode of the current url
         $urlHash = base64_encode(str_replace("/" . $this->locale, "", $this->request->getUri()));
-        $assets = $this->db->init()->find('assets', [], 'key = ? AND url_hash = ?', [$key, $urlHash]);
+        $assets = $this->db->init()->find('assets', [], 'key = ? AND locale = ? AND url_hash = ?', [$key, $this->locale, $urlHash]);
         if (count($assets) > 0) {
             $asset = array_pop($assets);
             return $asset->src;
         }
         
         return $default;
+    }
+
+    public function link($link)
+    {
+        // base64 encode of the current url
+        $urlHash = base64_encode(str_replace("/" . $this->locale, "", $this->request->getUri()));
+        $links = $this->db->init()->find('links', [], 'link = ? AND locale = ? AND url_hash = ?', [$link, $this->locale, $urlHash]);
+        if (count($links) > 0) {
+            $link = array_pop($links);
+            return $link->url;
+        }
+        
+        return $link;
     }
 
     /**

@@ -7,4 +7,4 @@ ${APP_URL} {
     root * /app/public
     php_server
     file_server
-} 
+}

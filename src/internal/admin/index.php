@@ -26,13 +26,13 @@ if ($this->request->getMethod() == 'POST') {
       'url_hash' => $urlHash,
     ]);
   }
-  $getAsset = $pdo->prepare("SELECT * FROM assets WHERE key = ? and url_hash = ?");
+  $getAsset = $pdo->prepare("SELECT * FROM assets WHERE key = ? and locale = ? and url_hash = ?");
   $setAsset = $pdo->prepare("
-    INSERT INTO assets (key, src, url_hash)
-    VALUES (:key, :src, :url_hash)
-    ON CONFLICT (key, url_hash) DO UPDATE
+    INSERT INTO assets (key, src, locale, url_hash)
+    VALUES (:key, :src, :locale, :url_hash)
+    ON CONFLICT (key, locale, url_hash) DO UPDATE
     SET src = :src
-    WHERE key = :key AND url_hash = :url_hash
+    WHERE key = :key AND locale = :locale AND url_hash = :url_hash
   ");
   foreach ($asset as $key => $file) {
     if (!$file) {
@@ -40,7 +40,7 @@ if ($this->request->getMethod() == 'POST') {
     }
     $ext = $file->getClientOriginalExtension();
     $src = '/data/assets/' . $key . '.' . $ext;
-    $getAsset->execute([$key, $urlHash]);
+    $getAsset->execute([$key, $lang, $urlHash]);
     $row = $getAsset->fetch();
     if ($row) {
       @unlink('..' . $row['src']);
@@ -49,6 +49,7 @@ if ($this->request->getMethod() == 'POST') {
     $setAsset->execute([
       'key' => $key,
       'src' => $src,
+      'locale' => $lang,
       'url_hash' => $urlHash,
     ]);
   }
