@@ -5,5 +5,5 @@ vendor/
 wp/
 public/sitemap*
 src/pages/tests
-backup*
+backup_*
 temp_upgrade/
