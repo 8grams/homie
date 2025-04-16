@@ -3,6 +3,7 @@
 namespace App\Libs;
 
 use App\Libs\Interfaces\BaseController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -20,6 +21,33 @@ class InitController extends BaseController
      */
     public function init()
     {
+        session_start();
+        if (!$this->authenticator->isAuthenticated()) {
+            return new RedirectResponse('login');
+        }
+        return $this->initDatabase();
+    }
+
+    /**
+     * Refresh the database by dropping all tables and reinitializing
+     * 
+     * @return Response Success or error message
+     */
+    public function refresh()
+    {
+        session_start();
+        if (!$this->authenticator->isAuthenticated()) {
+            return new RedirectResponse('login');
+        }
+
+        // unlink the database file
+        $dbPath = $this->config['database']['path'];
+        copy($dbPath, $dbPath . '.' . time() . '.bak');
+
+        if (file_exists($dbPath)) {
+            unlink($dbPath);
+        }
+        
         return $this->initDatabase();
     }
 
@@ -30,6 +58,10 @@ class InitController extends BaseController
      */
     public function migrate()
     {
+        session_start();
+        if (!$this->authenticator->isAuthenticated()) {
+            return new RedirectResponse('login');
+        }
         return $this->migrateDatabase();
     }
 

@@ -1,16 +1,22 @@
 <?php
+
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 
 $routes = new RouteCollection();
 
 // migrate via web, in case cpanel is only the option and cannot run composer install
-$routes->add('init', new Route('/init', [
+$routes->add('init', new Route('/admin/init', [
     '_controller' => 'App\Libs\InitController::init',
 ]));
 
-$routes->add('migrate', new Route('/migrate', [
+$routes->add('migrate', new Route('/admin/migrate', [
     '_controller' => 'App\Libs\InitController::migrate',
+]));
+
+$routes->add('refresh', new Route('/admin/refresh', [
+    '_controller' => 'App\Libs\InitController::refresh',
 ]));
 
 // admin routes

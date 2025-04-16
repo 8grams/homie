@@ -27,6 +27,7 @@ $blogEngine = $this->config['blog']['engine'];
               <span class="ml-3" sidebar-toggle-item="">Adminer</span>
             </a>
           </li>
+          <?php if ($blogEnabled && $blogEngine == 'writer'): ?>
           <li>
             <a href="/admin/blogs" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><!-- Icon from Remix Icon by Remix Design - https://github.com/Remix-Design/RemixIcon/blob/master/License -->
@@ -35,6 +36,7 @@ $blogEngine = $this->config['blog']['engine'];
               <span class="ml-3" sidebar-toggle-item="">Blog</span>
             </a>
           </li>
+          <?php endif; ?>
           <?php if ($blogEnabled && $blogEngine == 'wordpress'): ?>
             <li>
               <a href="<?= $this->config['blog']['site_url'] ?>/wp/wp-login.php" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700">
