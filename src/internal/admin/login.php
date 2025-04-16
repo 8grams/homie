@@ -10,7 +10,8 @@ if ($this->request->getMethod() === 'POST') {
     } else {
         $this->authenticator->onAuthenticationFailed($this->request, new AuthenticationException("Invalid credentials."));
     }
-    header("Refresh:0");
+    header("Location: /admin/index");
+    exit;
 }
 
 $this->layout('layouts/front');
