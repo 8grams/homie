@@ -6,7 +6,7 @@ class ContentEditor {
     this.wrappers = null;
     this.langs = ["en", "id"];
     this.selectedLang = new URL(location).searchParams.get("lang") ?? "en";
-    this.urlHash = '';
+    this.urlHash = "";
   }
 
   init() {
@@ -20,7 +20,7 @@ class ContentEditor {
 
     // replace /lang/ with /
     this.urlHash = btoa(loadedUrl.replace("/" + this.selectedLang, ""));
-    
+
     const trans = [
       ...this.$el.contentDocument.querySelectorAll("[data-trans]"),
     ].reduce((entries, el) => {
@@ -61,7 +61,27 @@ class ContentEditor {
         ];
       }
     }, []);
-    this.entries = [...trans, ...asset];
+    const links = [
+      ...this.$el.contentDocument.querySelectorAll("[data-link]"),
+    ].reduce((entries, el) => {
+      const key = el.dataset.link;
+      const entry = entries.find((entry) => entry.key === key);
+      if (entry) {
+        entry.els.push(el);
+        return entries;
+      } else {
+        return [
+          ...entries,
+          {
+            type: "link",
+            key: key,
+            value: el.getAttribute("href"),
+            els: [el],
+          },
+        ];
+      }
+    }, []);
+    this.entries = [...trans, ...links, ...asset];
   }
 
   focus() {
@@ -83,6 +103,13 @@ class ContentEditor {
     this.entry.value = this.$el.value;
     this.wrappers.forEach((wrapper) => {
       wrapper.children[1].children[0].innerHTML = this.$el.value;
+    });
+  }
+
+  linkInput() {
+    this.entry.value = this.$el.value;
+    this.wrappers.forEach((wrapper) => {
+      wrapper.children[1].children[0].setAttribute("href", this.$el.value);
     });
   }
 

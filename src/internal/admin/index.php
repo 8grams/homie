@@ -7,9 +7,11 @@ if ($this->request->getMethod() == 'POST') {
   $lang = $payload->get('lang');
   $urlHash = $payload->get('urlHash');
   $trans = $payload->all('trans');
+  $links = $payload->all('links');
   /** @var \Symfony\Component\HttpFoundation\File\UploadedFile[] */
   $asset = $this->request->files->all('asset');
   $pdo = $this->db->getPDO();
+  $pdo->beginTransaction();
   $statement = $pdo->prepare("
     INSERT INTO translations (locale, label, value, url_hash)
     VALUES (:locale, :label, :value, :url_hash)
@@ -17,7 +19,6 @@ if ($this->request->getMethod() == 'POST') {
     SET value = :value
     WHERE locale = :locale AND label = :label AND url_hash = :url_hash
   ");
-  $pdo->beginTransaction();
   foreach ($trans as $key => $value) {
     $statement->execute([
       'locale' => $lang,
@@ -26,13 +27,28 @@ if ($this->request->getMethod() == 'POST') {
       'url_hash' => $urlHash,
     ]);
   }
-  $getAsset = $pdo->prepare("SELECT * FROM assets WHERE key = ? and locale = ? and url_hash = ?");
+  $statement = $pdo->prepare("
+    INSERT INTO links (locale, link, value, url_hash)
+    VALUES (:locale, :link, :value, :url_hash)
+    ON CONFLICT (locale, link, url_hash) DO UPDATE
+    SET value = :value
+    WHERE locale = :locale AND link = :link AND url_hash = :url_hash
+  ");
+  foreach ($links as $key => $value) {
+    $statement->execute([
+      'locale' => $lang,
+      'link' => $key,
+      'value' => $value,
+      'url_hash' => $urlHash,
+    ]);
+  }
+  $getAsset = $pdo->prepare("SELECT * FROM assets WHERE key = ? and url_hash = ?");
   $setAsset = $pdo->prepare("
-    INSERT INTO assets (key, src, locale, url_hash)
-    VALUES (:key, :src, :locale, :url_hash)
-    ON CONFLICT (key, locale, url_hash) DO UPDATE
+    INSERT INTO assets (key, src, url_hash)
+    VALUES (:key, :src, :url_hash)
+    ON CONFLICT (key, url_hash) DO UPDATE
     SET src = :src
-    WHERE key = :key AND locale = :locale AND url_hash = :url_hash
+    WHERE key = :key AND url_hash = :url_hash
   ");
   foreach ($asset as $key => $file) {
     if (!$file) {
@@ -40,7 +56,7 @@ if ($this->request->getMethod() == 'POST') {
     }
     $ext = $file->getClientOriginalExtension();
     $src = '/data/assets/' . $key . '.' . $ext;
-    $getAsset->execute([$key, $lang, $urlHash]);
+    $getAsset->execute([$key, $urlHash]);
     $row = $getAsset->fetch();
     if ($row) {
       @unlink('..' . $row['src']);
@@ -49,7 +65,6 @@ if ($this->request->getMethod() == 'POST') {
     $setAsset->execute([
       'key' => $key,
       'src' => $src,
-      'locale' => $lang,
       'url_hash' => $urlHash,
     ]);
   }
@@ -89,6 +104,16 @@ if ($this->request->getMethod() == 'POST') {
               @focus="focus"
               @blur="blur"
               @input="input"></textarea>
+          </template>
+          <template x-if="entry.type === 'link'">
+            <textarea
+              :name="`links[${entry.key}]`"
+              type="text"
+              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-5"
+              :value="entry.value"
+              @focus="focus"
+              @blur="blur"
+              @input="linkInput"></textarea>
           </template>
           <template x-if="entry.type === 'asset'">
             <label>

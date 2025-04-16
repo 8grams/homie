@@ -6,6 +6,7 @@
     </section>
     <section class="readme">
         <h2 data-trans='welcome'><?= $this->trans('welcome', 'Welcome to Homie') ?></h2>
+        <a data-link='my-link' href="<?= $this->link('my-link', 'https://google.com') ?>">Google</a>
         <p data-trans="welcome_description"><?= $this->trans('welcome_description', 'Homepage should have minimal features, but common PHP frameworks are quite complex because they are designed to tackle complex problems when creating web applications. Homie is different, it is designed for building simple homepages that can be installed anywhere, even on a cheap shared hosting provider.') ?></p>
     </section>
 
