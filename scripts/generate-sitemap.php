@@ -22,7 +22,10 @@ if ($_SERVER['RUN_ON_CLI'] == 'true') {
     
     $sitemapGenerator = $container->get('sitemap_generator');
     $sitemapGenerator->setUrl($config['app_url']);
-    $sitemapGenerator->maxTagsPerSitemap($config['sitemap']['max_tags_per_sitemap']);
+
+    $maxTagSetting = $config['sitemap']['max_tags_per_sitemap'];
+    $maxTags = $maxTagSetting == 0 ? false : $maxTagSetting;
+    $sitemapGenerator->maxTagsPerSitemap($maxTags);
     $sitemapGenerator->writeToFile($rootDir . 'public/sitemap.xml', $container->get('template'), $config);
 
     echo("Sitemap generated successfully.\n");

@@ -93,10 +93,10 @@ Make PHP Module for SQLite3 is already installed. For example, in Debian you ins
 sudo apt install php8.3-sqlite3 php8.3-curl php8.3-mbstring php8.3-xml
 ```
 
-To initiate Homie, execute `/init` path once. This path will initialize database and configure some settings
+To initiate Homie, execute `/admin/init` path once. This path will initialize database and configure some settings
 
 ```
-curl -v https://example.com/init
+curl -v https://example.com/admin/init
 ```
 
 ### Local Development
@@ -126,7 +126,7 @@ symfony server:start
 Run init, by accessing `init` URL from browser
 
 ```
-https://example.com/init
+https://example.com/admin/init
 ```
 
 Start coding, for getting started you can access `/home`
@@ -243,10 +243,10 @@ All migrations are located on `migrations` directory. To create new migration, a
 touch migrations/004_create_user_table.sql
 ```
 
-And execute `/migrate` path
+And execute `/admin/migrate` path
 
 ```
-curl -v https://example.com/migrate
+curl -v https://example.com/admin/migrate
 ```
 
 ## Environment Variables

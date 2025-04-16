@@ -57,7 +57,7 @@ return [
         'execute_javascript' => false,
         'chrome_binary_path' => null,
         'crawl_profile' => Profile::class,
-        'max_tags_per_sitemap' => 500,
+        'max_tags_per_sitemap' => $_ENV['SITEMAP_MAX_TAGS'] ?? 0,
     ],
     'mailer' => [
         'dsn' => $_ENV['MAILER_DSN'],
