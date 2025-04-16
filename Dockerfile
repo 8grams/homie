@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     gettext-base \
     cron \
-    zip
+    zip \
+    vim
 
 # Install PHP extensions
 RUN docker-php-ext-install zip
@@ -37,8 +38,7 @@ COPY ./docker/init-cron /etc/cron.d/init-cron
 RUN chmod +x ./start.sh && \
     chmod +x ./backup.sh && \
     chmod 0644 /etc/cron.d/init-cron && \
-    /usr/bin/crontab /etc/cron.d/init-cron && \
-    touch .dockerenv
+    /usr/bin/crontab /etc/cron.d/init-cron
     
 # Expose ports
 EXPOSE 80 443

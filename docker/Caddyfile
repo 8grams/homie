@@ -1,10 +1,30 @@
 {
-	frankenphp
+    frankenphp
 }
 
 ${APP_URL} {
     encode zstd br gzip
-    root * /app/public
-    php_server
-    file_server
+
+    # Handle main site (non-/wp/* paths)
+    @main not path /wp/*
+    handle @main {
+        root * /app/public
+        php_server
+        file_server
+    }
+
+    # Handle WordPress paths (/wp/*)
+    @wp path /wp/*
+    handle @wp {
+        root * /app/wp/web
+        # Rewrite to index.php if the requested file doesn't exist
+        try_files {path} /index.php
+        php_server
+        file_server
+    }
+
+    # Fallback for invalid /wp/* paths
+    handle /wp* {
+        respond "Not available" 404
+    }
 }

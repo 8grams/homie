@@ -12,10 +12,8 @@ if (!file_exists($envPath)) {
     exit;    
 }
 
-if (!file_exists($rootDir . '.dockerenv')) {
-    $dotenv = new Dotenv();
-    $dotenv->loadEnv($envPath, overrideExistingVars: true);
-}
+$dotenv = new Dotenv();
+$dotenv->usePutenv()->loadEnv($envPath, overrideExistingVars: true);
 
 function generateKey($length = 64) {
     return substr(str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:,.<>?/`~', $length)), 0, $length);
@@ -26,7 +24,7 @@ function initDatabase()
     $rootDir = __DIR__ . '/../';
   
     echo "Initiate Database\n";
-    R::setup("sqlite:". $rootDir . 'data/' . $_ENV['SQLITE_DATABASE']);
+    R::setup("sqlite:". $rootDir . 'data/' . getenv('SQLITE_DATABASE'));
     R::useFeatureSet('novice/latest');
 
     $rb = R::getPDO();
@@ -89,7 +87,7 @@ function getMigrations()
 
 initDatabase();
 
-if ($_ENV['BLOG_ENGINE'] == 'wordpress') {
+if (getenv('BLOG_ENGINE') == 'wordpress') {
     echo "Initiate Wordpress\n";
 
     shell_exec('[ ! -d wp ] && composer create-project 8grams/bedrock wp --no-interaction --remove-vcs || echo "wp already exists, skipping..."');
@@ -97,8 +95,8 @@ if ($_ENV['BLOG_ENGINE'] == 'wordpress') {
     // Define the content for the .env file
     $envVars = [
         'WP_ENV' => 'production',
-        'WP_HOME' => $_ENV['BLOG_DOMAIN'],
-        'WP_SITEURL' => $_ENV['BLOG_SITE_URL'],
+        'WP_HOME' => getenv('BLOG_DOMAIN'),
+        'WP_SITEURL' => getenv('BLOG_SITE_URL'),
         'AUTH_KEY' => generateKey(),
         'SECURE_AUTH_KEY' => generateKey(),
         'LOGGED_IN_KEY' => generateKey(),

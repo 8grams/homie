@@ -1,22 +1,21 @@
 <?php
 
 use App\Libs\Sitemap\Crawler\Profile;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 
 return [
-    'app_url' => $_ENV['APP_URL'] ?? 'http://localhost:8000',
+    'app_url' => getenv('APP_URL') ?? 'http://localhost:8000',
     'blog' => [
-        'enabled' => $_ENV['ENABLE_BLOG'] == 'true',
-        'engine' => $_ENV['BLOG_ENGINE'] ?? 'writer',
-        'username' => $_ENV['BLOG_API_USERNAME'],
-        'password' => $_ENV['BLOG_API_PASSWORD'],
-        'url' => $_ENV['BLOG_API_URL'],
-        'site_url' => $_ENV['BLOG_SITE_URL'],
-        'enable_cache' => $_ENV['BLOG_API_ENABLE_CACHE'] == 'true',
+        'enabled' => getenv('ENABLE_BLOG') == 'true',
+        'engine' => getenv('BLOG_ENGINE') ?? 'writer',
+        'username' => getenv('BLOG_API_USERNAME'),
+        'password' => getenv('BLOG_API_PASSWORD'),
+        'url' => getenv('BLOG_API_URL'),
+        'site_url' => getenv('BLOG_SITE_URL'),
+        'enable_cache' => getenv('BLOG_API_ENABLE_CACHE') == 'true',
     ],
     'database' => [
-        'path' => __DIR__.'/../../data/' . $_ENV['SQLITE_DATABASE'],
+        'path' => __DIR__.'/../../data/' . getenv('SQLITE_DATABASE'),
     ],
     'template' => [
         'path' => __DIR__.'/../pages',
@@ -31,21 +30,21 @@ return [
         'path' => __DIR__.'/../internal/sitemap',
     ],
     'admin' => [
-        'username' => $_ENV['ADMIN_USERNAME'],
-        'password' => $_ENV['ADMIN_PASSWORD'],
+        'username' => getenv('ADMIN_USERNAME'),
+        'password' => getenv('ADMIN_PASSWORD'),
     ],
     'lang' => [
-        'default' => $_ENV['DEFAULT_LANG'] ?? 'id',
+        'default' => getenv('DEFAULT_LANG') ?? 'id',
         'path' => __DIR__.'/../lang',
     ],
     'cache' => [
-        'ttl' => $_ENV['CACHE_TTL'] ?? 3600,
+        'ttl' => getenv('CACHE_TTL') ?? 3600,
     ],
     'app' => [
-        'debug' => $_ENV['DEBUG'] == 'true',
+        'debug' => getenv('DEBUG') == 'true',
     ],
     'sitemap' => [
-        'site_url' => $_ENV['APP_URL'],
+        'site_url' => getenv('APP_URL'),
         'guzzle_options' => [
             RequestOptions::COOKIES => true,
             RequestOptions::CONNECT_TIMEOUT => 300,
@@ -57,9 +56,9 @@ return [
         'execute_javascript' => false,
         'chrome_binary_path' => null,
         'crawl_profile' => Profile::class,
-        'max_tags_per_sitemap' => $_ENV['SITEMAP_MAX_TAGS'] ?? 0,
+        'max_tags_per_sitemap' => getenv('SITEMAP_MAX_TAGS') ?? 0,
     ],
     'mailer' => [
-        'dsn' => $_ENV['MAILER_DSN'],
+        'dsn' => getenv('MAILER_DSN'),
     ],
 ];

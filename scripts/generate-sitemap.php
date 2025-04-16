@@ -11,12 +11,10 @@ if (!file_exists($envPath)) {
     exit;    
 }
 
-if (!file_exists($rootDir . '.dockerenv')) {
-    $dotenv = new Dotenv();
-    $dotenv->loadEnv($envPath, overrideExistingVars: true);
-}
+$dotenv = new Dotenv();
+$dotenv->usePutenv()->loadEnv($envPath, overrideExistingVars: true);
 
-if ($_SERVER['RUN_ON_CLI'] == 'true') {
+if (getenv('RUN_ON_CLI') == 'true') {
     $config = require $rootDir . 'src/dependencies/config.php';
     $container = include $rootDir . 'src/dependencies/injector.php';
     
