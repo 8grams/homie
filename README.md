@@ -342,6 +342,12 @@ Note: This sitemap feature in the framework is made possible by modifying Spatie
 
 The admin panel can be accessed through `/admin`. The login username and password are defined in the `.env` file by setting the `ADMIN_USERNAME` and `ADMIN_PASSWORD` values.
 
+### Demo
+
+Link: https://homie.8grams.tech/admin
+Username: admin
+Password: admin
+
 ### Adminer
 
 Adminer is already integrated into Homie Admin and can be accessed at `/_admin/adminer`.
