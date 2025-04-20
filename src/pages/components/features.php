@@ -2,7 +2,7 @@
 <div class="highlight-grid">
     <div class="highlight">
         <h3>Symfony Based</h3>
-        <p>Built on the robust <a href="https://symfony.com/components">Symfony Component</a>, providing a solid foundation with proven components and best practices.</p>
+        <p>Built on the robust <a data-link='symfony-link' href=<?= $this->link('symfony-link', 'https://symfony.com/components') ?>>Symfony Component</a>, providing a solid foundation with proven components and best practices.</p>
     </div>
     <div class="highlight">
         <h3>SQLite Support</h3>
