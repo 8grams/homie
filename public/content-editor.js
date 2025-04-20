@@ -89,7 +89,7 @@ class ContentEditor {
       this.wrappers.forEach(unwrap);
     }
     this.wrappers = this.entry.els.map((el) => wrap(el, this.entry.key));
-    this.wrappers[0].scrollIntoView();
+    this.wrappers[0].scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   blur() {
