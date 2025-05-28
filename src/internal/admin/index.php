@@ -92,7 +92,7 @@ if ($this->request->getMethod() == 'POST') {
     <ul>
       <template x-for="entry in entries">
         <li>
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" x-text="entry.key">
+          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" x-text="entry.key" @click="focus">
             Name
           </label>
           <template x-if="entry.type === 'trans'">
@@ -117,7 +117,7 @@ if ($this->request->getMethod() == 'POST') {
           </template>
           <template x-if="entry.type === 'asset'">
             <label>
-              <img :src="entry.value" />
+              <img :src="entry.value" class="mb-4"/>
               <input type="file" :name="`asset[${entry.key}]`" @input="fileInput" hidden />
             </label>
           </template>

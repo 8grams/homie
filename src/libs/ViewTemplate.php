@@ -261,6 +261,12 @@ class ViewTemplate extends Template
         if (count($trans) > 0) {
             $tran = array_pop($trans);
             return $this->e($tran->value);
+        } else {
+            $trans = $this->db->init()->find('translations', [], 'label = ? AND locale = ?', [$label, $this->locale]);
+            if (count($trans) > 0) {
+                $tran = array_pop($trans);
+                return $this->e($tran->value);
+            }
         }
 
         // check on langs
@@ -289,6 +295,12 @@ class ViewTemplate extends Template
         if (count($assets) > 0) {
             $asset = array_pop($assets);
             return $asset->src;
+        } else {
+            $assets = $this->db->init()->find('assets', [], 'key = ?', [$key]);
+            if (count($assets) > 0) {
+                $asset = array_pop($assets);
+                return $asset->src;
+            }
         }
         
         return $default;
@@ -302,6 +314,12 @@ class ViewTemplate extends Template
         if (count($links) > 0) {
             $link = array_pop($links);
             return $link->value;
+        } else {
+            $links = $this->db->init()->find('links', [], 'link = ?', [$link]);
+            if (count($links) > 0) {
+                $link = array_pop($links);
+                return $link->value;
+            }
         }
         
         return $default;

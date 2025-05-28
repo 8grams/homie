@@ -35,7 +35,7 @@ class ContentEditor {
           {
             type: "trans",
             key: key,
-            value: el.innerHTML,
+            value: el.innerHTML.trim(),
             els: [el],
           },
         ];
