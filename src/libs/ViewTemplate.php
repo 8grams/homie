@@ -22,11 +22,11 @@ use App\Libs\Mailer;
  * - Translation support
  * - Asset management
  */
-class ViewTemplate extends Template 
+class ViewTemplate extends Template
 {
-    protected Request $request; 
+    protected Request $request;
     protected CacheInterface $cache;
-    protected DataStoreInterface $db; 
+    protected DataStoreInterface $db;
     protected BlogInterface $blog;
     protected Authenticator $authenticator;
     protected Mailer $mailer;
@@ -46,14 +46,13 @@ class ViewTemplate extends Template
      * @param array $config Configuration array
      */
     public function setDependencies(
-        Request $request, 
-        CacheInterface $cache, 
-        DataStoreInterface $db, 
+        Request $request,
+        CacheInterface $cache,
+        DataStoreInterface $db,
         BlogInterface $blog,
         Mailer $mailer,
         $config = []
-        )
-    {
+    ) {
         $this->request = $request;
         $this->cache = $cache;
         $this->db = $db;
@@ -107,9 +106,11 @@ class ViewTemplate extends Template
      * Load and render a component from the pages directory
      * 
      * @param string $name Component name
+     * @param array $props Props Name
      */
-    public function loadComponent($name)
+    public function loadComponent($name, $props = [])
     {
+        extract($props);
         $this->start($name);
         include sprintf(__DIR__ . "/../pages/components/%s.php", $name);
         $this->stop();
@@ -121,9 +122,11 @@ class ViewTemplate extends Template
      * Load and render a component from the admin directory
      * 
      * @param string $name Component name
+     * @param array $props Props Name
      */
-    public function loadAdminComponent($name)
+    public function loadAdminComponent($name, $props = [])
     {
+        extract($props);
         $this->start($name);
         include sprintf(__DIR__ . "/../internal/admin/components/%s.php", $name);
         $this->stop();
@@ -137,7 +140,7 @@ class ViewTemplate extends Template
     public function setEmailDefaultLayouts()
     {
         $this->layout('layouts/main');
-        
+
         $this->start('header');
         include __DIR__ . "/../internal/emails/layouts/header.php";
         $this->stop();
@@ -166,7 +169,7 @@ class ViewTemplate extends Template
         include __DIR__ . "/../internal/admin/layouts/footer.php";
         $this->stop();
     }
-    
+
     /**
      * Set up default layouts for public pages
      */
@@ -253,7 +256,7 @@ class ViewTemplate extends Template
      * @param string|null $default Default value if translation not found
      * @return string Translated text
      */
-    public function trans($label, $default=null)
+    public function trans($label, $default = null)
     {
         // base64 encode of the current url
         $urlHash = base64_encode(str_replace("/" . $this->locale, "", $this->request->getUri()));
@@ -276,7 +279,7 @@ class ViewTemplate extends Template
                 $default = $this->langs[$label];
             }
         }
-        
+
         return $this->e($default);
     }
 
@@ -302,7 +305,7 @@ class ViewTemplate extends Template
                 return $asset->src;
             }
         }
-        
+
         return $default;
     }
 
@@ -321,7 +324,7 @@ class ViewTemplate extends Template
                 return $link->value;
             }
         }
-        
+
         return $default;
     }
 
@@ -346,7 +349,7 @@ class ViewTemplate extends Template
     {
         $file = basename($this->name->getFile());
         // check if this empty file
-        if ($file == ".php")  {
+        if ($file == ".php") {
             $this->name->setName($this->name->getName() . "/index");
             return parent::render($data);
         }
