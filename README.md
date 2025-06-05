@@ -176,6 +176,16 @@ $name = "Glend";
 
 Again, like other regular page files, this component also has direct access to Homie’s utilities, such as the database, cache, and HTTP client.
 
+#### Passing Props to Components
+You can also pass data (props) from the parent component to the child component using the second argument of loadComponent. This allows you to make your components more dynamic and reusable.
+```
+<?php $this->loadComponent('drawer', ['title' => 'Homie']) ?
+```
+Then in drawer.php, you can access the prop directly as a variable:
+```
+<h1><?= $title ?></h1>
+```
+
 ## Handle Request
 
 ### Query parameters
